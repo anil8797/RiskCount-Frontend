@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 dashboard-wrapper">
+      <div class="form-group form-dd form-inline">
+        <select2 class="select2-icon" [data]="riskList | async" [cssImport]="true" [value]="selectedRiskUnit" (valueChanged)="selectedRiskUnit = $event.value;" placeholder="Select"></select2>
+      </div>
+      <tabset #staticTabs class="general-tabs without-arrow-tab">
+        <tab>
+          <ng-template tabHeading>RISK DASHBOARD </ng-template>
+          <div class="row">
+            <div class="col-md-12">
+              <app-rcsa-dashboard-risk [selectedRiskUnit]="selectedRiskUnit"></app-rcsa-dashboard-risk>
+            </div>
+          </div>
+        </tab>
+        <tab>
+          <ng-template tabHeading>REMEDIATION DASHBOARD</ng-template>
+          <div class="row">
+            <div class="col-md-12">
+              <app-rcsa-dashboard-remediation [selectedRiskUnit]="selectedRiskUnit"></app-rcsa-dashboard-remediation>
+            </div>
+          </div>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>

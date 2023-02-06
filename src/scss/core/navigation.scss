@@ -1,0 +1,207 @@
+//Navigation styess
+//MAIN NAVIGATION
+.main-nav {
+  height: 50px;
+  background-color: $theme-darkbg;
+  padding: 0px 10px;
+  font-size: 0px;
+  li {
+    display: inline-block;
+    position: relative;
+    a {
+      display: block;
+      padding: 14px 20px;
+      font-size: 12px;
+      font-weight: 400;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #fff;
+      &:hover, &.active, &.activeSubmenu, &:active {
+        background-color: $theme-orange;
+      }
+      i {
+        font-size: 17px;
+        line-height: 22px;
+        margin-right: 5px;
+      }
+      span {
+        vertical-align: text-bottom;
+      }
+    }
+    a:not([href]) {
+      color: #fff;
+      text-decoration: none;
+      &:hover, &:focus {
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+    &:hover ul.sub-nav{
+      left: 0px;
+    }
+    >ul.sub-nav{
+      position: absolute;
+      left: -9999px;
+      z-index: 100;
+      width: auto;
+      list-style: none;
+      background: #fff;
+      -webkit-box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.35);
+      -moz-box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.35);
+      box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.35);
+      li{
+        position: relative;
+        min-width: 100%;
+        &.disabled{
+          opacity: 0.5;
+          pointer-events: none;
+        }
+        a{
+          display: block;
+          color: #555;
+          font-weight: 400;
+          font-size: 13px;
+          position: relative;
+          z-index: 100;
+          padding: 12px 20px;
+          border-bottom: 1px solid #ddd;
+          text-transform: uppercase;
+          white-space: pre;
+          &.active{
+            color: #fff;
+          }
+          &:hover{
+            background-color: $theme-secondary;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+//TAB NAVIGATION
+.tab-nav {
+  height: 50px;
+  background-color: transparent;
+  padding: 0px;
+  margin-bottom: 20px;
+  font-size: 0px;
+  &.minimal-tab {
+    height: auto;
+    margin-bottom: 0px;
+    li {
+      a {
+        padding: .5em 2em 1em 0;
+        color: #4c5458;
+        &:hover, &.active, &:active {
+          background-color: transparent;
+          color: $text-highlight;
+          span.count {
+            background-color: #4c5458;
+          }
+        }
+      }
+    }
+  }
+  li {
+    display: inline-block;
+    a {
+      display: block;
+      padding: 14px 10px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #4c5458;
+      &:hover, &.active, &:active {
+        background-color: transparent;
+        color: $text-highlight;
+        span.count {
+          background-color: $text-highlight;
+        }
+      }
+      i {
+        font-size: 17px;
+        line-height: 22px;
+        margin-right: 5px;
+      }
+      span {
+        vertical-align: text-bottom;
+      }
+      span.count {
+        margin-right: 5px;
+        padding: 6px 12px;
+        border-radius: 25px;
+        background-color: #4c5458;
+        color: #fff;
+      }
+    }
+    a:not([href]) {
+      color: #fff;
+      text-decoration: none;
+      &:hover, &:focus {
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+//TOP Navifation
+.top-menu {
+  li {
+    padding: 5px;
+  }
+}
+
+//TOP List Navigation
+.top-list-menu {
+  height: 50px;
+  background-color: transparent;
+  padding: 0px 20px;
+  font-size: 0px;
+  li {
+    display: inline-block;
+    padding: 17px 0;
+    a {
+      display: block;
+      padding: 0px 8px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 17px;
+      text-decoration: none;
+      color: $theme-orange;
+      &:hover, &.active, &:active {
+        color: #4c5458;
+        text-decoration: underline;
+      }
+      i {
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 3px;
+      }
+      span {
+        vertical-align: text-bottom;
+      }
+    }
+    &:not(:last-child):not(.active) a {
+      padding-right: 8px;
+      border-right: 1px solid rgba(76, 84, 88, 0.4);
+    }
+    a:not([href]) {
+      color: $theme-orange;
+      text-decoration: none;
+      &:hover, &:focus {
+        color: #4c5458;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.link{
+  text-decoration: underline;
+  cursor: pointer;
+}

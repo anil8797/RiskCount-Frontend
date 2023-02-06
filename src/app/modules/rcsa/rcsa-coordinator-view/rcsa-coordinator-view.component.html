@@ -1,0 +1,286 @@
+<div class="container-fluid">
+  <h3 class="head text-uppercase" *ngIf="rcsaStartStatus">{{assessmentData?.businessFunctionalUnitName}} <span> - </span>{{assessmentData?.rcsaName}}</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card" *ngIf="!rcsaStartStatus">
+        <div class="status">
+          <h3 class="align-center">{{rcsaStatusMessage}}</h3>
+        </div>
+      </div>
+      <div class="card"  *ngIf="rcsaStartStatus">
+        <!--Button Toolbar to show button-->
+        <!--<div class="btn-group align-left">
+          <button class="btn btn-primary" type="button" (click)="sendReminder()">send Reminders</button>
+          <div class="warnings" *ngIf="assessmentData?.lastReminderSentDate">Reminder sent to all Assessors in <span class="text-uppercase">{{assessmentData?.businessFunctionalUnitName}}</span> on {{assessmentData?.lastReminderSentDate |  date: 'MM/dd/yyyy'}}</div>
+        </div>-->
+        <div class="row" *ngIf="assessmentUnitList.length > 0">
+          <div class="admin-form-header">
+            <div class="form-group form-dd form-inline">
+              <label class="label-highlight">Assessment Unit : </label>
+              <select2 class="select2-icon" [data]="assessmentUnitList" [value]="selectedAssessmentUnitOption" *ngIf="assessmentUnitList.length > 0" (valueChanged)="changeAssessmentUnit($event)" [cssImport]="true" [options]="auOptions"></select2>
+            </div>
+            <button class="btn btn-primary" type="button" (click)="sendReminder()">send Reminders</button>
+            <div class="warnings" *ngIf="assessmentData?.lastReminderSentDate">Reminder sent to all Assessors in <span class="text-uppercase">{{assessmentData?.businessFunctionalUnitName}}</span> on {{assessmentData?.lastReminderSentDate |  date: 'MM/dd/yyyy'}}</div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group form-dd form-inline">
+          <label>Risks : </label>
+          <select2 class="select2-icon" *ngIf="riskList?.length > 0" [value]="selectedRiskOption" (valueChanged)="changeRisk($event)" [data]="riskList" [cssImport]="true" [options]="options"></select2>
+        </div>
+        <div class="bfu-title"><span class="bold text-uppercase">STEP 1 ­ REVIEW ALL CONTROL CATEGORIES FOR {{selectedRisk?.name}}</span></div>
+        <div class="bfu-title">
+          1. All sections of each policy were assessed by your team, by answering the 5 questions below.
+          <ul class="bfu-roman-list">
+            <li>i. Has there been a Failure/Risk issue this Quarter </li>
+            <li>ii. Was this documented/discussed with Risk/Leadership</li>
+            <li>iii. Was it a Failed or Missing Control, or one​-off Exception</li>
+            <li>iv. Rate the status & quality of implementation of the Control Category. Pick a score from 0 to 10, with 10 being the best</li>
+            <li>v. If you rated between 0-4 for Question 4, required remediation is mandatory</li>
+          </ul>
+        </div>
+        <div class="bfu-title"><span class="font-bold">2. The individual scores for the various Control Categories, from assessors on your team, are presented below. Please confirm final CONTROL SCORES for your business unit.</span></div>
+        <div class="risk_wrapper" *ngFor="let controlCategory of selectedRisk?.controlCategories">
+          <h4 class="subhead text-uppercase">{{controlCategory.name}}</h4>
+          <div class="bfu-grid-wrapper">
+            <div class="bfu-head">
+              <div class="bfu-col">
+
+              </div>
+              <div class="bfu-col">
+                Score
+              </div>
+              <div class="bfu-col">
+                score frequency by assessors
+              </div>
+              <div class="bfu-col">
+                weighted score
+              </div>
+              <div class="bfu-col">
+                business function unit final score
+              </div>
+              <div class="bfu-col">
+                <!--<span>draft remediations sent to risk management by assessors</span>-->
+                NOTES AND COMMENTS NOTED BY ASSESSORS
+              </div>
+            </div>
+            <div class="bfu-row">
+              <div class="bfu-col text-center">
+                <fusioncharts
+                  width="100%"
+                  height="320px"
+                  type="column2d"
+                  dataFormat="JSON"
+                  [dataSource]="controlCategory.assessorScoreChartdata"
+                ></fusioncharts>
+              </div>
+              <div class="bfu-col text-center">
+                <ul class="bfu-list">
+                  <li *ngFor="let score of controlCategory.consolidatedResponses">{{score.choice}}</li><!--
+                  <li>9</li>
+                  <li>8</li>
+                  <li>7</li>
+                  <li>6</li>
+                  <li>5</li>
+                  <li>4</li>
+                  <li>3</li>
+                  <li>2</li>
+                  <li>1</li>
+                  <li>0</li>-->
+                  <li></li>
+                </ul>
+              </div>
+              <div class="bfu-col text-center">
+                <ul class="bfu-list">
+                  <li *ngFor="let score of controlCategory.consolidatedResponses">{{score.responseCount}}</li><!--
+                  <li>0</li>
+                  <li>3</li>
+                  <li>2</li>
+                  <li>1</li>
+                  <li>2</li>
+                  <li>1</li>
+                  <li>0</li>
+                  <li>0</li>
+                  <li>0</li>
+                  <li>0</li>
+                  <li>9</li>-->
+                  <li>{{controlCategory?.totalFrequencyScore}}</li>
+                </ul>
+              </div>
+              <div class="bfu-col text-center">
+                <ul class="bfu-list">
+                  <li *ngFor="let score of controlCategory.consolidatedResponses">{{score.weightedScore}}</li><!--
+                  <li>0</li>
+                  <li>6</li>
+                  <li>6</li>
+                  <li>4</li>
+                  <li>10</li>
+                  <li>6</li>
+                  <li>0</li>
+                  <li>0</li>
+                  <li>0</li>
+                  <li>0</li>-->
+                  <li [ngClass]="{'weak':controlCategory.weightedScore <= 4, 'average':controlCategory.weightedScore > 4 && controlCategory.weightedScore < 8, 'strong':controlCategory.weightedScore >= 8}">{{controlCategory.weightedScore | number:'1.1-1' }}</li>
+                </ul>
+              </div>
+              <div class="bfu-col text-center">
+                <div class="final_rating_container">
+                  <div _ngcontent-c4="" class="fusion-linear-outer">
+                    <fusioncharts
+                      [width]="300"
+                      [height]="65"
+                      type="hlineargauge"
+                      dataFormat="JSON"
+                      [dataSource]="controlCategory.finalScoreChartdata"
+                    ></fusioncharts>
+                  </div>
+                </div>
+                <div class="final_rating white">
+                  <div class="form-group form-dd form-md form-inline">
+                    <label >Score:</label>
+                    <input  class="form-control mx-w-200" [ngClass]="{'invalid':(controlCategory.valid == false && (controlCategory.finalScore =='' || controlCategory.finalScore == null))}"  [ngModel]="controlCategory.finalScore | number: '1.0-1'" (ngModelChange)="controlCategory.finalScore = $event" (input)="changeControlCategoryFinalScore($event.target.value, controlCategory.finalScoreChartdata)" onkeydown="javascript: return event.keyCode == 69 ? false : true" placeholder="Final Score" type="text" OnlyNumber="true" DecimalPlaces="1" minValue="0.0" maxValue="10.0">
+                    <div class="error" *ngIf="controlCategory.valid == false && (controlCategory.finalScore =='' || controlCategory.finalScore == null)">Please provide a score for <span class="text-uppercase">{{controlCategory?.name}}</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="bfu-col text-center">
+                <ul class="bfu-ul-list">
+                  <!-- <li *ngFor="let remediation of controlCategory.draftRemediations" [innerHTML]="remediation"></li> -->
+                  <span>{{controlCategory.comments}}</span>
+                </ul>
+                <div class="bfu-remediation-input">
+                  <textarea placeholder="Suggested remediation if any for {{controlCategory.name}}" [(ngModel)]="controlCategory.response"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row bfu-chart-section">
+          <div class="col-md-8">
+            <h5>AVERAGE ASSESSOR CONTROL SCORE VS. RCSA COORDINATOR SCORE</h5>
+            <button class="btn btn-lg btn-transparent" (click)="createDistributionDataForChart(selectedRisk)"><i class="fa fa-repeat"></i> Refresh Graph</button>
+            <fusioncharts
+              width="100%"
+              height="280px"
+              type="mscolumn2d"
+              dataFormat="JSON"
+              [dataSource]="selectedRisk.distributionChart"
+            *ngIf="selectedRisk"></fusioncharts>
+          </div>
+          <div class="col-md-4 custom-legend">
+            <!--ul class="bfu-legend">
+              <li><span></span>Strong (8-10): Assessor Score</li>
+              <li><span></span>Satisfactory (4.1-7.9): Assessor Score </li>
+              <li><span></span>Needs Improvement (0-4): Assessor Score</li>
+              <li><span></span>Strong (8-10): RCSA Coordinator Score</li>
+              <li><span></span>Satisfactory (4.1-7.9): RCSA Coordinator Score</li>
+              <li><span></span>Needs Improvement (0-4): RCSA Coordinator Score</li>
+            </ul-->
+            <div class="bfu-grid-wrapper">
+              <div class="bfu-head">
+                <div class="bfu-col">
+                </div>
+                <div class="bfu-col">
+                  Assessor Score
+                </div>
+                <div class="bfu-col">
+                  RCSA Coordinator Score
+                </div>
+              </div>
+              <div class="bfu-row">
+                <div class="bfu-col">
+                  <ul class="bfu-list ">
+                    <li>Needs Improvement (0-4)</li>
+                    <li>Satisfactory (4.1-7.9)</li>
+                    <li>Strong (8-10)</li>
+                  </ul>
+                </div>
+                <div class="bfu-col text-center">
+                  <ul class="bfu-list bfu-legend">
+                    <li><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                  </ul>
+                </div>
+                <div class="bfu-col text-center">
+                  <ul class="bfu-list bfu-legend opacity50">
+                    <li><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row bfu-chart-section">
+          <div class="col-md-10">
+            <div class="bfu-title">3. Based on your Control Category scores above, please rate the overall Control effectiveness of <span class="text-uppercase">{{selectedRisk?.name}}</span> and add your comments below: </div>
+          </div>
+          <div class="col-md-3">
+            <select2 class="select2-icon scorescale" [ngClass]="{'error':(selectedRisk?.isValid == false && (selectedRisk?.choiceId =='' || selectedRisk?.choiceId == null))}" [data]="scoreScale" [value]="selectedRisk?.choiceId" (valueChanged)="selectedRisk.choiceId = $event.value" [cssImport]="true" [options]="scoreScaleOptions"></select2>
+          </div>
+          <div class="col-md-12 mg-top-10">
+            <div class="form-group form-dd form-lg" *ngIf="selectedRisk">
+              <label>Comments or Suggestions Remediations :</label>
+              <ckeditor
+                [(ngModel)]="selectedRisk.suggestedRemediation"
+                [config]="editorConfig"
+                [readonly]="false"
+                debounce="500" >
+              </ckeditor>
+            </div>
+          </div>
+        </div>
+        <div class="rcsa-errormessage" *ngIf="showRcsaErrorMessage">{{rcsaErrorMessage}}</div>
+        <!--Button Toolbar to show button-->
+        <div class="btn-group align-left">
+          <button class="btn btn-primary" type="button" (click)="validateControlCategoryResponse('save')">save</button>
+          <!--<button class="btn btn-primary" type="button" *ngIf="!showSubmitToButton && showSaveReviewButton" (click)="validateControlCategoryResponse('goToNextRisk')">save - review next Risk</button>-->
+          <button class="btn btn-primary" type="button" *ngIf="showSubmitToButton" (click)="validateControlCategoryResponse('submit')">SUBMIT RCSA TO RISK MANAGEMENT
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div bsModal #success="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!--<ng-template #template>-->
+  <div class="modal-dialog modal-sm modal-alert" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-success">
+          <span class="alert-close" (click)="success.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-success"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Success</h3>
+            <p>{{successModalMsg}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>
+
+<div bsModal #error="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!--<ng-template #template>-->
+  <div class="modal-dialog modal-sm modal-alert" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-error">
+          <span class="alert-close" (click)="error.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-error"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Alert</h3>
+            <p>{{errorModalMsg}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>

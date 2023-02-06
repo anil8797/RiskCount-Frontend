@@ -1,0 +1,88 @@
+app-rcsa-remediation-summary-report{
+  .form-group.form-dd{
+    padding: 10px 0;
+    select2{
+      width: 350px;
+      display: block;
+      .select2{
+        width: 100% !important;
+      }
+    }
+  }
+  .ui-datatable-data{
+    color:red;
+    tr td .ui-cell-data{
+      .form-dd{
+        max-width: 175px;
+      }
+    }
+    ul.star-list{
+      margin-bottom: 5px;
+      p{
+        display: inline;
+      }
+      li{
+        li:before{
+          display: none !important;
+        }
+      }
+    }
+  }
+  .bfuName{
+    display: block;
+    float:left;
+    width:calc(100% - 60px) ;
+    + a{
+      display: block;
+      float: right;
+    }
+  }
+  .remediation-container{
+    max-height: 160px;
+    display: block;
+    overflow-y: auto;
+  }
+  .modal-minimalistic{
+    ul.star-list{
+      li{
+        display: block;
+        padding: 4px 0px;
+        margin-bottom: 0px;
+        margin-right: 5px;
+        list-style: none;
+        font-size: 12px;
+        &:before{
+          display: none !important;
+        }
+      }
+    }
+  }
+    .modal-minimalistic.modal-add-new-remediation{
+    .modal-header{
+      padding-right:35px;
+      padding-left:35px;
+      h4.modal-title{
+        font-size: 27px;
+      }
+    }
+    .modal-body{
+      padding-right:40px;
+      padding-left:40px;
+      .form-group{
+        margin-bottom: 0px;
+      }
+    }
+    .tagged-risk-row{
+      margin-bottom: 15px;
+    }
+    .remediation-tags{
+        font-size: 13px;
+        font-weight: 600;
+    }
+      .mx-w-300{
+        .select2{
+          max-width: 300px;
+        }
+      }
+  }
+}

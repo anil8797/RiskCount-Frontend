@@ -1,0 +1,211 @@
+.btn-group {
+  display: block;
+  margin: 10px 0;
+  label{
+    margin-right: 5px;
+    margin-bottom: 0;
+    vertical-align: middle;
+    font-size: 13px;
+    font-weight: 600;
+    color:$theme-black;
+  }
+  &.align-right {
+    .btn {
+      margin-left: 5px;
+    }
+  }
+  &.align-left {
+    .btn {
+      margin-right: 5px;
+    }
+  }
+  select {
+    vertical-align: middle;
+    min-height: 32px;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  &.form-btn-group{
+    .form-inline{
+      display: inline-block;
+    }
+  }
+}
+
+.btn {
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 32px;
+  border: 0px solid transparent;
+  padding: 0 12px;
+  border-radius: 4px !important;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  i{
+    margin-right: 5px;
+  }
+  &.btn-primary {
+    background-color: #e3151a;
+    color: #fff;
+  }
+  &.btn-orange {
+    background-color: $theme-orange;
+    color: #fff;
+  }
+  &.btn-gray {
+    background-color: #dddddd;
+    color: #333333 !important;
+  }
+  &.btn-darkgray {
+    background-color: #606060;
+    color: #fff !important;
+  }
+  &.btn-secondary {
+    background-color: rgb(221, 221, 221);
+    color: #333;
+  }
+  &.btn-transparent {
+    background-color: rgba(221, 221, 221, 0);
+    color: #333;
+  }
+  &.btn-success{
+    background-color: #218838;
+    color: #fff !important;
+  }
+  &.btn-danger {
+    background-color: #e3151a;
+    color: #fff !important;
+  }
+  &.btn-sm-round {
+    border-radius: 50% !important;
+    padding: 0.3rem 0.5rem;
+    width: 32px;
+    height: 32px;
+  }
+  &.btn-md {
+    height:24px;
+    padding: 0 12px;
+    font-size: 11px;
+  }
+  &.btn-sm {
+    height:20px;
+    padding: 3px 8px;
+    font-size: 9px;
+  }
+  &.btn-xs {
+    padding: 4px 6px;
+    line-height: 14px;
+  }
+  &.btn-link {
+    color: #9eacb4;
+    font-weight: 700;
+  }
+  &.btn-icon-only {
+    padding: 3px 4px !important;
+    background-color: transparent;
+    [class^="icon-"], [class*=" icon-"] {
+      color: $theme-lightgray;
+      font-size: 19px;
+    }
+    &:hover, &.active, &:active {
+      border: 0px solid transparent;
+    }
+    &.btn-inline{
+      i{
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+      }
+    }
+  }
+  &.btn-inline{
+    display:inline-block !important;
+    i{
+      margin-left: 0px !important;
+    }
+  }
+  &.btn-excel{
+    background-color: $theme-green;
+    color: #fff;
+    svg{
+      width: 100%;
+      height:100%;
+    }
+    svg{
+      fill: #fff;
+    }
+  }
+  &.btn-confirm-yes {
+    width: 35px;
+    height: 35px;
+    margin-top: calc(50% - 17px);
+    padding: 0.5em;
+    background-color: #2fb8af;
+    border-radius: 50% !important;
+    i {
+      padding: 4px !important;
+      color: #fff;
+    }
+    &:hover, &.active, &:active {
+      padding: 0.5em;
+      i {
+        padding: 4px !important;
+      }
+    }
+  }
+  &.btn-confirm-no {
+    width: 35px;
+    height: 35px;
+    margin-top: calc(50% - 17px);
+    padding: 0.5em;
+    background-color: #252525;
+    border-radius: 50% !important;
+    i {
+      background-color: transparent !important;
+      margin-right: 0px;
+      padding: 6px !important;
+      color: #fff;
+    }
+    &:hover, &.active, &:active {
+      padding: 0.5em;
+      i {
+        padding: 4px !important;
+      }
+    }
+  }
+  &:focus {
+    box-shadow: 0 0 0 0px rgba(40, 167, 69, 0.5);
+  }
+}
+
+body .ui-widget {
+  font-size: 12px;
+  font-weight: 600;
+}
+a.link{
+  color: #007bff !important;
+  cursor: pointer;
+  text-decoration: underline !important;
+}
+/*=============SPECIAL BUTTONS================*/
+.btn-add{
+  background-color: transparent;
+  text-transform: capitalize;
+  color:$theme-black;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  i{
+    font-size: 14px;
+    color:$theme-primary;
+  }
+}
+
+

@@ -1,0 +1,85 @@
+<div class="container-fluid">
+  <h3 class="head text-uppercase">{{selectedRiskUnitDto?.name}}<span style="text-transform:none"> {{selectedRcsaDto?.rcsaName}}</span></h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-12 form-row rcsa-test-docs">
+            <div class="form-group form-dd form-inline" [hidden]="riskUnitData?.length < 0">
+              <select2 class="select2-icon" [data]="rcsaUnitList | async" (valueChanged)="selectedRiskUnit = $event.value;changeRcsaByRiskUnit();" [options]="rcsaUnitListOptions" [cssImport]="true"  placeholder="Select"></select2>
+            </div>
+            <div class="form-group form-dd form-inline" [hidden]="rcsaData?.length < 0">
+              <select2 class="select2-icon" [data]="rcsaList | async" (value)="selectedRcsa" (valueChanged)="getAttachmentsCountBasedonRcsaChange($event.value);" [options]="rcsaListOptions" [cssImport]="true"  placeholder="Select"></select2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="test-doc-left">
+            <h5 class="text-uppercase">Control Category:</h5>
+            <div class="text-error" *ngIf="rcsaData?.length == 0">
+              No Control Categories
+            </div>
+            <div class="collapsible_sidebar">
+              <ul>
+                <li *ngFor="let item of attachmentCategories ;" (click)="selectAttachmentCategory(item.name, item.masterDetailId);"
+                    [ngClass]="{active: isActive(item)}" [@slideInOut]='state'>
+                  <div class="content_wrapper">
+                      <div class="icon-wrapper">
+                        <i class="fa fa-folder"></i>
+                      </div>
+                      <div class="details-wrapper">
+                        <h4>{{item.name}} <span>({{item.attachmentCount}})</span></h4>
+                      </div>
+                  </div>
+                  <!--<div>
+                    <div class="clearfix"></div>
+                    <ul class="collapsible_child_wrapper">
+                      <li *ngFor="let child of item.subMenu">{{child}}</li>
+                    </ul>
+                  </div>-->
+                </li>
+              </ul>
+          </div>
+          </div>
+          <div class="test-doc-right">
+            <div class="doc-viewer">
+              <!--<file-viewer src='assets/DASHBOARDVIEW.pdf' width='100%' height='660px' controls='true'></file-viewer>-->
+              <!--<pdf-viewer [src]="['assets/DASHBOARDVIEW.pdf']"
+                          [render-text]="true"
+                          style="display: block;"
+              ></pdf-viewer>-->
+             <!-- <pdf-viewer [src]="pdfSrc"></pdf-viewer>-->
+              <p-dataTable class="custom-prime-grid" [value]="selectedAttachments.attachments">
+                <p-column field="geography" header="Uploaded Test Document" [style]="{'width':'310px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span class="link" (click)="downloadAttachment(row.fileId, row.name)">{{row.name}}</span>
+                  </ng-template>
+                </p-column>
+                <p-column field="description" header="Submitted By">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    {{row.firstName}} {{row.lastName}}
+                  </ng-template>
+                </p-column>
+                <p-column header="Associated Risks">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngFor="let risk of selectedAttachments.taggedRisks;let last = last;">{{risk}}<span *ngIf="!last">, </span></span>
+                  </ng-template>
+                </p-column>
+                <p-column header="Associated Policies">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngFor="let policy of selectedAttachments.taggedPolicies;let last = last;">{{policy}}<span *ngIf="!last">, </span></span>
+                  </ng-template>
+                </p-column>
+              </p-dataTable>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

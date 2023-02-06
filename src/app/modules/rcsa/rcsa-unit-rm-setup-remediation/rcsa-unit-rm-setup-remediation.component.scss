@@ -1,0 +1,19 @@
+app-setup-remediation-unit{
+  bu-accordion-group{
+    .rcsa-inline-save{
+     .form-group{
+       min-width: auto;
+       max-width:700px;
+     }
+    }
+  }
+  .form-group.form-dd.form-inline{
+    select2{
+      width: 450px;
+      .select2{
+        width: 100% !important;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <h3 class="head text-uppercase">Admin</h3>
+  <!-- RISK MANAGER VIEW STARTS-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="admin-form-header set-action">
+               <div class="form-group form-dd form-inline">
+                <label>Select Actions : </label>
+                 <!--<select (change)="myFunction()">
+                   <option *ngFor = "let i of riskManagerSelectOption">{{i.selectOption}}</option>
+                 </select>-->
+                 <select2 class="select2-icon" (valueChanged)="changeAdminTemplate($event)" [data]="riskManagerSelectOption" [cssImport]="true" [options]="options" placeholder="Select Quarter"></select2>
+               </div>
+            </div>
+          </div>
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  <!-- RISK MANAGER VIEW ENDS-->
+</div>

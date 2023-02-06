@@ -1,0 +1,200 @@
+<div class="container-fluid">
+  <h3 class="head text-uppercase">START NEW RCSA - Q1 2018</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <!--TAb Navigation-->
+        <ul class="tab-nav">
+          <li class=""> <a routerLinkActive="active" [routerLink]="['/rcsa/start-new-rcsa/setup-rcsa']"> <span class="count">1</span><span>Set up rcsa</span> </a> </li>
+          <li class=""> <a routerLinkActive="active" [routerLink]="['/rcsa/start-new-rcsa/setup-policies']"> <span class="count">2</span><span>Set up Policies</span> </a> </li>
+          <li class=""> <a routerLinkActive="active" [routerLink]="['/rcsa/start-new-rcsa/choose-assessors']"> <span class="count">3</span><span>CHOOSE ASSESSORS - BY BUSINESS UNITS</span> </a> </li>
+        </ul>
+        <!--TAb Navigation Ends-->
+        <hr/>
+        <!--Button Toolbar to show button-->
+        <div class="btn-group align-left">
+          <button class="btn btn-danger" type="button"><i class="fa fa-plus"></i> Add Policy</button>
+          <button class="btn btn-link pull-right" type="button" (click)="collapseAll()">Collapse All</button>
+          <button class="btn btn-link pull-right" type="button"  (click)="expandAll()">Expand all</button>
+
+        </div>
+        <div class="rcsa-header-bar">
+          <div class="rcsa-inline-save">
+            <div class="form-group form-dd form-lg">
+              <input type="text" class="form-control" placeholder="Add New Policy Section">
+            </div>
+            <button class="btn btn-danger" type="button">Save</button>
+            <button class="btn btn-danger" type="button">Cancel</button>
+          </div>
+        </div>
+
+        <accordion [oneAtaTime]=false>
+          <accordion-group  [isOpen] = "openAccordions" heading="<div class='row'><div class='col-md-10'>INFORMATION SECURITY</div><div class='col-md-2 align-right'><a class='btn btn-xs btn-gray'>Edit</a>
+          <a class='btn btn-xs btn-gray'>Delete</a></div></div>" >
+            <tabset #staticTabs class="general-tabs">
+              <tab heading='POLICY SECTIONS'>
+
+                <!--Policy Section starts-->
+                <div class="row">
+                  <div class="col-md-4">
+                    <ul class="setup-policy-list">
+                      <li class="active">General</li>
+                      <li>Password Management</li>
+                      <li>Physical Security</li>
+                      <li>Clean Desk Policy</li>
+                      <li>Hardware & Software</li>
+                      <li>Employee Access Entitlement</li>
+                      <li>Data Classification/Records</li>
+                      <li>Remote Access</li>
+                      <li>Email/Website Usage</li>
+                      <li>Mobile & Removable Media</li>
+                    </ul>
+                    <div class="rcsa-inline-save">
+                      <div class="form-group form-dd form-lg">
+                        <input type="text" class="form-control" placeholder="Add New Policy Section">
+                      </div>
+                      <button class="btn btn-danger" type="button">Save</button>
+                      <button class="btn btn-danger" type="button">Cancel</button>
+                    </div>
+                    <!--Button Toolbar to show button-->
+                    <div class="btn-group align-left">
+                      <button class="btn btn-danger" type="button"><i class="fa fa-plus"></i> Add Policy Section</button>
+                    </div>
+                  </div>
+                  <div class="col-md-8 setup-policy-data">
+                    <h5 class="setup-policy-title rcsa-highlight">General : Control Procedures</h5>
+                    <p>All staff follow defined Acceptable & Unacceptable Use of electronic resources, including software, hardware and network</p>
+                    <p>All staff follow basic rules on downloads & copyrights</p>
+                    <p>Messages over the internet are proper, and the firm maintains the right to monitor them</p>
+                    <p>Staff are warned not to knowingly introduce viruses, and to be concious of Anti­Virus conduct.</p>
+                    <div class="rcsa-inline-save">
+                      <div class="form-group form-dd form-lg">
+                        <!--<input type="text" class="form-control" placeholder="Add New Policy">-->
+                        <textarea placeholder="Add New Control Procedure"></textarea>
+                      </div>
+                      <button class="btn btn-danger" type="button">Save</button>
+                      <button class="btn btn-danger" type="button">Cancel</button>
+                    </div>
+                    <!--Button Toolbar to show button-->
+                    <div class="btn-group align-left">
+                      <button class="btn btn-danger" type="button"><i class="fa fa-plus"></i> Add control Procedures</button>
+                    </div>
+                  </div>
+                </div>
+                <!--Policy Section ends-->
+              </tab>
+              <tab heading='INHERENT RISK RATING'>
+                <!-- Inherent  risk rating-->
+                <h5 class="subhead mg-0">SET INHERENT RISK RATING FOR INFORMATION SECURITY POLICY</h5>
+                <div class="setup-legends">
+                  <span (click)="showSeverityLegend()">Severity Legend </span>
+                  <span (click)="showLikelihoodLegend()">Likelihood Legend</span>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 setup-chart-wrapper">
+                    <fusioncharts
+                      width="100%"
+                      height="365px"
+                      type="heatmap"
+                      dataFormat="JSON"
+                      [dataSource]="inherentRiskData"
+                      [height]="320"
+                    ></fusioncharts>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>Comments :</h5>
+                    <!-- Show comments in view mode starts-->
+                    <div class="comments">
+
+                    </div>
+                    <!-- show comments in view mode ends-->
+
+                    <!-- Show comments in edit mode starts-->
+                    <div class="editor-wrapper">
+                      <ckeditor
+                        [(ngModel)]="ckeditorContent"
+                        [config]="editorConfig"
+                        [readonly]="false"
+                      debounce="500">
+                      </ckeditor>
+                    </div>
+                    <!-- show comments in edit mode ends-->
+                  </div>
+                </div>
+              </tab>
+            </tabset>
+
+          </accordion-group>
+        </accordion>
+
+        <!--Rcsa Setup Starts-->
+        <div class="row">
+        </div>
+        <!--Rcsa Setup-->
+        <!--Button Toolbar to show button-->
+        <div class="btn-group align-right">
+          <button class="btn btn-danger" type="button">save RCSA</button>
+          <button class="btn btn-danger" type="button">NEXT - Set up Assessors</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Severity Legend -->
+<div bsModal #severityLegend="bs-modal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-lg rcsa-modal-legend" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">
+          <b>Severity Scale - X Axis of Risk Matrix</b>
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="severityLegend.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--Data Table Starts-->
+        <p-dataTable class="custom-prime-grid" [value]="severityScaleData">
+          <p-column field="rating" header="Rating" [style]="{'width':'130px'}"></p-column>
+          <p-column field="descriptor" header="Descriptor" [style]="{'width':'140px'}"></p-column>
+          <p-column field="definition" header="Definition.Note: Each successive bullet-point must be read as 'and/or'">
+            <ng-template let-col let-row="rowData" pTemplate="body">
+              <ul>
+                <li *ngFor="let note of row.definition">{{note}}</li>
+              </ul>
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+        <!--Data Table Ends-->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Severity Legend Modal ends -->
+<!-- Severity Legend -->
+<div bsModal #likelihoodLegend="bs-modal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-lg  rcsa-modal-legend" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">
+          <b>Likelihood Scale - Y Axis of Risk Matrix</b>
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="likelihoodLegend.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--Data Table Starts-->
+        <p-dataTable class="custom-prime-grid" [value]="likelihoodScaleData">
+          <p-column field="rating" header="Rating" [style]="{'width':'75px'}"></p-column>
+          <p-column field="frequencyDescription" header="Frequency Description" [style]="{'width':'115px'}"></p-column>
+          <p-column field="frequencyDefinition" header="Definition"></p-column>
+           <p-column field="probabilityDescription" header="Probability Description"  [style]="{'width':'115px'}"></p-column>
+           <p-column field="probabilityDefinition" header="Definition"></p-column>
+        </p-dataTable>
+        <!--Data Table Ends-->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Severity Legend Modal ends -->

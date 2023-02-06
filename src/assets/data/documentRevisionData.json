@@ -1,0 +1,16 @@
+[
+  {
+    "business_area":"Risk Management",
+    "ctrl_category":"Counterparty Credit",
+    "document_name" : "CounterpartyCreditPolicy.doc",
+    "created_by":"Rebecca Adams",
+    "revision_date":"Oct 15, 2017"
+  },
+  {
+    "business_area":"Risk Management",
+    "ctrl_category":"Counterparty Credit",
+    "document_name" : "CounterpartyPolicy.doc",
+    "created_by":"Rebecca Adams",
+    "revision_date":"Oct 15, 2017"
+  }
+]

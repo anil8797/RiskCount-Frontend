@@ -1,0 +1,33 @@
+<div class="row" *ngFor=" let risk of riskDashboardData">
+  <div class="col-md-12">
+    <div class="card card-dashboard">
+      <h5 class="subhead"><span class="text-uppercase">{{risk.name}}</span><span class="display-date pull-right">{{risk.rcsaName}}</span></h5>
+      <div class="row">
+        <div class="col-md-7">
+          <fusioncharts
+            width="100%"
+            height="300px"
+            type="mscombi2d"
+            dataFormat="JSON"
+            [dataSource]="risk.rcsaRiskDashboardChart"
+          ></fusioncharts>
+        </div>
+        <div class="col-md-5">
+          <div class="risk-dashboard-legend">
+            <span class="square_icon"></span>
+            <span>Inherent Risk Rating: ({{risk.inherentRisk?.severity}},{{risk.inherentRisk?.likelihood}}) </span>
+            <span class="triangle_icon"></span>
+            <span>Residual Risk Rating: ({{risk.residualRisk?.severity}},{{risk.residualRisk?.likelihood}}) </span>
+          </div>
+          <fusioncharts
+            [width]="440"
+            [height]="220"
+            type="heatmap"
+            dataFormat="JSON"
+            [dataSource]="risk.rcsaRiskDashboardHeatMap">
+          </fusioncharts>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

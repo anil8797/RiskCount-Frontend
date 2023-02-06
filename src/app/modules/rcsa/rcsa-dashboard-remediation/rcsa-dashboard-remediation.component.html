@@ -1,0 +1,55 @@
+  <div class="row">
+    <!--<div class="col-md-6">
+      <div class="card card-dashboard">
+        <h4 class="subhead highlight text-uppercase text-center">Control effectiveness for rcsa Q{{remediationDashboardData?.quarter}} {{remediationDashboardData?.year}}</h4>
+        <hr/>
+        <fusioncharts
+          width="100%"
+          height="365px"
+          type="pie2d"
+          dataFormat="JSON"
+          [dataSource]="controlEffectivenessPieChartData"
+        ></fusioncharts>
+      </div>
+    </div>-->
+    <div class="col-md-12">
+      <div class="card card-dashboard">
+        <h4 class="subhead highlight text-uppercase text-center">ASSIGNED VS CLOSED REMEDIATIONS FROM Q{{remediationDashboardData?.previousQuarter}} {{remediationDashboardData?.previousYear}}</h4>
+        <hr/>
+        <fusioncharts
+          width="100%"
+          height="365px"
+          type="mscolumn2d"
+          dataFormat="JSON"
+          [dataSource]="assignedClosedRemediationChartData"
+        ></fusioncharts>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-dashboard">
+        <h4 class="subhead highlight text-uppercase text-center">Assigned remediations</h4><!--  for rcsa Q{{remediationDashboardData?.quarter}} {{remediationDashboardData?.year}}-->
+        <hr/>
+        <fusioncharts
+          width="100%"
+          height="365px"
+          type="stackedcolumn2dline"
+          dataFormat="JSON"
+          [dataSource]="assignedRemediationsStackedData"></fusioncharts>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-dashboard">
+        <h4 class="subhead highlight text-uppercase text-center">Assessment status for rcsa Q{{remediationDashboardData?.quarter}} {{remediationDashboardData?.year}} ({{remediationDashboardData?.startDate | amUtc | amDateFormat: 'MM/DD/YYYY'}} - ({{remediationDashboardData?.endDate | amUtc | amDateFormat: 'MM/DD/YYYY'}})</h4>
+        <hr/>
+        <fusioncharts
+          width="100%"
+          height="365px"
+          type="column2d"
+          dataFormat="JSON"
+          [dataSource]="assessmentStatusChartData"
+        ></fusioncharts>
+      </div>
+    </div>
+  </div>

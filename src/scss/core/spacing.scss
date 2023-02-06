@@ -1,0 +1,75 @@
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-center {
+  text-align: center;
+}
+.mg-0{
+  margin: 0;
+}
+.mg-top-0 {
+  margin-top: 0px !important;
+}
+
+.mg-top-10 {
+  margin-top: 10px;
+}
+
+.mg-top-20 {
+  margin-top: 20px;
+}
+
+.mg-top-40 {
+  margin-top: 40px;
+}
+
+.mg-btm-0 {
+  margin-bottom: 0px !important;
+}
+.mg-btm-20 {
+  margin-bottom: 20px !important;
+}
+
+/*==============widths========*/
+.mn-w-230{
+  min-width: 230px;
+}
+.mn-w-265{
+  min-width: 265px;
+}
+.mn-w-300{
+  min-width: 300px;
+}
+.mx-w-150{
+  max-width: 150px;
+}
+.mx-w-200{
+  max-width: 200px;
+}
+.mx-w-230{
+  max-width: 230px;
+}
+.mx-w-300{
+  max-width: 230px;
+}
+.col-md-12 {
+  .vw-100 {
+    width: calc(100vw - 80px);
+    max-width: calc(100vw - 80px);
+  }
+}
+
+.card-dashboard {
+  min-height: calc(100% - 30px);
+}
+
+.card-chart {
+  height: 450px;
+}
+
+

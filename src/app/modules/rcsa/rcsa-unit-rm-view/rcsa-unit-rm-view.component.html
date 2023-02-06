@@ -1,0 +1,247 @@
+<div class="container-fluid">
+  <h3 class="head text-uppercase">{{selectedRiskUnitDto?.name}}  {{selectedRcsaDto?.rcsaName}}</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <!--<div class="card" *ngIf="rcsaStartStatus">
+        <div class="status">
+          <h3 class="align-center">{{rcsaStatusMessage}}</h3>
+        </div>
+      </div>-->
+      <div class="card">
+        <!--Button Toolbar to show button-->
+        <div class="btn-group align-left form-btn-group">
+          <div class="form-group form-dd form-inline" [hidden]="riskUnitData?.length < 2">
+            <select2 class="select2-icon" [data]="rcsaUnitList | async" (valueChanged)="selectedRiskUnit = $event.value;changeRcsaByRiskUnit();" [options]="rcsaUnitListOptions" [cssImport]="true"  placeholder="Select"></select2>
+          </div>
+          <div class="form-group form-dd form-inline" [hidden]="rcsaData?.length < 2">
+            <select2 class="select2-icon" [data]="rcsaList | async" (valueChanged)="getAssessmentBasedonRcsaChange($event.value);" [options]="rcsaListOptions" [cssImport]="true"  placeholder="Select"></select2>
+          </div>
+          <button class="btn btn-primary" type="button" (click)="showExtendEndDate()" *ngIf="rcsaStartStatus">Extend Rcsa End date</button>
+          <button class="btn btn-primary" type="button" *ngIf="rcsaStartStatus" (click)="sendReminder()">send Reminders</button>
+          <div class="warnings" *ngIf="selectedRcsaDto?.lastReminderSentDate">Reminder sent to all Assessors and RCSA Coordinators in <span class="text-uppercase">{{selectedRiskUnitDto?.name}}</span> on {{selectedRcsaDto?.lastReminderSentDate |  date: 'MM/dd/yyyy'}}</div>
+        </div>
+        <div class="status" *ngIf="!rcsaInProgress">
+          <h3 class="align-center">Currently No RCSA in Progress</h3>
+        </div>
+        <div class="bfu-title" *ngIf="rcsaInProgress && assessmentData?.risks.length > 0"><span class="bold">1. CONTROL RATINGS:</span> RCSA Coordinator control ratings on the various Risks are presented below. Please confirm final CONTROL RATING for each RISK.</div>
+        <div class="risk_wrapper" *ngFor="let risk of assessmentData?.risks; let i = index">
+          <div class="" *ngIf="rcsaInProgress">
+          <h4 class="subhead text-uppercase">{{risk.name}}</h4>
+          <div class="bfu-grid-wrapper">
+            <div class="bfu-head">
+              <div class="bfu-col">
+
+              </div>
+              <div class="bfu-col">
+                Rating
+              </div>
+              <div class="bfu-col">
+                Rating-Frequency By Business Unit
+              </div>
+              <div class="bfu-col">
+                Weighted Rating
+              </div>
+              <div class="bfu-col">
+               Risk Management Final Rating
+              </div>
+              <div class="bfu-col">
+                Residual risk rating based on the control rating
+              </div>
+            </div>
+            <div class="bfu-row">
+              <div class="bfu-col text-center">
+                <fusioncharts
+                  width="100%"
+                  [height]="325"
+                  type="column2d"
+                  dataFormat="JSON"
+                  [dataSource]="risk.coordinatorScoreChartdata"
+                ></fusioncharts>
+              </div>
+              <div class="bfu-col text-center">
+                <ul class="bfu-list">
+                  <li *ngFor="let score of risk.consolidatedResponses">{{score.choice}}</li>
+                  <li></li>
+                </ul>
+              </div>
+              <div class="bfu-col text-center">
+                <ul class="bfu-list">
+                  <li *ngFor="let score of risk.consolidatedResponses">{{score.responseCount}}</li>
+                  <li>{{risk?.totalFrequencyScore}}</li>
+                </ul>
+              </div>
+              <div class="bfu-col text-center">
+                <ul class="bfu-list">
+                  <li *ngFor="let score of risk.consolidatedResponses">{{score.weightedScore | number : '1.0-1'}}</li>
+                  <li [ngClass]="{'weak':risk.weightedScore <= 4, 'average':risk.weightedScore > 4 && risk.weightedScore < 8, 'strong':risk.weightedScore >= 8}">{{risk.weightedScore | number:'1.1-1' }}</li>
+                </ul>
+              </div>
+              <div class="bfu-col text-center">
+                <div class="final_rating_container">
+                  <!--<fusioncharts
+                    width="100%"
+                    height="365px"
+                    type="vlineargauge"
+                    dataFormat="100%"
+                    [dataSource]="guageChartData"
+                    [height]="320">
+                  </fusioncharts>
+                  <img src="assets/img/gauge.png"/>-->
+                  <div class="fusion-linear-outer">
+                    <fusioncharts
+                      [width]="300"
+                      [height]="65"
+                      type="hlineargauge"
+                      dataFormat="JSON"
+                      [dataSource]="risk.finalScoreChartdata"
+                    ></fusioncharts>
+                  </div>
+                </div>
+                <div class="final_rating white">
+                  <div class="form-group form-dd form-md form-inline" *ngIf="rcsaStartStatus">
+                    <label >Rating:</label>
+                    <input  class="form-control mx-w-200" [ngClass]="{'invalid':(risk.valid == false && (risk.finalScore =='' || risk.finalScore == null))}"  [ngModel]="risk.finalScore" (ngModelChange)="risk.finalScore = $event" (input)="changeControlCategoryFinalScore($event.target.value, risk.finalScoreChartdata, risk)" onkeydown="javascript: return event.keyCode == 69 ? false : true" placeholder="Final Rating" type="text" OnlyNumber="true" DecimalPlaces="1" minValue="0.0" maxValue="10.0">
+                    <div class="error" *ngIf="risk.valid == false && (risk.finalScore =='' || risk.finalScore == null)">Please provide a score for <span class="text-uppercase">{{risk?.name}}</span></div>
+                  </div>
+                  <div class="form-group form-dd form-md form-inline" *ngIf="!rcsaStartStatus">
+                    <label >Rating:</label>
+                    <span class="value">{{risk.finalScore}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="bfu-col">
+                <div class="bfu-chart-legend">
+                  <span class="square_icon"></span>
+                  <span>Inherent Risk Rating: ({{risk?.inherentRisk.severity}}, {{risk?.inherentRisk.likelihood}}) </span>
+                  <span class="triangle_icon"></span>
+                  <span>Residual Risk Rating: <span *ngIf="risk?.residualRisk && risk?.residualRisk?.severity !=null">({{risk?.residualRisk?.severity | number : '1.0-1'}}, {{risk?.residualRisk?.likelihood | number : '1.0-2'}})</span></span>
+                </div>
+                <fusioncharts
+                  [width]="440"
+                  type="heatmap"
+                  dataFormat="JSON"
+                  [dataSource]="risk.residualRiskChartData"
+                  [height]="220">
+                </fusioncharts>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+          <div class="row bfu-chart-section" *ngIf="rcsaStartStatus">
+            <!--<div class="col-md-7">
+              <h5>DISTRIBUTION OF CONTROL RATINGS BY BUSINESS UNITS VS RISK MANAGER FINAL CONTROL RATING</h5>
+              <button class="btn btn-lg btn-transparent"><i class="fa fa-repeat"></i> Refresh Graph</button>
+              <fusioncharts
+                width="100%"
+                height="280px"
+                type="mscolumn2d"
+                dataFormat="JSON"
+                [dataSource]="distributionChartData"
+              ></fusioncharts>
+            </div>-->
+            <div class="col-md-12">
+              <h5>COMMENTS:</h5>
+              <div class="form-group form-dd form-lg" *ngIf="assessmentData && rcsaStartStatus">
+                <ckeditor
+                  [(ngModel)]="assessmentData.comments"
+                  [config]="editorConfig"
+                  [readonly]="false"
+                  debounce="500">
+                </ckeditor>
+                <!--<div *ngIf="assessmentData.progressStatus =='COMPLETED'" [innerHTML]="assessmentData?.comments"></div>-->
+              </div>
+              <div [innerHTML]="assessmentData.comments" *ngIf="!rcsaStartStatus"></div>
+          </div>
+          <div class="col-md-12" *ngIf="rcsaStartStatus">
+            <!--Button Toolbar to show button-->
+            <div class="btn-group align-left">
+              <button class="btn btn-primary" type="button" (click)="saveUnitRmAssessment(assessmentData, 'save')">save</button>
+             <!-- <button class="btn btn-primary" type="button" (click)="validateControlCategoryResponse()">save - review next policy</button>-->
+              <button class="btn btn-primary" type="button" *ngIf="showSubmitToButton" (click)="saveUnitRmAssessment(assessmentData, 'submit')">{{assessmentData?.rcsaName}} COMPLETED</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div bsModal #success="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!--<ng-template #template>-->
+  <div class="modal-dialog modal-sm modal-alert" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-success">
+          <span class="alert-close" (click)="success.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-success"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Success</h3>
+            <p>{{successModalMsg}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>
+
+<div bsModal #error="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!--<ng-template #template>-->
+  <div class="modal-dialog modal-sm modal-alert" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-error">
+          <span class="alert-close" (click)="error.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-error"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Alert</h3>
+            <p>{{errorModalMsg}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>
+
+
+
+  <div bsModal #extendEndDate="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: true}" *ngIf="rcsaStartStatus">
+    <div class="modal-dialog modal-lg modal-minimalistic modal-extenddate" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">
+            <b><strong>{{selectedRiskUnitDto?.name}}  {{selectedRcsaDto?.rcsaName}}</strong></b>
+          </h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="extendEndDateModal.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form  #form="ngForm" name="extendDateForm">
+           <div class="row">
+              <div class="col-md-6">
+                <div class="form-group form-dd form-lg form-inline">
+                  <label>Current RCSA End Date:</label>
+                  <span class="value">{{selectedRcsaDto?.endDate  | amUtc | amDateFormat: 'MM/DD/YYYY'}}</span>
+                </div>
+              </div>
+             <div class="col-md-6">
+               <div class="form-group form-dd form-lg form-inline">
+                 <label>Revised RCSA End Date:</label>
+                 <p-calendar name="extendDate" id='extendDate' #extendDate="ngModel" [ngClass]="{'error':form.submitted && extendDate.errors}" readonlyInput="true" [utc]='false' [minDate]="selectedRcsaDto?.endDateDto" [ngClass]="{'error':showErrors && (reminderDateAssessor == '' || reminderDateAssessor == null)}" class="rcsa-calendar mx-w-230" [(ngModel)]="rcsaExtendEndDate" showIcon=true icon="fa-calendar" dateFormat="mm/dd/yy" placeholder="MM/DD/YYYY" required></p-calendar>
+               </div>
+             </div>
+           </div>
+            <!--Button Toolbar to show button-->
+            <div class="btn-group align-right">
+              <button class="btn btn-primary" type="submit" (click)="extendRcsaEndDate(form)">save Date</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--</ng-template>-->
+  </div>

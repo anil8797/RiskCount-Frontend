@@ -1,0 +1,34 @@
+app-rcsa-unit-rm-view{
+  .form-btn-group{
+    .warnings{
+      margin-top:0px;
+    }
+  }
+  .form-btn-group .form-group.form-dd{
+    padding: 10px 0;
+	margin-bottom: 0rem !important;
+    select2{
+      width: 350px;
+      display: block;
+      .select2{
+        width: 100% !important;
+      }
+    }
+    &:nth-child(2){
+      select2{
+        width: 320px;
+      }
+    }
+  }
+  .status{
+    padding: 30vh 0;
+  }
+  .modal-extenddate{
+    max-width: 765px;
+  }
+  .final_rating .form-dd.form-inline .value{
+    margin-left: 1px;
+    font-weight: 700;
+    color:#e3151a;
+  }
+}

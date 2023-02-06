@@ -1,0 +1,85 @@
+<div class="container-fluid">
+  <h3 class="head text-uppercase">ASSIGNED/ OUTSTANDING REMEDIATIONS </h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <!--<div class="row">
+          <div class="col-md-12">
+            <div class="remediation-summary rcsa-assigned-outstanding-title">
+              <p class="label-highlight"></p>
+            </div>
+          </div>
+        </div>-->
+        <div class="row">
+          <div class="col-md-12">
+            <p-dataTable class="custom-prime-grid" [value]="assignedOutstandingRemediations?.remediations">
+              <p-column field="control_category" header="Control Category">
+                <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">
+                  <p class="text-added">{{row.name}}</p>
+                  <div class="category_list">
+                    <p class="font-bold">Associated Risks:</p>
+                    <p><span *ngFor="let risk of row.associatedRisks;last as isLast">{{risk}}<span *ngIf="!isLast">,</span> </span></p>
+                  </div>
+                  <div class="category_list">
+                    <p class="font-bold">Associated Policies:</p>
+                    <p><span *ngFor="let policy of row.associatedPolicies;last as isLast">{{policy}}<span *ngIf="!isLast">,</span> </span></p>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="final_proposed_remediation" header="Final Proposed Remediation">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <!--<ul class="star-list" *ngIf="i == 0">
+                    <li *ngFor="let remediation of row.final_proposed_remediation" >
+                      <span>{{remediation.option}}</span> <span class="list_link" ></span>
+                    </li>
+                  </ul>-->
+                  <div class="final-proposed-list" [innerHTML]="row.finalProposedRemediation"></div>
+                </ng-template>
+              </p-column>
+              <p-column field="assigned_business_function_unit" header="Assigned Remediation Unit">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <p>{{row.ownedRemediationUnitName}}</p>
+                </ng-template>
+              </p-column>
+              <p-column field="assigned_coOwner_business_unit" header="Assigned Co-owner Remediation Unit">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <p>{{row.coOwnedRemediationUnitName}}</p>
+                </ng-template>
+              </p-column>
+              <p-column field="priority" header="Priority" [style]="{'width':'130px'}" [sortable]=true>
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <p class="font-medium text-capitalize" [ngClass]="{'mandatory-text': row.priority == 'MANDATORY'}">{{row.priority | lowercase}}</p>
+                </ng-template>
+              </p-column>
+              <p-column field="dateOfCompletion" header="Due Date for Completion" [style]="{'width':'105px'}" [sortable]=true>
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <p class="font-medium" [ngClass]="{'mandatory-text': row.dateOfCompletion < today}">{{row.dateOfCompletion | date: 'MM/dd/yyyy'}}</p>
+                </ng-template>
+              </p-column>
+              <p-column field="bfu_status" header="BFU Status" [style]="{'width':'150px'}">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <span class="text-capitalize" [hidden]="row.isEditable">{{row.businessFunctionalUnitStatusDisplayName | lowercase}}</span>
+                  <div class="form-dd"  [hidden]="!row.isEditable">
+                    <select2 class="select2-icon" style="width: 100%;display: block;" [data]="bfu_status_list" [cssImport]="true" [value]="row.businessFunctionalUnitStatus" (valueChanged)="row.businessFunctionalUnitStatus = $event.value;changeBfuStatus($event.value, row)" [options]="options" placeholder="Current Status"></select2>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column header="" [style]="{'width':'50px'}">
+                <ng-template let-col let-row="rowData" pTemplate="body">
+                  <div style="text-align: center;">
+                    <button (click)="editRow(row)" *ngIf="!row.isEditable" class="btn btn-sm btn-icon-only btn-inline">
+                      <i class="icon-edit"></i>
+                    </button>
+                    <button (click)="saveBfuStatus(row);" *ngIf="row.isEditable"  class="btn btn-sm btn-icon-only btn-inline">
+                      <i class="icon-save"></i>
+                    </button>
+                  </div>
+                </ng-template>
+              </p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

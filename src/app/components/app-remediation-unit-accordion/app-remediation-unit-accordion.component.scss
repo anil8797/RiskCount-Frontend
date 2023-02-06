@@ -1,0 +1,70 @@
+.panel-collapse{
+  overflow: hidden;
+}
+
+.app-accordion{
+  margin-bottom: 10px;
+  .panel-heading{
+    margin-left: 0px;
+    position: relative;
+    background-color: #f2f2f2;
+  }
+  &.panel-open{
+    .panel-collapse{
+      border: 1px solid #e3151a;
+    }
+  }
+  .panel-collapse{
+    border: 1px solid #fff;
+    overflow: hidden;
+    margin-left: 0px;
+    margin-top: -10px;
+  }
+  .custom-chkbx{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .panel-title{
+    position: relative;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    a{
+      text-decoration: none;
+      color: #333333;
+      padding-left: 25px;
+      display: block;
+      &:focus{
+        outline: none;
+      }
+    }
+    i{
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      float: left;
+      padding: 4px 0;
+    }
+    .fa-plus{
+      -webkit-transform: rotate(-90deg);
+      transform: rotate(-90deg);
+      -webkit-transition: all 0.25s;
+      transition: all 0.25s;
+    }
+    .fa-minus{
+      -webkit-transform: rotate(-180deg);
+      transform: rotate(-180deg);
+      -webkit-transition: all 0.25s;
+      transition: all 0.25s;
+    }
+  }
+  .panel-body{
+    padding: 10px 30px 15px 30px !important
+  }
+}

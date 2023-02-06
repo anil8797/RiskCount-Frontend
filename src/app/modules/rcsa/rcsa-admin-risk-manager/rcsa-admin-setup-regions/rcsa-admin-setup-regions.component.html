@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-md-12">
+    <h5>REGIONS</h5>
+    <div class="btn-group align-left">
+      <button class="btn btn-danger" type="button" (click)="addRegion()"><i class="fa fa-plus"></i> Add Region</button>
+      <!--<button class="btn btn-sm-round btn-excel" type="button" (click)="file.click()">
+        <svg>
+          <use xlink:href="assets/svg/icons.svg#excel"></use>
+        </svg>
+      </button>-->
+      <input type="file" accept="image/*" #file style="display:none">
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+  <p-dataTable class="custom-prime-grid" [value]="setupRegionsData">
+    <p-column field="geography" header="Geography" [style]="{'width':'310px'}">
+      <ng-template let-col let-row="rowData" pTemplate="body">
+        <span *ngIf="!row.isEditable">{{row.geography}}</span>
+        <div class="form-dd" *ngIf="row.isEditable">
+          <input type="text" [(ngModel)]="row.geography" (ngModelChange)="regionModelChange(row)"
+                 [ngClass]="{ 'error' : (!row.isValidName && row.isValidName !=undefined) }">
+        </div>
+        <div class="errormessage" *ngIf="row.showError">{{row.errorMessage}}</div>
+      </ng-template>
+    </p-column>
+    <p-column field="description" header="Description">
+      <ng-template let-col let-row="rowData" pTemplate="body">
+        <span *ngIf="!row.isEditable" [innerHTML]="row.description"></span>
+        <div class="form-dd" *ngIf="row.isEditable">
+          <ckeditor
+            [(ngModel)]="row.description"
+            [config]="editorConfig"
+            [readonly]="false"
+            debounce="500">
+          </ckeditor>
+        </div>
+      </ng-template>
+    </p-column>
+    <p-column header="Edit" [style]="{'width':'80px'}">
+      <ng-template let-col let-row="rowData" pTemplate="body">
+        <div style="text-align: center;">
+          <button (click)="editRegionRow(row)" *ngIf="!row.isEditable" class="btn btn-sm btn-icon-only btn-inline">
+            <i class="icon-edit"></i>
+          </button>
+          <button (click)="cancelRegionRow(row)" *ngIf="row.isEditable"  class="btn btn-sm btn-icon-only btn-inline">
+            <i class="icon-save"></i>
+          </button>
+        </div>
+      </ng-template>
+    </p-column>
+    <p-column header="Delete"  [style]="{'width':'80px'}">
+      <ng-template let-col let-row="rowData" pTemplate="body">
+        <div style="text-align: center;">
+          <button class="btn btn-sm btn-icon-only btn-inline" (click)="removeRow(row)">
+            <i class="icon-close"></i>
+          </button>
+        </div>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+  </div>
+</div>

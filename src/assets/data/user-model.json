@@ -1,0 +1,58 @@
+[
+  {
+    "clientId"   : 10001,
+    "userId"     : 1005,
+    "pass"       : "test",
+    "roleObject" : {
+      "id"          : 1002,
+      "role"        : "RiskCounts Analyst",
+      "roleLabel"   : "risk_counts_user",
+      "displayName" : "RiskCounts Analyst"
+    },
+    "name"       : "Dilip Movva",
+    "userName"   : "dilipMovva",
+    "email"      : "rcuser"
+  },
+  {
+    "clientId"   : 10001,
+    "userId"     : 1007,
+    "pass"       : "admin123",
+    "roleObject" : {
+      "id"            : 1003,
+      "role"			    : "Credit Analyst",
+      "roleLabel"		  : "credit_analyst",
+      "displayName"   : "Credit Analyst"
+    },
+    "name"       : "Kristina Yadlon",
+    "userName"   : "kyadlon",
+    "email"      : "creditanalyst"
+  },
+  {
+    "clientId"   : 10001,
+    "userId"     : 1009,
+    "pass"       : "test",
+    "roleObject" : {
+      "id"          : 1004,
+      "role"        : "Supervisor",
+      "roleLabel"   : "credit_supervisor",
+      "displayName" : "Supervisor"
+    },
+    "name"       : "Mark Twain",
+    "userName"   : "mtwain",
+    "email"      : "supervisor"
+  },
+  {
+    "clientId"   : 10001,
+    "userId"     : 1012,
+    "pass"       : "test",
+    "roleObject" : {
+      "id"          : 1006,
+      "role"        : "Chief Risk Officer",
+      "roleLabel"   : "chief_risk_officer",
+      "displayName" : "Chief Risk Officer"
+    },
+    "name"       : "Andrew Schirmer",
+    "userName"   : "andrews",
+    "email"      : "crofficer"
+  }
+]

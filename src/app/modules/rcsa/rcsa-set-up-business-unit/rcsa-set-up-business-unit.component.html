@@ -1,0 +1,353 @@
+<div class="container-fluid">
+  <h3 class="head text-uppercase">{{selectedRiskUnitData?.name}} - SET UP ASSESSMENT UNIT</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <!--TAb Navigation
+        <ul class="tab-nav">
+          <li class=""> <a routerLinkActive="active" [routerLink]="['/rcsa/start-new-rcsa/setup-rcsa']"> <span class="count">1</span><span>Set up rcsa</span> </a> </li>
+          <li class=""> <a routerLinkActive="active" [routerLink]="['/rcsa/start-new-rcsa/setup-policies']"> <span class="count">2</span><span>Set up Policies</span> </a> </li>
+          <li class=""> <a routerLinkActive="active" [routerLink]="['/rcsa/start-new-rcsa/choose-assessors']"> <span class="count">3</span><span>CHOOSE ASSESSORS - BY BUSINESS UNITS</span> </a> </li>
+        </ul>
+        <hr/>-->
+        <div class="form-group form-dd form-inline" [hidden]="RiskUnitData?.length < 2">
+          <select2 class="select2-icon" [data]="riskList | async" [cssImport]="true" [value]="defaultSelectedRiskUnit" (valueChanged)="changeRiskUnit($event.value);" [options]="riskOptions" placeholder="Select Quarter"></select2>
+        </div>
+
+        <!--Button Toolbar to show button-->
+        <div class="btn-group align-left">
+          <button class="btn btn-danger" type="button" (click)="showAddBusinessUnit()"><i class="fa fa-plus"></i> Add Assessment Unit</button>
+          <button class="btn btn-sm-round btn-excel" type="button" (click)="file.click()" >
+            <svg>
+              <use xlink:href="assets/svg/icons.svg#excel"></use>
+            </svg>
+          </button>
+          <input type="file" style="opacity:0;" onclick="this.value = null" (change)="uploadattachment($event)" accept=".xls,.xlsx" #file/>
+        </div>
+        <div class="btn-group align-left">
+          <button class="btn btn-link" type="button" (click)="collapseAll()">Collapse All</button>
+          <button class="btn btn-link" type="button"  (click)="expandAll()">Expand all</button>
+          <button class="btn btn-danger pull-right" type="button" (click)="saveSetupRcsa()">SAVE SET UP FOR UPCOMING RCSA</button>
+        </div>
+        <div class="rcsa-header-bar" *ngIf="openBusinessUnitEdit">
+          <div class="rcsa-inline-save">
+            <div class="form-group form-dd form-md">
+              <input type="text" class="form-control" placeholder="Add New Assessment Unit" [(ngModel)]="businessFunctionValue">
+            </div>
+            <button class="btn btn-primary btn-md" type="button" (click)="saveNewBfu()">Save</button>
+            <button class="btn btn-primary btn-md" type="button" (click)="closeAddBusinessUnit()">Cancel</button>
+          </div>
+        </div>
+
+        <!--Rcsa choose assessors Starts-->
+        <bu-accordion [oneAtaTime]=false>
+          <bu-accordion-group [isOpen] = "openAccordions" *ngFor="let bfu of bfuList; let i = index"
+                           heading="<div class='row'>
+            <div class='col-md-6 text-uppercase'>{{bfu.name}}</div>
+            <div class='col-md-4'>AU Coordinator:
+            <span>{{bfu.assignedCoordinator?.firstName}} {{bfu.assignedCoordinator?.lastName}}</span>
+            <!--<div>
+            <input type   = 'text'
+            class                = 'size-lg'
+            placeholder          = 'Enter Keyword to search by Group Name, Counterparty Name'
+            [(ngModel)]          = 'selectedFilterValue'
+            [typeahead]          = 'bfu.assessors'
+            typeaheadOptionField = 'firstName'
+            />
+            </div>-->
+            </div>
+            </div>" [(isSelected)]="bfu.enabledForRCSA" (selectChange)="bfu.enabledForRCSA = $event; bfuSelectionChange(bfu.enabledForRCSA, bfu);" (deleteClick)="deleteBfu(bfu)">
+            <div class="row">
+              <div class="col-md-7">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="rcsa-inline-save mg-btm-20">
+                      <div class="form-group form-dd form-md form-inline">
+                        <label class="text-uppercase">Assessment Unit:</label>
+                        <p class="value text-uppercase" *ngIf="!bfu.editable">{{bfu.name}}</p>
+                        <input type="text" [ngClass]="{'error':bfu.editNameModel == ''}" *ngIf="bfu.editable" class="form-control" placeholder="" [(ngModel)]="bfu.editNameModel">
+                      </div>
+                      <button class="btn btn-primary btn-md" type="button" *ngIf="!bfu.editable" (click)="editBfu(bfu)">Edit</button>
+                      <button class="btn btn-primary btn-md" type="button" *ngIf="bfu.editable" (click)="updateBfu(bfu)">Save</button>
+                      <button class="btn btn-primary btn-md" type="button" *ngIf="bfu.editable" (click)="cancelEditBfu(bfu)">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+                <!--Button Toolbar to show button-->
+                <div class="btn-group align-left">
+                  <button class="btn btn-md btn-primary" type="button" (click)="addAssessor(bfu)"><i class="fa fa-plus"></i> Add Assessor</button>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="assessor-title">Name of Assessors</label>
+                    <!--<label class="custom-chkbx">
+                          Select All
+                          <input name="checkbox" type="checkbox" >
+                          <div class="control"></div>
+                        </label>-->
+                    <ul class="buinit-list">
+                      <li *ngFor="let assessor of bfu.assessors" [ngClass]="{'active':bfu.selectedAssessor.id == assessor.id}">
+                        <label class="custom-chkbx">
+                          <input name="checkbox" type="checkbox" [(ngModel)]="assessor.enabledForRCSA">
+                          <div class="control"></div>
+                        </label>
+                        <span (click)="selectAssessorToEdit(bfu, assessor)">{{assessor.firstName}} {{assessor.lastName}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="buinit-add-assessor" *ngIf="bfu.assessors != null && bfu.assessors.length > 0 && !bfu?.newAssessorAdd">
+                      <form #form="ngForm" name="assessor{{bfu.selectedAssessor.id}}">
+                        <div class="row">
+                          <div class="col-md-5">
+                            <div class="form-group form-dd form-lg">
+                              <label>First Name:</label>
+                              <p *ngIf="!bfu.selectedAssessor.editable">{{bfu.selectedAssessor.firstName}}</p>
+                              <div *ngIf="bfu.selectedAssessor.editable">
+                                <input type="text" name="firstName" id='firstName' #firstName="ngModel" [ngClass]="{'error':form.submitted && firstName.errors && (firstName.dirty || firstName.touched)}" class="form-control mx-w-200" placeholder="First Name" [(ngModel)]="bfu.selectedAssessor.firstName" required>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="form-group form-dd form-lg">
+                              <label>Last Name:</label>
+                              <p *ngIf="!bfu.selectedAssessor.editable">{{bfu.selectedAssessor.lastName}}</p>
+                              <div *ngIf="bfu.selectedAssessor.editable">
+                                <input type="text" name="lastName" id='lastName' #lastName="ngModel" [ngClass]="{'error':form.submitted && lastName.errors && (lastName.dirty || lastName.touched)}"  class="form-control mx-w-200" placeholder="Last name" [(ngModel)]="bfu.selectedAssessor.lastName" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-5">
+                            <div class="form-group form-dd form-lg">
+                              <label>Phone Number:</label>
+                              <p *ngIf="!bfu.selectedAssessor.editable">{{bfu.selectedAssessor.phoneNumber}}</p>
+                              <div *ngIf="bfu.selectedAssessor.editable">
+                                <p-inputMask type="text" name="phoneNumber" class="mx-w-200" placeholder="Phone Number" mask="(999) 999 9999" [(ngModel)]="bfu.selectedAssessor.phoneNumber"></p-inputMask>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="form-group form-dd form-lg">
+                              <label>Email:</label>
+                              <p *ngIf="!bfu.selectedAssessor.editable">{{bfu.selectedAssessor.email}}</p>
+                              <div *ngIf="bfu.selectedAssessor.editable">
+                                <input type="email" name="email" id='email' #email="ngModel" [ngClass]="{'error':form.submitted && email.errors && (email.dirty || email.touched)}" class="form-control" placeholder="Email" [(ngModel)]="bfu.selectedAssessor.email" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-5">
+                            <label class="custom-chkbx" *ngIf="!bfu.selectedAssessor.editable && (bfu.assignedCoordinator?.id == bfu.selectedAssessor.id)">
+                              AU Coordinator
+                              <span>
+                          <input name="checkbox" type="checkbox" [ngModel]="showChecked" [disabled]="true">
+                          <div class="control"></div>
+                        </span>
+                            </label>
+                            <label class="custom-chkbx" *ngIf="bfu.selectedAssessor.editable">
+                              AU Coordinator
+                              <span *ngIf="bfu.selectedAssessor.editable">
+                          <input name="checkbox" type="checkbox" [ngModel]="bfu.selectedAssessor.rscaCoordinator" (change)="changeCoordinator($event, bfu.selectedAssessor)">
+                          <div class="control"></div>
+                        </span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="errormessage" *ngIf="showAssessorErrorMessage">{{assessorErrorMessage}}</div>
+                          </div>
+                        </div>
+                        <!--Button Toolbar to show button-->
+                        <div class="btn-group align-left" *ngIf="bfu.assessors.length > 0 && !bfu?.newAssessorAdd">
+                          <button class="btn btn-primary btn-md" type="button" *ngIf="bfu.selectedAssessor.editable" (click)="cancelEditAssessor(bfu.selectedAssessor)">Cancel</button>
+                          <button class="btn btn-primary btn-md" type="submit" *ngIf="bfu.selectedAssessor.editable" (click)="updateAssessor(form, bfu, bfu.selectedAssessor)">Save</button>
+                          <button class="btn btn-primary btn-md" type="button" *ngIf="!bfu.selectedAssessor.editable" (click)="editAssessor(bfu.selectedAssessor)">Edit</button>
+                          <button class="btn btn-primary btn-md" type="button" *ngIf="!bfu.selectedAssessor.editable" (click)="deleteAssessor(bfu.selectedAssessor.id, bfu)">Delete</button>
+                        </div>
+                      </form>
+                    </div>
+                    <!--<div class="row">
+                      <div class="col-md-4">
+                        <label class="custom-chkbx">
+                          Business Unit Leader
+                          <input name="checkbox" type="checkbox" >
+                          <div class="control"></div>
+                        </label>
+                      </div>
+                    </div>-->
+                    <div class="buinit-add-assessor" *ngIf="bfu?.newAssessorAdd">
+                      <form #form="ngForm" name="newAssessorForm{{bfu?.id}}" autocomplete="off">
+                        <div class="row">
+                          <div class="col-md-5">
+                            <div class="form-group form-dd form-lg">
+                              <label>First Name:</label>
+                              <div *ngIf="newAssessor.editable">
+                                <input type="text" name="newFirstName" id='newFirstName' #newFirstName="ngModel" [ngClass]="{'error':form.submitted && newFirstName.errors}" class="form-control mx-w-200" placeholder="First Name" [(ngModel)]="newAssessor.firstName" required autocomplete="off">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="form-group form-dd form-lg">
+                              <label>Last Name:</label>
+                              <div *ngIf="newAssessor.editable">
+                                <input type="text" name="newLastName" id='newLastName' #newLastName="ngModel" [ngClass]="{'error':form.submitted && newLastName.errors}" class="form-control mx-w-200" placeholder="Last name" [(ngModel)]="newAssessor.lastName" required autocomplete="off">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-5">
+                            <div class="form-group form-dd form-lg">
+                              <label>Phone Number:</label>
+                              <div *ngIf="newAssessor.editable">
+                                <p-inputMask mask="(999) 999 9999" name="newPhoneNumber" type="text" class="mx-w-200" placeholder="Phone Number" [(ngModel)]="newAssessor.phoneNumber"></p-inputMask>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="form-group form-dd form-lg">
+                              <label>Email:</label>
+                              <div *ngIf="newAssessor.editable">
+                                <input type="email" name="newEmail" id='newEmail' #newEmail="ngModel" [ngClass]="{'error':form.submitted && newEmail.errors}" class="form-control" name="newEmail" placeholder="Email" [(ngModel)]="newAssessor.email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" autocomplete="off">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-5">
+                            <label class="custom-chkbx" *ngIf="newAssessor.editable">
+                              AU Coordinator
+                              <span>
+                          <input name="checkbox" type="checkbox" [ngModel]="newAssessor.rscaCoordinator" (change)="changeCoordinator($event, newAssessor)">
+                          <div class="control"></div>
+                        </span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="errormessage" *ngIf="showAssessorErrorMessage">{{assessorErrorMessage}}</div>
+                          </div>
+                        </div>
+                        <!--Button Toolbar to show buttons for new assessor add-->
+                        <div class="btn-group align-left" *ngIf="bfu?.newAssessorAdd">
+                          <button class="btn btn-primary btn-md" type="button" (click)="cancelNewAssessorAdd(bfu)">Cancel</button>
+                          <button class="btn btn-primary btn-md" type="submit" (click)="saveNewAssessor(form, bfu, newAssessor)">Save</button>
+                        </div>
+                      </form>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 assign-risks-wrapper">
+                <div class="assign-risks-heading"><i class="fa fa-plus"></i> Assign Risks for Assessment</div>
+                <div class="assessment-wrapper">
+                  <div class="assessment-checkbox">
+                    <label class="custom-chkbx">
+                      Select All Risks
+                      <span>
+                            <input name="checkbox" type="checkbox" [(ngModel)]="bfu.allRisks" (change)="tagAllRisk($event, bfu)">
+                            <div class="control"></div>
+                          </span>
+                    </label>
+                  </div>
+                  <div class="assessement-form">
+                    <!--<input type                 = "text"
+                           placeholder          = "Search"
+                           [(ngModel)]          = "bfu.searchValue"
+                           [typeahead]          = "riskData"
+                           typeaheadOptionField = "name"
+                           (typeaheadLoading)= "changeTypeaheadLoading($event, bfu)"
+                           [typeaheadWaitMs]="1000"
+                           [typeaheadMinLength]="4"
+                           (ngModelChange)      = "searchRisk(bfu.searchValue)"
+                           (typeaheadOnSelect)  = "onAssessementRiskSelect($event, bfu)"
+
+                    />--><!--[ngClass]="{'error' : row.isValid == false && (row.unitRiskManager.email =='' || row.unitRiskManager.email == null)}"-->
+                    <ng-select [items]="tagRiskData"
+                               bindLabel="name"
+                               autofocus
+                               bindValue="id"
+                               [(ngModel)]="bfu.searchValue"
+                               (add)="onAssessementRiskSelect($event, bfu)" placeholder="Select">
+                    </ng-select>
+                  </div>
+
+
+                </div>
+                <div class="clearfix"></div>
+                <ul class="assessment-risks" *ngIf="!bfu.allRisks">
+                  <li *ngFor="let taggedRisk of bfu.tagRisks" (click)="deleteTaggedRisk(bfu , taggedRisk.id)">{{taggedRisk.name}}<i class="icon-close"></i></li>
+                </ul>
+                <ul class="assessment-risks" *ngIf="bfu.allRisks">
+                  <li (click)="removeAllRisk(bfu)">All Risks assigned for Assessment<i class="icon-close"></i></li>
+                </ul>
+              </div>
+            </div>
+
+          </bu-accordion-group>
+        </bu-accordion>
+        <!--Rcsa choose assessors ends-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #cpConfirmation="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static'}" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!--<ng-template #template>-->
+  <div class="modal-dialog modal-sm modal-confirm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-info">
+          <!--
+                    <span class="alert-close" (click)="confirmation.hide()" aria-hidden="true">&times;</span>
+          -->
+          <i class="ico-md ico-info"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Confirm</h3>
+            <p>You are uploading Business Function Units and Assessors for <span class="text-uppercase">{{selectedRiskUnitData?.name}}</span>. Continue?</p>
+          </div>
+          <div class="alert-confirm-btn-wrapper">
+            <button type="button" class="btn btn-confirm-yes" aria-label="Close" (click)="saveAttachment()">
+              <i class="fa fa-check"></i>
+            </button>
+            <button type="button" class="btn btn-confirm-no" aria-label="Close" (click)="cpConfirmation.hide()">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>
+
+
+<div bsModal #tagRiskError="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-alert modal-assessment-error" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-error">
+          <span class="alert-close" (click)="tagRiskError.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-error"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Alert</h3>
+            <p>
+              The following Assessment Units do not have Risks assigned for RCSA:
+            </p>
+            <ul>
+              <li *ngFor="let assessmentUnit of inValidAssessmentUnits">{{assessmentUnit.name}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

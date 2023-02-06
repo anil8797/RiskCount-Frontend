@@ -1,0 +1,32 @@
+*, h1, h2, h3, h4, h5, h6, p, ul, a {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+hr {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+app-calculate-ratings {
+  .row {
+    .col-md-2 {
+      -ms-flex: 0 0 20%;
+      -webkit-box-flex: 0;
+      flex: 0 0 20%;
+      max-width: 20%;
+    }
+    .col-md-2 + .col-md-10 {
+      -ms-flex: 0 0 80%;
+      -webkit-box-flex: 0;
+      flex: 0 0 80%;
+      max-width: 80%;
+    }
+  }
+}

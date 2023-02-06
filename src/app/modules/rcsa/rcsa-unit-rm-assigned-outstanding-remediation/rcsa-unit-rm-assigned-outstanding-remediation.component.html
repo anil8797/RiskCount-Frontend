@@ -1,0 +1,129 @@
+<div class="container-fluid">
+  <div class="rcsa-assigned-outstanding-title">
+    <h3 class="head text-uppercase"> {{selectedRiskUnitDto?.name}}   ASSIGNED/ OUTSTANDING REMEDIATIONS</h3>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <!--<div class="row">
+          <div class="col-md-12">
+            <div class="remediation-summary rcsa-assigned-outstanding-title">
+              <p class="label-highlight">RISK MANAGEMENT - ASSIGNED/ OUTSTANDING REMEDIATIONS</p>
+            </div>
+          </div>
+        </div>-->
+        <div class="row assigned-outstanding-group"><!-- <div class="form-dd">
+                <select2 class="select2-icon" [data]="daysFilterData" [cssImport]="true" [(value)]="selectedDayFilter" [options]="options" placeholder="" (valueChanged)="getRemediationsByDays($event.value);"></select2>
+              </div>-->
+          <div class="col-md-12 form-row">
+            <div class="form-group form-dd" [hidden]="riskUnitData?.length < 2">
+              <select2 class="select2-icon" [data]="riskList | async" (valueChanged)="selectedRiskUnit = $event.value;onRiskUnitChange();" [cssImport]="true"  placeholder="Select"></select2>
+            </div>
+            <div class="form-group form-dd ">
+              <select2 class="select2-icon" [data]="daysFilterData" [cssImport]="true" [options]="options" placeholder="" (valueChanged)="getRemediationsByDays($event.value);"></select2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p-dataTable class="custom-prime-grid" [value]="assignedOutstandingRemediations">
+              <p-column field="control_category" header="Control Category">
+                <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">
+                  <p class="text-added">{{row.name}}</p>
+                  <div class="category_list">
+                    <p class="font-bold">Associated Risks:</p>
+                    <p><span *ngFor="let risk of row.associatedRisks;last as isLast">{{risk}}<span *ngIf="!isLast">,</span> </span></p>
+                  </div>
+                  <div class="category_list">
+                    <p class="font-bold">Associated Policies:</p>
+                    <p><span *ngFor="let policy of row.associatedPolicies;last as isLast">{{policy}}<span *ngIf="!isLast">,</span> </span></p>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="finalProposedRemediation" header="Final Proposed Remediation">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <div class="final-proposed-list" [hidden]="row.isRowEditable" [innerHTML]="row.finalProposedRemediation"></div>
+                  <div class="form-dd"  *ngIf="row.isRowEditable">
+                    <ckeditor
+                      [(ngModel)]="row.finalProposedRemediation"
+                      [config]="editorConfig"
+                      [readonly]="false"
+                      debounce="500">
+                    </ckeditor>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="ownedBusinessFunctionUnitId" header="Assigned Remediationn Unit" [style]="{'width':'190px'}">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <span [hidden]="row.isRowEditable">{{row.ownedRemediationUnitName}}</span>
+                  <div class="form-dd"  *ngIf="row.isRowEditable">
+                    <select2 class="select2-icon" [data]="businessUnits" [cssImport]="true" (valueChanged)="row.ownedBusinessFunctionUnitId = $event.value" [value]="row.ownedRemediationUnitId" [options]="options"></select2>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="coOwnedBusinessFunctionUnitName" header="Assigned Co-owner Remediation Unit" [style]="{'width':'190px'}">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <span [hidden]="row.isRowEditable">{{row.coOwnedRemediationUnitName}}</span>
+                  <div class="form-dd"  *ngIf="row.isRowEditable">
+                    <select2 class="select2-icon" [ngClass]="{'error':(row.ownedBusinessFunctionUnitId != null && row.coOwnedBusinessFunctionUnitId != null && row.priority != 'COMPLETE' && row.coOwnedBusinessFunctionUnitId == row.ownedBusinessFunctionUnitId && row.isValid == false)}" [data]="businessUnits" [cssImport]="true" [value]="row.coOwnedRemediationUnitId" (valueChanged)="row.coOwnedBusinessFunctionUnitId = $event.value" [options]="option2" placeholder="Select remediation Unit"></select2>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="priority" header="Priority" [style]="{'width':'135px'}" [sortable]=true>
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <span class="text-capitalize" [hidden]="row.isRowEditable" [ngClass]="{'mandatory-text': row.priority == 'MANDATORY'}">{{row.priority | lowercase}}</span>
+                  <div class="form-dd"  [hidden]="!row.isRowEditable">
+                    <select2 class="select2-icon" [data]="priorityList" [cssImport]="true" [(value)]="row.priority" (valueChanged)="row.priority = $event.value" [options]="priorityOption" placeholder="Current Status"></select2>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="dateOfCompletion" header="Due Date for Completion" [style]="{'width':'140px'}" [sortable]=true>
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <span *ngIf="!row.isRowEditable" [ngClass]="{'mandatory-text': row.dateOfCompletion < today}">{{row.dateOfCompletion | date: 'MM/dd/yyyy' }}</span>
+                  <div class="form-dd"  *ngIf="row.isRowEditable">
+                    <p-calendar name="s" class="rcsa-calendar mx-w-230" [(ngModel)]="row.dateOfCompletion" showIcon=true icon="fa-calendar" dateFormat="mm/dd/yy" placeholder="MM/DD/YYYY"></p-calendar>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="businessFunctionalUnitStatus" header="RU Status" [style]="{'width':'110px'}" [sortable]=true>
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <span class="text-capitalize">{{row.remediationUnitStatus | lowercase}}</span>
+                  <!--<div class="form-dd"  *ngIf="row.isEditable">
+                    <select2 class="select2-icon" [data]="bfu_status_list" [cssImport]="true" [options]="options" [(value)]="selectBfuStatus.id" placeholder="Current Status"></select2>
+                  </div>-->
+                </ng-template>
+              </p-column>
+              <p-column field="remediationStatus" header="Remediation Status" [style]="{'width':'150px'}">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <span class="text-capitalize" *ngIf="!row.isRemediationStatusEditable">{{row.remediationStatus | lowercase}}</span>
+                  <div class="form-dd"  *ngIf="row.isRemediationStatusEditable">
+                    <select2 class="select2-icon" [data]="remediationStatus" [cssImport]="true" [(value)]="row.remediationStatus" (valueChanged)="row.remediationStatus = $event.value" [options]="options" placeholder="Current Status"></select2>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column header="Edit" [style]="{'width':'75px','position':'relative'}">
+                <ng-template let-col let-row="rowData" pTemplate="body">
+                  <div style="text-align: center;">
+                    <button (click)="editRow(row)" *ngIf="!row.isRowEditable  && !row.isRemediationStatusEditable" class="btn btn-sm btn-icon-only btn-inline">
+                      <i class="icon-edit"></i>
+                    </button>
+                    <button (click)="saveRemediation(row);" *ngIf="row.isRowEditable && row.isRemediationStatusEditable"  class="btn btn-sm btn-icon-only btn-inline">
+                      <i class="icon-save"></i>
+                    </button>
+                    <button (click)="saveRemediation(row);" *ngIf="!row.isRowEditable && row.isRemediationStatusEditable"  class="btn btn-sm btn-icon-only btn-inline">
+                      <i class="icon-save"></i>
+                    </button>
+                    <button class="btn btn-sm btn-icon-only btn-inline" (click)="notifyRemediationReminderEmail(row)">
+                      <i class="icon-mail"></i>
+                    </button>
+                  </div>
+                  <div class="email-sent-label" *ngIf="row.emailSendStatus">Email sent</div>
+                </ng-template>
+              </p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

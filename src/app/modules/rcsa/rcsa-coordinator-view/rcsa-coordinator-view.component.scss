@@ -1,0 +1,119 @@
+app-rcsa-coordinator-view{
+  .rcsa-errormessage{
+    color: #e3151a;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .admin-form-header .form-group {
+    display: inline-block;
+  }
+  .form-dd.form-inline{
+    .select2{
+      width:450px !important;
+    }
+  }
+  .scorescale .select2{
+    width: 200px !important;
+  }
+  .status{
+    padding: 30vh 0;
+  }
+  .bfu-col{
+    .bfu-ul-list{
+      li{
+        margin-left: 13px;
+        &:before{
+          margin-left: -13px;
+          vertical-align: top !important;
+        }
+      }
+    }
+  }
+  // csutom legend
+  .custom-legend{
+    padding: 20px 15px;
+    .bfu-head{
+      .bfu-col{
+        text-transform: initial;
+        &:first-child{
+          width:170px;
+          min-width:170px;
+        }
+        &:nth-child(2){
+          width:95px;
+          min-width:95px;
+        }
+        &:last-child{
+          width:150px;
+          min-width:150px
+        }
+      }
+    }
+    .bfu-row{
+      .bfu-col{
+
+        .opacity50{
+          span{
+            opacity:0.5;
+          }
+        }
+        ul.bfu-list{
+          li{
+            min-height: 33px;
+            &:last-child{
+              background-color:#fff;
+            }
+          }
+        }
+        .bfu-legend {
+          padding: 0;
+        }
+      }
+    }
+  }
+  .bfu-chart-section{
+    .custom-legend{
+      .bfu-legend {
+        li{
+          &:nth-child(1){
+            span{
+              background-color: #e3151a;
+            }
+          }
+          &:nth-child(2){
+            span{
+              background-color: #f4a535;
+            }
+          }
+          &:nth-child(3){
+            span{
+              background-color: #218838;
+            }
+          }
+
+        }
+      }
+    }
+  }
+  @media screen and (min-width: 1580px) {
+    .custom-legend{
+      .bfu-head{
+        .bfu-col{
+          text-transform: initial;
+          &:first-child{
+            width:170px;
+            min-width:170px;
+          }
+          &:nth-child(2){
+            width:50%;
+            min-width:50%;
+          }
+          &:last-child{
+            width:50%;
+            min-width:50%
+          }
+        }
+      }
+    }
+  }
+}

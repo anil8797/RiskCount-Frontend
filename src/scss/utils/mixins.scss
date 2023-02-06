@@ -1,0 +1,21 @@
+@mixin clear(){
+  &:after{
+    clear:both;
+    content:'';
+    display: block;
+  }
+}
+@for $i from 1 through 100 {
+  .width#{$i} {
+    width: (1% * $i) !important;
+  }
+  .mx-w-#{$i} {
+    max-width: (1px * $i) !important;
+  }
+}
+@for $i from 1 through 500 {
+  .widthpx#{$i} {
+    width: (1px * $i) !important;
+  }
+}
+

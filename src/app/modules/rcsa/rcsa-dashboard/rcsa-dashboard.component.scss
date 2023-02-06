@@ -1,0 +1,31 @@
+app-rcsa-dashboard{
+  .card-chart {
+    height: 480px;
+  }
+  .subhead{
+    color: #000 !important;
+    &.text-center{
+      text-align: center;
+    }
+    .display-date{
+      font-size: 13px;
+      font-weight: 400;
+      color: #000;
+    }
+  }
+  .dashboard-wrapper{
+    padding-top: 15px;
+    .general-tabs.without-arrow-tab .tab-content{
+      padding: 1px 0;
+    }
+  }
+  .form-group.form-dd.form-inline{
+    padding: 10px 0;
+    select2{
+      width: 350px;
+      .select2{
+        width: 100% !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<div class="login_container">
+  <div class="logo_risk"><img src="assets/img/logo.png"/></div>
+  <div class="login_area" *ngIf="showLogin">
+    <form #f="ngForm" novalidate>
+      <div class="form_field">
+        <label>User Name :</label>
+        <input type="email" name="username" placeholder="Email" [(ngModel)]="userCreds.userEmail" #username="ngModel" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+        <div [hidden]="username.valid || username.untouched">
+          <span class="errormessage"  *ngIf="username.errors && username?.errors.required">
+                Email is required
+          </span>
+          <span class="errormessage"  *ngIf="username.errors && username?.errors.pattern">
+                Invalid Email Address
+           </span>
+        </div>
+      </div>
+      <div class="form_field">
+        <label>Password :</label>
+        <input type="password" name="password" placeholder="Password" [(ngModel)]="userCreds.password"/>
+      </div>
+      <span *ngIf="showError" class="errormessage">{{errorMessage}}</span>
+      <button (click)="login()">login</button>
+      <div class="login-footer">
+        <span (click)="showResetPassword()">Forgot password?</span>
+      </div>
+    </form>
+  </div>
+  <div class="login_area" *ngIf="!showLogin">
+    <form>
+      <div class="form_field">
+        <label>Email :</label>
+        <input type="text" name="email" placeholder="Email" [(ngModel)]="userCreds.userEmail" #email="ngModel" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
+        <div [hidden]="email.valid || email.untouched">
+          <span class="errormessage"  *ngIf="email.errors && email?.errors.required">
+                Email is required
+          </span>
+          <span class="errormessage"  *ngIf="email.errors && email?.errors.pattern">
+                Invalid Email Address
+           </span>
+        </div>
+      </div>
+      <span *ngIf="showError" class="errormessage">{{errorMessage}}</span>
+      <span *ngIf="showSuccess" class="successmessage">{{errorMessage}}</span>
+      <button *ngIf="!showSuccess" (click)="initiateReset()">Reset Password</button>
+      <button *ngIf="showSuccess" (click)="hideResetPassword()">Login</button>
+      <div class="login-footer" *ngIf="!showSuccess">
+        <span (click)="hideResetPassword();">Cancel</span>
+      </div>
+    </form>
+  </div>
+
+</div>

@@ -1,0 +1,245 @@
+<div class="container-fluid">
+  <h3 class="head text-uppercase">{{selectedRcsaUnitDto?.name}}  REMEDIATION SUMMARY</h3>
+  <!--<h3 class="head text-uppercase">{{selectedRiskUnit?.text}}: REMEDIATION SUMMARY</h3>-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <!--<div class="row">
+          <div class="col-md-12">
+            <div class="remediation-summary">
+              <p class="label-highlight">{{assessmentData?.rcsaName}}: REMEDIATION SUMMARY </p>
+            </div>
+          </div>
+        </div>-->
+        <div class="row assigned-outstanding-group" [hidden]="rcsaUnitData?.length < 2 && rcsaListData?.length < 2">
+          <div class="col-md-12 form-row">
+            <div class="form-group form-dd form-inline" [hidden]="rcsaUnitData?.length < 2">
+              <select2 class="select2-icon" [data]="rcsaUnitList | async" (valueChanged)="selectedRcsaUnit = $event.value;onRiskUnitChange();" [cssImport]="true"  placeholder="Select"></select2>
+            </div>
+            <div class="form-group form-dd form-inline" [hidden]="rcsaListData?.length < 2">
+              <select2 class="select2-icon" [data]="rcsaList | async" (valueChanged)="selectedRcsa = $event.value;onRcsaChange();" [cssImport]="true"  placeholder="Select"></select2>
+            </div>
+          </div>
+        </div>
+        <!--Button Toolbar to show button-->
+        <div class="btn-group align-left">
+          <button class="btn btn-danger" type="button" (click)="showAddNewRemediation()"><i class="fa fa-plus"></i> Add New Remediation Task</button>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p-dataTable class="custom-prime-grid" [value]="assessmentData?.controlCategories"  [tableStyle]="{'table-layout':'auto'}" >
+              <p-headerColumnGroup>
+                <p-row>
+                  <p-column header="" colspan="1" [style]="{'width':'150px', 'visibility': 'hidden' }"></p-column>
+                  <p-column header="Suggested Remediations" colspan="1" [style]="{'width':'220px','background-color': '#f4a535'}"></p-column>
+                  <p-column header="Risk Manager Inputs" colspan="6" [style]="{'width':'920px'}"></p-column>
+                </p-row>
+                <p-row>
+                  <p-column header="Control Category" [style]="{'width':'170px'}"></p-column>
+                  <p-column header="Proposed Remediations" [style]="{'width':'180px'}"></p-column>
+                  <p-column header="Final Proposed Remediation" [style]="{'width':'250px'}"></p-column>
+                  <p-column header="Ownership" [style]="{'width':'200px'}"></p-column>
+                  <p-column header="Co-owner Remediation Unit" [style]="{'width':'200px'}"></p-column>
+                  <p-column header="Priority" [style]="{'width':'160px'}"></p-column>
+                  <p-column header="Set Date of Completion" [style]="{'width':'155px'}"></p-column>
+                  <p-column header="" [style]="{'width':'50px'}"></p-column>
+                </p-row>
+              </p-headerColumnGroup>
+              <p-column field="control_category">
+                <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">
+                  <p class="text-added">{{row.name}}</p>
+                  <div class="category_list">
+                    <p class="font-bold">Associated Risks:</p>
+                    <p><span *ngFor="let risk of row.associatedRisks;last as isLast">{{risk}}<span *ngIf="!isLast">,</span> </span></p>
+                  </div>
+                  <div class="category_list">
+                    <p class="font-bold">Associated Policies:</p>
+                    <p><span *ngFor="let policy of row.associatedPolicies;last as isLast">{{policy}}<span *ngIf="!isLast">,</span> </span></p>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="proposed_remediation">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <div class="remediation-container" >
+                    <div *ngFor="let bfu of row.proposedRemediations" >
+                    <p class="bfuName"><strong>{{bfu.businessFunctionUnitName}} </strong></p><a class="link" *ngIf="bfu.proposedRemediations.length>0" (click)="openRemediationReadmoreModal(row, bfu)">Read All</a>
+                    <div class="clearfix"></div>
+                    <ul class="star-list">
+                      <li *ngFor="let remediation of bfu.proposedRemediations" >
+                        <span [innerHTML]="remediation | truncate : 40"></span> <span class="list_link" ></span>
+                      </li>
+                      <!--<p>(list all remediations suggested by individual BFUs) <span class="list_link"><a href="" (click)="preventLink($event)">link</a> </span></p>-->
+                    </ul>
+                    </div>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="final_proposed_remediation" >
+                <ng-template let-col let-row="rowData" pTemplate="body">
+                    <!--<textarea [(ngModel)]="row.final_proposed_remediation" placeholder="Enter Remediation Details"></textarea>-->
+                    <ckeditor
+                      [(ngModel)]="row.finalProposedRemediation"
+                      [config]="editorConfig"
+                      [readonly]="false"
+                      debounce="500">
+                    </ckeditor>
+                </ng-template>
+              </p-column>
+              <p-column field="ownership">
+                <ng-template let-col let-row="rowData" pTemplate="body">
+                  <div class="form-dd">
+                    <select2 class="select2-icon" [ngClass]="{'error':(row.ownerId == null && row.priority == 6002 && row.isValid == false) || (row.ownerId == null && row.priority == 6003 && row.isValid == false)}" [data]="remediationUnits" (valueChanged)="row.ownerId = $event.value;" [value]="row.ownerId"  [cssImport]="true" [options]="options" placeholder="Select Business Function Unit"></select2>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="coOwner_businessUnit" >
+                <ng-template let-col let-row="rowData" pTemplate="body">
+                  <div class="form-dd">
+                    <select2 class="select2-icon" [ngClass]="{'error':(row.ownerId != null && row.coOwnerId != null && row.priority != 6001 && row.coOwnerId == row.ownerId && row.isValid == false)}" [data]="remediationUnits" [value]="row.coOwnerId" [cssImport]="true" (valueChanged)="row.coOwnerId = $event.value;" [options]="options" placeholder="Select Business Function Unit"></select2>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column field="priority">
+                <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                  <div class="form-dd">
+                    <select2 class="select2-icon" [ngClass]="{'error':(row.priority == null && row.isValid == false)}" [data]="priorityList" [cssImport]="true" [value]="row.priority" (valueChanged)="row.priority = $event.value;" [options]="priorityOption" placeholder="Assign Priority"></select2>
+                  </div><!--
+                  <div class="" *ngIf="i == 0">
+                    <p>Mandatory/Discretionary</p>
+                  </div>-->
+                </ng-template>
+              </p-column>
+              <p-column field="setDateofCompletion">
+                <ng-template let-col let-row="rowData" pTemplate="body">
+                  <div class="form-dd">
+                    <p-calendar name="s" readonlyInput="true"class="rcsa-calendar mx-w-230" [ngClass]="{'error':((row.dateOfCompletion != null && row.dateOfCompletion < today && row.priority != 6001 && row.isValid == false) || (row.priority != null && row.dateOfCompletion == null  && (row.priority == 6002 || row.priority == 6003) && row.isValid == false)) }" [minDate]="today" [(ngModel)]="row.dateOfCompletion" showIcon=true icon="fa-calendar" dateFormat="mm/dd/yy" placeholder="MM/DD/YYYY"></p-calendar>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column header="" [style]="{'width':'50px'}">
+                <ng-template let-col let-row="rowData" pTemplate="body">
+                  <div style="text-align: center;">
+                    <button class="btn btn-sm btn-icon-only btn-inline" (click)="saveRemediation(row)">
+                      <i class="icon-save"></i>
+                    </button>
+                  </div>
+                </ng-template>
+              </p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #remediationReadmore="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: true}">
+  <div class="modal-dialog modal-lg modal-minimalistic" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">
+          <b><strong>Proposed remediations for {{selectedControlCategory?.name}} - {{selectedBfu?.businessFunctionUnitName}}</strong></b>
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="remediationReadMoreModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="star-list">
+          <li *ngFor="let remediation of selectedBfu?.proposedRemediations" >
+            <span [innerHTML]="remediation"></span>
+          </li>
+          <!--<p>(list all remediations suggested by individual BFUs) <span class="list_link"><a href="" (click)="preventLink($event)">link</a> </span></p>-->
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>
+
+
+
+
+<div bsModal #addNewRemediation="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: true}">
+  <div class="modal-dialog modal-lg modal-minimalistic modal-add-new-remediation" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">
+          <b><strong>{{selectedRiskUnitDto?.name}}  {{selectedRcsaDto?.rcsaName}} ADD NEW REMEDIATION</strong></b>
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="addNewRemediationModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form  #addNewRedmediationForm="ngForm" name="addNewRedmediationForm" (ngSubmit)="saveNewRemediation(addNewRedmediationForm)">
+          <div class="row">
+            <div class="col-md-6 form-row">
+              <div class="form-group form-dd">
+                <label>Control Category: </label>
+                <select2 class="select2-icon" id="controlCategoryId" [(ngModel)]="remediationObj.controlCategoryId" name="controlCategoryId" [data]="controlCategories" (valueChanged)="remediationObj.controlCategoryId = $event.value;onControlCategoryChange(remediationObj.controlCategoryId)" [cssImport]="true"  placeholder="Select"></select2>
+              </div>
+            </div>
+            <div class="col-md-6 form-row">
+              <div class="form-group form-dd">
+                <label>Tag Risk: </label>
+                <select2 class="select2-icon" [ngClass]="{'error':((remediationObj.taggedRiskId == null || remediationObj.taggedRiskId == '') && addNewRedmediationForm.submitted)}" [(ngModel)]="remediationObj.taggedRiskId" name="taggedRiskId" [data]="taggedRisks" (valueChanged)="remediationObj.taggedRiskId = $event.value;" [cssImport]="true"  [options]="tagRiskOption"></select2>
+              </div>
+            </div>
+          </div>
+          <div class="row tagged-risk-row">
+            <!--<div class="col-md-6 form-row">
+              <div class="remediation-tags">Tagged Risk: <span *ngFor="let risk of selectedControlCategoryDto?.taggedRisks; let last = last;">{{risk.riskType}}<span *ngIf="!last">, </span></span></div>
+            </div>-->
+            <div class="col-md-12 form-row">
+              <div class="remediation-tags">Tagged Policy: <span *ngFor="let risk of selectedControlCategoryDto?.taggedPolicies; let last = last;">{{risk.riskType}}<span *ngIf="!last">, </span></span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 form-row">
+              <div class="form-group form-dd form-fullwidth">
+                <label>Proposed Remediation: </label>
+                <textarea placeholder="Enter Remediation Details" [(ngModel)]="remediationObj.finalProposedRemediation" name="finalProposedRemediation"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-row">
+              <div class="form-group form-dd">
+                <label>Ownership: </label>
+                <select2 class="select2-icon" [data]="remediationUnits" [(ngModel)]="remediationObj.ownerId" [ngClass]="{'error':addNewRedmediationForm.submitted && (remediationObj.priority != null && (remediationObj.ownerId == null || remediationObj.ownerId == '') &&  (remediationObj.priority == 6002 || remediationObj.priority == 6003))}" (valueChanged)="remediationObj.ownerId = $event.value;" name="ownerId" [cssImport]="true"  [options]="options" placeholder="Select remediation Unit" ngDefaultControl></select2>
+              </div>
+            </div>
+            <div class="col-md-6 form-row">
+              <div class="form-group form-dd">
+                <label>Co-owner Remediation Unit: </label>
+                <select2 class="select2-icon" [data]="remediationUnits" [(ngModel)]="remediationObj.coOwnerId" [ngClass]="{'error':addNewRedmediationForm.submitted && (remediationObj.priority != null && remediationObj.priority != 6001 && (remediationObj.ownerId != null && remediationObj.ownerId != '') && remediationObj.coOwnerId != null && remediationObj.ownerId == remediationObj.coOwnerId)}" (valueChanged)="remediationObj.coOwnerId = $event.value;" name="coOwnerId" [cssImport]="true"  [options]="options" placeholder="Select remediation Unit"></select2>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-row">
+              <div class="form-group form-dd mx-w-300">
+                <label>Priority: </label>
+                <select2 class="select2-icon" [data]="priorityList" [ngClass]="{'error':(remediationObj.priority == null && addNewRedmediationForm.submitted)}" [(ngModel)]="remediationObj.priority" (valueChanged)="remediationObj.priority = $event.value;" name="priority" [cssImport]="true"   [options]="priorityOption" placeholder="Assign Priority"></select2>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group form-dd form-lg mx-w-200">
+                <label>Set Date of Completion: </label>
+                <p-calendar name="extendDate" id='extendDate' [(ngModel)]="remediationObj.dateOfCompletion" name="dateOfCompletion" [ngClass]="{'error':addNewRedmediationForm.submitted && ((remediationObj.priority != null && (remediationObj.priority == 6002 || remediationObj.priority == 6003) && remediationObj.dateOfCompletion == null) || (remediationObj.dateOfCompletion != null && remediationObj.dateOfCompletion < today))}" readonlyInput="true" [utc]='false' [minDate]="selectedRcsaDto?.endDateDto" class="rcsa-calendar mx-w-230" showIcon=true icon="fa-calendar" dateFormat="mm/dd/yy" placeholder="MM/DD/YYYY" required></p-calendar>
+              </div>
+            </div>
+          </div>
+          <!--Button Toolbar to show button-->
+          <div class="btn-group align-right">
+            <button class="btn btn-primary" type="submit">ADD NEW REMEDIATION TASK</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>
+

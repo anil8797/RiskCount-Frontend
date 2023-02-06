@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <!-- RISK MANAGER VIEW STARTS-->
+  <div class="row">
+      <div class="admin-form-header">
+        <div class="form-group form-dd form-inline">
+          <label>Set Currency : </label>
+          <select2 style="width:100px" *ngIf="setCurrencyType.length > 0" (valueChanged)="changeCurrency($event)" class="select2-icon" [data]="setCurrencyType" [value]="defaultCurrency" [cssImport]="true"  placeholder=""></select2>
+        </div>
+        <h5>Set financial loss definitions for the severity scale (x-axis) on the Risk Matrix</h5>
+      </div>
+  </div>
+  <div class="row">
+        <!--Data Table Starts-->
+        <!--<p-dataTable class="custom-prime-grid" [value]="riskManagerFinancialLossData" scrollWidth="700px" scrollable="true">
+          <p-headerColumnGroup>
+            <p-row>
+              <p-column header="" colspan="1"  [style]="{'width':'60px'}"></p-column>
+              <p-column header="" colspan="1"  [style]="{'width':'80px'}"></p-column>
+              <p-column header="Financial Loss Values" colspan="2" [style]="{'width':'150px'}">Financial Loss Values</p-column>
+              <p-column header="" colspan="1"  [style]="{'width':'80px'}"></p-column>
+            </p-row>
+            <p-row>
+              <p-column header="Rating"></p-column>
+              <p-column header="Descriptor"></p-column>
+              <p-column header="From"></p-column>
+              <p-column header="To"></p-column>
+              <p-column header="Action"></p-column>
+            </p-row>
+          </p-headerColumnGroup>
+          <p-column field="rating" header="Rating" [style]="{'width':'60px'}"></p-column>
+          <p-column field="descriptor" header="Descriptor" [style]="{'width':'80px'}"></p-column>
+          <p-column field="from" header="From" [style]="{'width':'75px'}"></p-column>
+          <p-column field="to" header="To" [style]="{'width':'75px'}"></p-column>
+          <p-column header="Action" [style]="{'width':'80px'}">
+            <ng-template let-col let-row="rowData" pTemplate="body">
+              <div style="text-align: center;">
+                <button class="btn btn-sm btn-link btn-inline">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-link btn-inline">
+                  <i class="fa fa-check"></i>
+                </button>
+                <button class="btn btn-sm btn-link btn-inline">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            </ng-template>
+          </p-column>
+        </p-dataTable>-->
+        <p-dataTable class="custom-prime-grid" [value]="riskManagerFinancialLossData" [style]="{'width':'80%'}">
+          <p-headerColumnGroup>
+            <p-row>
+              <p-column header="" colspan="2"></p-column>
+              <p-column header="Financial Loss Values" colspan="2" [style]="{'text-align':'center'}"></p-column>
+              <p-column header="" rowspan="1"></p-column>
+            </p-row>
+            <p-row>
+              <p-column header="Rating"></p-column>
+              <p-column header="Descriptor"></p-column>
+              <p-column header="From"></p-column>
+              <p-column header="To"></p-column>
+              <p-column header=""></p-column>
+            </p-row>
+          </p-headerColumnGroup>
+          <p-column field="rating" header="Rating"></p-column>
+          <p-column field="descriptor" header="Descriptor"></p-column>
+          <p-column field="minValue" header="From" styleClass="align-right">
+            <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">
+              <span *ngIf="!row.isEditable">{{row.minValue | currency:(row.currencyCode?row.currencyCode:currency):true:'1.0-0'}}</span>
+              <div class="form-dd" *ngIf="row.isEditable  && i != 4">
+                <input currencyMask  [options]="{ prefix: ''}" [style]="{'max-width':'100%'}" type="text" [(ngModel)]="row.minValue" (ngModelChange)="fromModelChange(row,i)"
+                       [ngClass]="{ 'error' : (!row.isFromValid && row.isFromValid !=undefined) }" >
+              </div>
+            </ng-template>
+          </p-column>
+          <p-column field="maxValue" header="To" styleClass="align-right">
+            <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">
+              <span *ngIf="!row.isEditable">{{row.maxValue | currency:(row.currencyCode?row.currencyCode:currency):true:'1.0-0'}}</span>
+              <div class="form-dd" *ngIf="row.isEditable  && i != 0">
+                <input currencyMask  [options]="{ prefix: ''}" type="text" [(ngModel)]="row.maxValue" (ngModelChange)="toModelChange(row,i)"
+                       [ngClass]="{ 'error' : (!row.isToValid && row.isToValid !=undefined) }" >
+              </div>
+            </ng-template>
+          </p-column>
+          <p-column header="">
+            <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">
+              <div style="text-align: center;">
+                <button (click)="editRiskRow(row)" *ngIf="!row.isEditable" class="btn btn-sm btn-icon-only btn-inline">
+                  <i class="icon-edit"></i>
+                </button>
+                <button (click)="saveRiskRow(row, i)" *ngIf="row.isEditable"  class="btn btn-sm btn-icon-only btn-inline">
+                  <i class="icon-save"></i>
+                </button>
+              </div>
+            </ng-template>
+          </p-column>
+        </p-dataTable>
+
+        <!--Data Table Ends-->
+
+  </div>
+  <!-- RISK MANAGER VIEW ENDS-->
+</div>

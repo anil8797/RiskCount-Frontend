@@ -1,0 +1,138 @@
+<!-- SETUP RISK POLICY CONTROL -->
+<div class="row">
+  <div class="col-md-12">
+    <h5>RISK</h5>
+  </div>
+</div>
+<div class="row">
+  <div class="admin-left">
+    <div class="admin-select-action-setup">
+      <ul >
+        <li (click)='showRiskdetails(item)' [ngClass]="{'active': selectedRisk == item}" *ngFor="let item of inherentRiskCategory">
+          <div class="icon-wrapper">
+            <i class="fa fa-folder"></i>
+          </div>
+          <div class="details-wrapper">
+            <h4>{{item.riskType}} <span *ngIf="item.inherentRiskd1 != null && item.inherentRiskd2 != null">({{item.inherentRiskd1}},{{item.inherentRiskd2}})</span></h4>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="admin-right">
+    <div class="setup-admin-right">
+      <tabset #staticTabs class="general-tabs tabs-with-arrow">
+        <tab>
+          <ng-template tabHeading>INHERENT RISK RATING FOR <span class="text-uppercase">{{selectedRisk?.riskType}}</span> </ng-template>
+          <div class="row" style="overflow: auto;display: block">
+            <div style="width: 1430px;">
+              <div class="" style="width: 680px;float:left;padding: 10px;">
+              <fusioncharts
+                [width]="660"
+                type="heatmap"
+                dataFormat="JSON"
+                [dataSource]="inherentRiskData"
+                [height]="330">
+              </fusioncharts>
+              <div class="rcsa-inherent-risk-save form-inline">
+                <div class="form-group form-dd form-md">
+                  <label>Inherent Risk:</label> <!--  [readonly]="true"
+                  <input type="text" class="form-control" [(ngModel)]="inherentRiskValue"  (onFocus)="keyPress($event)">-->
+                  <p-inputMask  class="" [(ngModel)]="inherentRiskValue" mask="9,9" (onComplete)="onInherentRiskValueChange(inherentRiskValue)">
+                  </p-inputMask>
+                </div>
+                <button class="btn btn-primary btn-md" type="button" (click)="onSave(inherentRiskValue, selectedRisk.id)">Save</button>
+              </div>
+                <span class="errormessage" *ngIf="likelihoodValue > 5 || likelihoodValue < 1">Likelihood value must be between 1-5</span>
+                <span class="errormessage" *ngIf="severityValue > 5 || severityValue < 1">Severity value must be between 1-5</span>
+              <div class="rcsa-inherent-risk-explanation">
+                <p>Risk Management explanation of Inherent Risk for <span class="text-uppercase">{{selectedRisk?.riskType}}</span></p>
+                <!--<ul>
+                  <li>Data Confidentiality concerns or issues</li>
+                  <li>Cybercrime / Hacking</li>
+                  <li>Unauthorized access to client or firm data</li>
+                  <li>Inappropriate modification of data</li>
+                  <li>Wrongful disclosures or leaks</li>
+                  <li>Introduction of virus & malware</li>
+                </ul>-->
+                <div class="description-wrapper" [innerHTML]="selectedRisk?.description"></div>
+              </div>
+            </div>
+            <div class="" style="display: block;float: left;width: 730px;margin-right:10px;">
+              <tabset #staticTabs class="general-tabs blue-tab">
+                <tab heading='SEVERITY SCALE: X-AXIS OF RISK MATRIX'>
+                  <!--Data Table Starts scrollable="true" scrollWidth="100%"-->
+                  <p-dataTable class="custom-prime-grid custom-datatable" [value]="severityScaleData" (onRowClick)="onSeverityDataClick($event)" selectionMode="single" [(selection)]="selectedSeverityRow">
+                    <p-column field="rating" header="Rating" [style]="{'width':'70px'}"></p-column>
+                    <p-column field="descriptor" header="Severity" [style]="{'width':'100px'}"></p-column>
+                    <p-column field="definition" [style]="{'width':'550px'}">
+                      <ng-template let-col let-row="rowData" pTemplate="header">Severity Description<div class="font_light">Note: Each successive bullet point must be read as "and/or"</div></ng-template>
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        <ul>
+                          <li *ngFor="let note of row.severityMasterDescriptions" [innerHTML]="note.description | sanitizeHtml"></li>
+                        </ul>
+                      </ng-template>
+                    </p-column>
+                  </p-dataTable>
+                </tab>
+                <tab heading='LIKELIHOOD SCALE: Y-AXIS OF RISK MATRIX'>
+                  <p-dataTable class="custom-prime-grid custom-datatable" [value]="likelihoodScaleData"  scrollable="true" scrollWidth="100%" (onRowClick)="onLikelihoodDataClick($event)" selectionMode="single" [(selection)]="selectedLikelihoodRow">
+                    <p-column field="id" header="Rating" [style]="{'width':'70px'}"></p-column>
+                    <p-column field="probabilityDescriptor" header="Probability" [style]="{'width':'100px'}"></p-column>
+                    <p-column field="probabilityDefinition">
+                      <ng-template let-col let-row="rowData" pTemplate="header">Probability Definition<div class="font_light">Note: Each successive bullet point must be read as "and/or"</div></ng-template>
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        <ul>
+                          <li *ngFor="let note of row.likelihoodMasterDescriptions" [innerHTML]="note.description | sanitizeHtml"></li>
+                        </ul>
+                      </ng-template>
+                    </p-column>
+                  </p-dataTable>
+                </tab>
+              </tabset>
+            </div>
+            </div>
+          </div>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
+
+<div bsModal #success="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!--<ng-template #template>-->
+  <div class="modal-dialog modal-sm modal-alert" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-success">
+          <span class="alert-close" (click)="success.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-success"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Success</h3>
+            <p>{{successModalMsg}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>
+
+<div bsModal #error="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!--<ng-template #template>-->
+  <div class="modal-dialog modal-sm modal-alert" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-error">
+          <span class="alert-close" (click)="error.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-error"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Alert</h3>
+            <p>{{errorModalMsg}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--</ng-template>-->
+</div>

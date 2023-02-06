@@ -1,0 +1,70 @@
+//adding google webfont
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700);
+
+//variable  declarations
+@import "utils/variable.scss";
+//Mixins  declarations
+@import "utils/mixins.scss";
+/*===================================
+	TABLE OF INDEX
+====================================*/
+
+/*==00. Icons ==*/
+/*==01. Reset ==*/
+/*==02. Global ==*/
+/*==03. Typography ==*/
+/*==04. Colors ==*/
+/*==05. Animations ==*/
+/*==06. spacing ==*/
+/*==07. Buttons ==*/
+/*==08. Navigation ==*/
+/*==09. Layouts ==*/
+/*==10. Forms ==*/
+/*==11. Footer and header==*/
+/*==12. Preloader ==*/
+/*==13. Pecentage Circle ==*/
+/*==14. Pages special styles ==*/
+
+/*===================================
+	TABLE OF INDEX ENDS
+====================================*/
+
+/*==00. Icons ==*/
+@import "core/icons.scss";
+/*==01. Reset ==*/
+@import "core/reset.scss";
+/*==03. Typography ==*/
+@import "core/typography.scss";
+/*==04. Colors ==*/
+@import "core/colors.scss";
+/*==06. spacing ==*/
+@import "core/spacing.scss";
+/*==07. Buttons ==*/
+@import "core/buttons.scss";
+/*==08. Navigation ==*/
+@import "core/navigation.scss";
+/*==09. Layouts ==*/
+@import "core/layout.scss";
+/*==10. Forms ==*/
+@import "core/forms.scss";
+/*==11. Footer and header==*/
+@import "core/header.scss";
+/*==12. Preloader ==*/
+@import "core/spinner.scss";
+/*==13. percentage Circle ==*/
+@import "core/circle.scss";
+/*==14. Pages Special Styles Circle ==*/
+@import "core/pages.scss";
+
+//Import Component Dependencies
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.heading-description{
+	font-size: 14px;
+    font-style: italic;
+    color: #55616f;
+}
+
+
+

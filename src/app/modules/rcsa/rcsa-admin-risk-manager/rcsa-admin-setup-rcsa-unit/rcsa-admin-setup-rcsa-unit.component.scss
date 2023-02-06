@@ -1,0 +1,38 @@
+app-rcsa-admin-setup-rcsa-unit{
+  .rcsaunit-grid{
+    .ui-datatable-thead{
+      tr.ui-state-default:first-child{
+        th:first-child{
+          background-color: transparent;
+          border:none;
+        }
+        th:last-child{
+          background-color: transparent;
+          border:none;
+        }
+      }
+    }
+  }
+  .grid-wrapper{
+    position: relative;
+    .error-setup-regions{
+      position: absolute;
+      top:8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e3151a;
+    }
+  }
+  typeahead-container.dropdown.dropdown-menu{
+    min-width: 200px;
+    right: auto;
+    padding: 0rem 0;
+    button{
+      padding: 0.2rem 1rem;
+      background-color:#fff;
+      span{
+        font-size: 13px;
+      }
+    }
+  }
+}

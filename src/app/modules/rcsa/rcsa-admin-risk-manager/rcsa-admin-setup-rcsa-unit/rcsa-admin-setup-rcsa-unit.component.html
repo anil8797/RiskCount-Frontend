@@ -1,0 +1,144 @@
+<div class="row">
+  <div class="col-md-12">
+    <!--<h5>BUSINESS UNITS</h5>-->
+    <div class="btn-group align-left">
+      <button class="btn btn-danger" type="button" (click)="addRcsaUnit()"><i class="fa fa-plus"></i> Add Rcsa Business Units</button>
+      <!--<button class="btn btn-sm-round btn-excel" type="button" (click)="file.click()">
+        <svg>
+          <use xlink:href="assets/svg/icons.svg#excel"></use>
+        </svg>
+      </button>
+      <input type="file" accept="image/*" #file style="opacity:0">-->
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 grid-wrapper">
+    <div class="error-setup-regions"><span *ngIf="showUniqueBuRegionError">{{errorMessage}}</span><span *ngIf="showCommonErrors">{{errorMessage}}</span></div>
+    <p-dataTable class="custom-prime-grid rcsaunit-grid" [value]="rcsaUnitsData">
+      <p-headerColumnGroup>
+        <p-row>
+          <p-column header="" colspan="2">
+          </p-column>
+          <p-column header="RCSA Unit Risk Manager" colspan="4" ></p-column>
+          <p-column header="" colspan="2" [style]="{'width':'140px'}"></p-column>
+        </p-row>
+        <p-row>
+          <p-column header="Business Unit"></p-column>
+          <p-column header="Region"></p-column>
+          <p-column header="Email"></p-column>
+          <p-column header="First Name"></p-column>
+          <p-column header="Last Name"></p-column>
+          <p-column header="Phone Number"></p-column>
+          <p-column header="Edit" [style]="{'width':'40px'}"></p-column>
+          <p-column header="" [style]="{'width':'100px'}"></p-column>
+        </p-row>
+      </p-headerColumnGroup>
+
+      <p-column field="businessUnit" header="Business Unit">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span *ngIf="!row.isNewUnit">{{row.businessUnitsDto.name}}</span>
+          <div class="form-dd" *ngIf="row.isNewUnit">
+            <select2 class="select2-icon" [ngClass]="{'error' : (row.isValid == false && (row.businessUnitId =='' || row.businessUnitId == null)) || showUniqueBuRegionError}" [data]="businessUnitData" (valueChanged)="row.businessUnitId = $event.value" [value]="row.businessUnitId" [cssImport]="true"  [options]="options" placeholder=""></select2>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="regionId" header="Region">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span *ngIf="!row.isNewUnit">{{row.regionsDto.name}}</span>
+          <div class="form-dd" *ngIf="row.isNewUnit">
+            <select2 class="select2-icon" [ngClass]="{'error' : (row.isValid == false && (row.regionId =='' || row.regionId == null)) || showUniqueBuRegionError}" [data]="regionData" (valueChanged)="row.regionId = $event.value" [value]="row.regionId" [cssImport]="true" [options]="options2" ></select2>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="unitRiskManagerEmail" header="Email">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span *ngIf="!row.isUserEditable">{{row.unitRiskManager.email}}</span>
+          <div class="form-dd" *ngIf="row.isUserEditable">
+            <input type                 = "text"
+                   placeholder          = "Email"
+                   [(ngModel)]          = "row.unitRiskManager.email"
+                   [typeahead]          = "unitRiskManagerData"
+                   typeaheadOptionField = "email"
+                   (typeaheadLoading)= "changeTypeaheadLoading($event, row)"
+                   [typeaheadWaitMs]="1000"
+                   [typeaheadMinLength]="4"
+                   (ngModelChange)      = "searchRcsaUsers(row.unitRiskManager.email)"
+                   (typeaheadOnSelect)  = "onUnitRmSelect($event, row)"
+                   [ngClass]="{'error' : row.isValid == false && (row.unitRiskManager.email =='' || row.unitRiskManager.email == null)}"
+            />
+            <!--<input type                 = "text"
+                   placeholder          = "Email"
+                   [(ngModel)]          = "asyncSelected"
+                   [typeahead]          = "dataSource | async"
+                   [typeaheadOptionField]="'email'"
+                   (typeaheadLoading)= "changeTypeaheadLoading($event, row)"
+                   [typeaheadWaitMs]="300"
+                   [typeaheadMinLength]="4"
+                   [typeaheadAsync]="true"
+                   (typeaheadOnSelect)  = "onUnitRmSelect($event, row)"
+                   [ngClass]="{'error' : row.isValid == false && (row.unitRiskManager.email =='' || row.unitRiskManager.email == null)}"
+            />-->
+            <div class="loader" *ngIf="row.typeaheadLoading"></div>
+            <!--<ng-select [items]="unitRiskManagerData"
+                       bindLabel="email"
+                       [loading]="people2Loading"
+                       [typeahead]="people3Typeahead"
+                       [placeholder]="row.unitRiskManager.email"
+                       [(ngModel)]="row.selectedUnitRiskManager">
+            </ng-select>-->
+
+          </div>
+          <div class="errormessage" *ngIf="row.rcsaUnitErrorMessage != '' ">{{row.rcsaUnitErrorMessage}}</div>
+        </ng-template>
+      </p-column>
+      <p-column field="unitRiskManager" header="First Name">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span *ngIf="!row.isUserEditable">{{row.unitRiskManager.firstName}}</span>
+          <div class="form-dd" *ngIf="row.isUserEditable">
+            <input type="text" [(ngModel)]="row.unitRiskManager.firstName" [ngClass]="{'error' : row.isValid == false && (row.unitRiskManager.firstName =='' || row.unitRiskManager.firstName == null)}" placeholder="First Name">
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="unitRiskManager" header="Last Name">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span *ngIf="!row.isUserEditable">{{row.unitRiskManager.lastName}}</span>
+          <div class="form-dd" *ngIf="row.isUserEditable">
+            <input type="text" [(ngModel)]="row.unitRiskManager.lastName" [ngClass]="{'error' : row.isValid == false && (row.unitRiskManager.lastName =='' || row.unitRiskManager.lastName == null)}" placeholder="Last Name">
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="unitRiskManager" header="Phone Number">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span *ngIf="!row.isUserEditable">{{row.unitRiskManager.phoneNumber}}</span>
+          <div class="form-dd" *ngIf="row.isUserEditable">
+            <p-inputMask type="text" mask="(999) 999 9999" [(ngModel)]="row.unitRiskManager.phoneNumber" placeholder="Phone Number"></p-inputMask>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column header="Edit" [style]="{'width':'80px'}">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <div style="text-align: center;">
+            <button (click)="editRegionRow(row)" *ngIf="!row.isNewUnit && !row.isUserEditable" class="btn btn-sm btn-icon-only btn-inline">
+              <i class="icon-edit"></i>
+            </button>
+            <button (click)="saveRcsaUnit(row)" *ngIf="row.isNewUnit || row.isUserEditable"  class="btn btn-sm btn-icon-only btn-inline">
+              <i class="icon-save"></i>
+            </button>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column header="Delete"  [style]="{'width':'80px'}">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <div style="text-align: center;">
+            <!--<button class="btn btn-sm btn-icon-only btn-inline" (click)="removeRow(row)">
+              <i class="icon-close"></i>
+            </button>-->
+            <ui-switch [(ngModel)]="row.enabled" (change)="changeRcsaUnitStatus(row, $event)"></ui-switch>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>
+

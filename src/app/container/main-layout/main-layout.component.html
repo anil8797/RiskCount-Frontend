@@ -1,0 +1,28 @@
+<header class="app-header">
+  <a class="navbar-brand" href="#"><img src="assets/img/logo.png"> </a>
+  <ul class="top-menu pull-right">
+    <!-- User Menu Dropdown -->
+    <li dropdown>
+      <div class="user_profile" id="dropdownMenuButton" dropdownToggle (click)="false">
+      </div>
+      <div style="cursor: pointer;" class="dropdown-menu" aria-labelledby="dropdownMenuButton" *dropdownMenu>
+        <a class="dropdown-item">{{userObj.user?.firstname + " "+ userObj.user?.lastname}}</a>
+        <a class="dropdown-item" (click)="logout()">Logout</a>
+      </div>
+    </li>
+    <!-- User Menu Dropdown Ends -->
+  </ul>
+</header>
+<ul class="top-list-menu">
+
+  <li class="" *ngFor="let app of userObj.user?.apps; let i = index;" > <a routerLinkActive="active" [routerLink]="['/', app.routerLink]"><span>{{app.name}}</span> </a> </li>
+  <!--<li class=""> <a routerLinkActive="active" [routerLink]="['/vendor-due-diligence']"><span>Vendor Due Diligence</span></a> </li>-->
+</ul>
+<div class="app-body">
+  <!-- Main content -->
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+<footer class="app-footer">{{currentYear}} © Riskcounts. All Rights Reserved.
+</footer>

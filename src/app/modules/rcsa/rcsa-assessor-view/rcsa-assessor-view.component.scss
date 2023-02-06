@@ -1,0 +1,88 @@
+.scrollable-section{
+  // overflow-y: scroll;
+  // overflow-x: hidden;
+  // max-height: 130px;
+}
+app-rcsa-assessor-view{
+  .assessor-right{
+    .control-section{
+      .control-item{
+        .select2{
+          max-width: 100%;
+        }
+      }
+    }
+    .control-definition{
+      .control-text{
+        ul li {
+          list-style: disc;
+          list-style-position: inside;
+        }
+      }
+    }
+    .attach{
+      i.fa{
+        transform: rotate(180deg);
+      }
+    }
+  }
+  .form-dd.form-inline{
+    display: inline-block;
+    .select2{
+      width:450px !important;
+    }
+    + .btn.btn-danger{
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+  .attachments{
+    li {
+      font-size: 13px;
+      padding: 3px 0;
+      text-decoration: underline;
+      cursor: pointer;
+      i{
+        display: inline-block;
+        cursor: pointer;
+        padding: 1px 3px;
+        border-radius: 50%;
+        background-color: red;
+        color: #fff;
+        width: 16px;
+        height: 16px;
+        margin-left: 5px;
+      }
+    }
+  }
+  .status{
+    padding: 30vh 0;
+  }
+}
+.control-comment-note{
+  font-size: 11px;
+  line-height: 1.5;
+}
+.custom-upload{
+  display: none;
+}
+
+#main{
+  // max-height: calc(100vh - 50px);
+  // overflow: hidden;
+}
+#footer{
+  width: 100%;
+  // position: fixed;
+  // bottom: 0;
+  text-align: center;
+}
+.bfu-grid-wrapper .bfu-row .bfu-col ul.bfu-list li {
+  padding: 0px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+}
+.bfu-grid-wrapper .bfu-row .bfu-col ul.bfu-list li:last-child{
+  background-color: white;
+}

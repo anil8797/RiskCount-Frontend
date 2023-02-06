@@ -1,0 +1,73 @@
+{
+  "creditApprovalsData": [{
+    "requestId": "f9aa0436-001d-43d1-9d89-30d8d9f6fdfd",
+    "submissionDate": "Oct 29 2017 8:02:22 PM",
+    "status": "RECOMMENDED",
+    "submittedTo": 1007,
+    "submittedToUser": "Kristina Yadlon",
+    "submittedToRole": "Credit Analyst",
+    "submittedByUser": "Geri Shapiro",
+    "submittedBy": 1006,
+    "groupLimitData": {
+      "suggestedCreditLimit": 3000000.0,
+      "suggestedAllocatedCreditLimit": 2000000.0,
+      "suggestedSettlementLimit": 0.0,
+      "suggestedAllocatedSettlementLimit": 0.0,
+      "groupId": 101,
+      "creditComments": "Credit Comments"
+    },
+    "groupData": {
+      "group_name": "Sumitomo Mitsui Banking Corporation",
+      "group_id": "101",
+      "group_limit": 3000000.0,
+      "allocated_credit_limit": 3000000.0,
+      "settlement_limit": 0.0,
+      "allocated_settlement_limit": 0.0,
+      "cptys": [{
+        "allocated_limit": "100000.0",
+        "counterparty_limit": "100000000",
+        "cpty_id": "1001",
+        "cp_name": "Sumitomo Mitsui Banking Corporation - Japan"
+      },
+        {
+          "allocated_limit": "100000.0",
+          "counterparty_limit": "100000000",
+          "cpty_id": "1059",
+          "cp_name": "Sumitomo Mitsui Banking Corporation - USA"
+        },
+        {
+          "allocated_limit": "100000.0",
+          "counterparty_limit": "20000000",
+          "cpty_id": "1060",
+          "cp_name": "Sumitomo Mitsui Banking Corporation - UK"
+        },
+        {
+          "allocated_limit": "100000.0",
+          "counterparty_limit": "10000000",
+          "cpty_id": "1061",
+          "cp_name": "Sumitomo Mitsui Banking Corporation - Australia"
+        }
+      ]
+
+    },
+    "cptyLimitData": [{
+      "cptyId": 1001,
+      "suggestedCreditLimit": 200000,
+      "suggestedAllocatedCreditLimit": 200000,
+      "suggestedSettlementLimit": 0,
+      "suggestedAllocatedSettlementLimit": 0,
+      "groupId": 101,
+      "creditComments": "Cpty 2 Comments"
+    },
+      {
+        "cptyId": 1059,
+        "suggestedCreditLimit": 200000,
+        "suggestedAllocatedCreditLimit": 200000,
+        "suggestedSettlementLimit": 0,
+        "suggestedAllocatedSettlementLimit": 0,
+        "groupId": 101,
+        "creditComments": "Cpty 1 Comments"
+      }
+    ]
+  }]
+}

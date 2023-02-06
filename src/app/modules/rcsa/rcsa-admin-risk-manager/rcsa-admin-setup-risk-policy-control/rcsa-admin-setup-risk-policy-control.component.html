@@ -1,0 +1,352 @@
+<!-- SETUP RISK POLICY CONTROL VIEW STARTS HERE -->
+  <div class="row">
+      <div class="admin-left">
+        <div class="admin-select-action-setup">
+          <ul >
+           <li (click)='changeTemplate(item)' [ngClass]="{'active': selectedTemplate == item}" *ngFor="let item of setupActions ;">
+              <div class="icon-wrapper">
+                <i class="fa fa-folder"></i>
+              </div>
+              <div class="details-wrapper">
+                <h4 [innerHTML]="item.displayName"></h4>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="admin-right">
+         <div class="setup-admin-right" style="width: 100%;">
+            <div *ngIf="selectedTemplate.id == 'risk'">
+              <h5>RISKS</h5>
+             <!-- Button Toolbar to show button-->
+              <div class="btn-group align-left">
+                <button class="btn btn-danger" type="button" (click)="addRiskRow()"><i class="fa fa-plus"></i> Add Risk</button>
+                <button class="btn btn-sm-round btn-excel" type="button" (click)="file.click()">
+                  <svg>
+                    <use xlink:href="assets/svg/icons.svg#excel"></use>
+                  </svg>
+                </button>
+                <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                       #file  name="riskupload" (change)="uploadFile($event, 'RISKUPLOAD')" style="opacity:0">
+              </div>
+             <!-- Data Table Starts-->
+              <p-dataTable class="custom-prime-grid" [value]="setupRiskData">
+                <p-column header="Edit" [style]="{'width':'50px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <div style="text-align: center;">
+                      <button (click)="editRiskRow(row)" *ngIf="!row.isEditable" class="btn btn-sm btn-icon-only btn-inline">
+                        <i class="icon-edit"></i>
+                      </button>
+                      <button (click)="cancelEditRiskRow(row)" *ngIf="row.isEditable"  class="btn btn-sm btn-icon-only btn-inline">
+                        <i class="icon-save"></i>
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column header="Delete"  [style]="{'width':'70px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <div style="text-align: center;">
+                      <button class="btn btn-sm btn-icon-only btn-inline" (click)="removeRow(row)">
+                        <i class="icon-close"></i>
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column field="riskType" header="Risk">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngIf="!row.isEditable">{{row.riskType}}</span>
+                    <div class="form-dd" *ngIf="row.isEditable">
+                      <input type="text" [(ngModel)]="row.riskType" (ngModelChange)="riskModelChange(row)"
+                             [ngClass]="{ 'error' : (!row.isValidName && row.isValidName !=undefined) }" >
+                    </div>
+                    <div class="errormessage" *ngIf="row.showError">{{row.errorMessage}} </div>
+                  </ng-template>
+                </p-column>
+                <p-column field="description" header="Risk Description/Overview">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngIf="!row.isEditable" [innerHTML]="row.description"></span>
+                    <div *ngIf="row.isEditable">
+                      <!--<textarea type="text" [(ngModel)]="row.description"></textarea>-->
+                      <ckeditor
+                        [(ngModel)]="row.description"
+                        [config]="editorConfig"
+                        [readonly]="false"
+                        debounce="500">
+                      </ckeditor>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column field="inherentRisk" header="Inherent Risk" [style]="{'width':'120px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngIf="row.inherentRiskd1 || row.inherentRiskd2">({{row.inherentRiskd1}},{{row.inherentRiskd2}}) </span>
+                  </ng-template>
+                </p-column>
+              </p-dataTable>
+              <!--Data Table Ends-->
+
+            </div>
+            <div *ngIf="selectedTemplate.id == 'risk_policy'">
+              <h5>RISK POLICIES</h5>
+              <!--Button Toolbar to show button-->
+              <div class="btn-group align-left">
+                <button class="btn btn-danger" type="button" (click)="addRiskPolicyRow()"><i class="fa fa-plus"></i> Add Risk Policy</button>
+                <button class="btn btn-sm-round btn-excel" type="button" (click)="file2.click()">
+                  <svg>
+                    <use xlink:href="assets/svg/icons.svg#excel"></use>
+                  </svg>
+                </button>
+                <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                       #file2 name="policyupload" (change)="uploadFile($event, 'POLICYUPLOAD')" style="opacity:0">
+              </div>
+              <!--Data Table Starts-->
+              <p-dataTable class="custom-prime-grid" [value]="setupRiskPolicyData">
+                <p-column header="Edit" [style]="{'width':'50px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <div style="text-align: center;">
+                      <button (click)="editRiskPolicyRow(row)" *ngIf="!row.isEditable" class="btn btn-sm btn-icon-only btn-inline">
+                        <i class="icon-edit"></i>
+                      </button>
+                      <button (click)="cancelEditRiskPolicyRow(row)" *ngIf="row.isEditable"  class="btn btn-sm btn-icon-only btn-inline">
+                        <i class="icon-save"></i>
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column header="Delete"  [style]="{'width':'70px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <div style="text-align: center;">
+                      <button class="btn btn-sm btn-icon-only btn-inline" (click)="removePolicyRow(row)">
+                        <i class="icon-close"></i>
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column field="riskType" header="Risk Policy">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngIf="!row.isEditable">{{row.riskType}}</span>
+                    <div class="form-dd" *ngIf="row.isEditable">
+                      <input type="text" [(ngModel)]="row.riskType" (ngModelChange)="policyModelChange(row)"
+                             [ngClass]="{ 'error' : (!row.isValidName && row.isValidName !=undefined) }"  >
+                    </div>
+                    <div class="errormessage" *ngIf="row.showError">{{row.errorMessage}} </div>
+                  </ng-template>
+                </p-column>
+                <p-column field="description" header="Risk Policy Description/Overview">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngIf="!row.isEditable" [innerHTML]="row.description"></span>
+                    <div *ngIf="row.isEditable">
+                      <!--<textarea type="text" [(ngModel)]="row.description"></textarea>-->
+                      <ckeditor
+                        [(ngModel)]="row.description"
+                        [config]="editorConfig"
+                        [readonly]="false"
+                        debounce="500">
+                      </ckeditor>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column field="riskType" header="Policy Document">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngIf="!row.isEditable" ><a [routerLink]="" (click)="downloadAttachment(row)">{{row.policyDocument}}</a></span>
+                    <div class="form-dd" *ngIf="row.isEditable">
+                      <div class="custom-upload">
+                        <label class="btn-bs-file btn btn-lg btn-transparent text-left">
+                          <i class="fa fa-paperclip" aria-hidden="true"></i>
+                          <input type="file" name="document" (change)="attachFile($event, row)"/>
+                          <span>{{row.policyDocument}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-column>
+              </p-dataTable>
+              <!--Data Table Ends-->
+
+          </div>
+            <div *ngIf="selectedTemplate.id == 'control_category'" style="width: 100%;">
+              <h5>CONTROL CATEGORY & CONTROL PROCEDURES</h5>
+              <!--Button Toolbar to show button-->
+              <div class="btn-group align-left">
+                <button class="btn btn-danger" type="button" (click)="addControlCategoryRow()"><i class="fa fa-plus"></i>Add Control Category</button>
+                <button class="btn btn-sm-round btn-excel" type="button" (click)="file3.click()">
+                  <svg>
+                    <use xlink:href="assets/svg/icons.svg#excel"></use>
+                  </svg>
+                </button>
+                <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                       #file3 name="controlcategoryupload" (change)="uploadFile($event, 'CONTROLCATEGORYUPLOAD')" style="opacity:0">
+              </div>
+              <!--Data Table Starts-->
+              <p-dataTable class="custom-prime-grid" [value]="setupControlcategory" scrollable="true" scrollWidth="100%" >
+                <p-column header="Edit" [style]="{'width':'50px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <div style="text-align: center;">
+                      <button (click)="editRiskRow(row)" *ngIf="!row.isEditable" class="btn btn-sm btn-icon-only btn-inline">
+                        <i class="icon-edit"></i>
+                      </button>
+                      <button (click)="cancelEditControlCategoryProcedureRow(row)" *ngIf="row.isEditable"  class="btn btn-sm btn-icon-only btn-inline">
+                        <i class="icon-save"></i>
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column header="Delete"  [style]="{'width':'70px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <div style="text-align: center;">
+                      <button class="btn btn-sm btn-icon-only btn-inline" (click)="removeControlCategoryRow(row)">
+                        <i class="icon-close"></i>
+                      </button>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column field="controlCategory" header="Control Category" [style]="{'width':'200px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span class="font-bold" *ngIf="!row.isEditable">{{row.controlCategory}}</span>
+                    <!--<span style="margin: 8px 0;display: block" *ngIf="row.description != '' && !row.isEditable ">Description:</span>
+                    <span *ngIf="!row.isEditable" [innerHTML]="row.description"></span>-->
+                    <div class="form-dd" *ngIf="row.isEditable">
+                      <input type="text" [(ngModel)]="row.controlCategory" (ngModelChange)="controlCategoryModelChange(row)"
+                             [ngClass]="{ 'error' : (!row.isValidName && row.isValidName !=undefined) }"   >
+                    </div>
+                    <span style="margin: 5px 0;display: block"></span>
+                    <!--<div *ngIf="row.isEditable">
+                      <ckeditor
+                        [(ngModel)]="row.description"
+                        [config]="editorConfig"
+                        [readonly]="false"
+                        debounce="500">
+                      </ckeditor>
+                    </div>-->
+                  </ng-template>
+                </p-column>
+                <!--<p-column field="description" header="Control Category Description" [style]="{'width':'400px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span *ngIf="!row.isEditable" [innerHTML]="row.description"></span>
+                    <div *ngIf="row.isEditable">
+                      <ckeditor
+                        [(ngModel)]="row.description"
+                        [config]="editorConfig"
+                        [readonly]="false"
+                        debounce="500">
+                      </ckeditor>
+                    </div>
+                  </ng-template>
+                </p-column>-->
+                <p-column field="controlProcedure" header="Control Procedure" [style]="{'width':'400px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <ul class="star-list">
+                      <li *ngFor="let procedure of row.controlProcedure">
+                        <span *ngIf="!row.isEditable">{{procedure.title}}</span>
+                        <div class="form-dd form-md" *ngIf="row.isEditable">
+                          <input type="text" [(ngModel)]="procedure.title">
+                        </div>
+                        <button *ngIf="row.isEditable" class="btn btn-sm btn-icon-only btn-inline" (click)="removeControlProcedure(procedure,row)">
+                          <i class="icon-close"></i>
+                        </button>
+                      </li>
+                    </ul>
+                    <button  *ngIf="row.isEditable" class="btn btn-lg btn-add btn-inline" (click)="addControlProcedure(row)">
+                      <i class="fa fa-plus"></i>Add Control Procedure
+                    </button>
+                    <!--<div *ngIf="row.isEditable">*
+                      <input type="text" [(ngModel)]="row.controlProcedure">
+                    </div>-->
+                  </ng-template>
+                </p-column>
+                <p-column header="Tagged Risks" [style]="{'width':'200px'}" >
+                  <ng-template let-col let-row="rowData" pTemplate="body" let-i="rowIndex">
+                    <ul class="tag-list" *ngIf="row.taggedRisks.length > 0">
+                      <li *ngFor="let risk of row.taggedRisks;">
+                        {{risk.riskType}}
+                        <span *ngIf="row.isEditable" (click)="removeTaggedRisk(risk, row)"><i class="icon-close"></i></span>
+                      </li>
+                    </ul>
+                    <div class="add-dropdown-container" dropdown [autoClose]="'outsideClick'">
+                      <button  *ngIf="row.isEditable" class="btn btn-sm btn-icon-only btn-add btn-inline" dropdownToggle>
+                        <i class="fa fa-plus"></i>
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="changeYear" *dropdownMenu>
+                        <div class="form-dd form-md">
+                          <!--<input type="text"
+                                 placeholder          = "search"
+                                 [(ngModel)]          = "customSelected"
+                                 [typeahead]          = "typeAheadData"
+                                 typeaheadOptionField = "riskType"
+                                 (ngModelChange)      = "revertValue(customSelected)"
+                                 (typeaheadOnSelect)  = "typeaheadOnSelect($event)"
+                                 (click)="onEvent($event)"
+                          />-->
+                          <input type="text" [(ngModel)]="row.searchText" placeholder="search" (click)="onEvent($event)" >
+                        </div>
+                        <a class="dropdown-item" (click)="addTaggedRisk(risk, row)" *ngFor="let risk of setupRiskData | filter : row.searchText">{{risk.riskType}}</a>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-column>
+                <p-column header="Tagged Policies" [style]="{'width':'200px'}">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <ul class="tag-list" *ngIf="row.taggedPolicies.length > 0">
+                      <li *ngFor="let policy of row.taggedPolicies;">
+                        {{policy.riskType}}
+                        <span *ngIf="row.isEditable" (click)="removeTaggedPolicy(policy, row)"><i class="icon-close"></i></span>
+                      </li>
+                    </ul>
+                    <div class="add-dropdown-container" dropdown [autoClose]="'outsideClick'">
+                      <button  *ngIf="row.isEditable" class="btn btn-sm btn-icon-only btn-add btn-inline" dropdownToggle>
+                        <i class="fa fa-plus"></i>
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="changeYear" *dropdownMenu>
+                        <div class="form-dd form-md">
+                          <input type="text" [(ngModel)]="row.policySearchText" placeholder="search" (click)="onEvent($event)">
+                        </div>
+                        <a class="dropdown-item" (click)="addTaggedPolicy(policy, row)" *ngFor="let policy of setupRiskPolicyData | filter : row.policySearchText">{{policy.riskType}}</a>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-column>
+              </p-dataTable>
+              <!--Data Table Ends-->
+        </div>
+         </div>
+      </div>
+  </div>
+
+<!-- SETUP RISK POLICY CONTROL VIEW ENDS HERE -->
+
+<!--<div bsModal #success="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  &lt;!&ndash;<ng-template #template>&ndash;&gt;
+  <div class="modal-dialog modal-sm modal-alert" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-success">
+          <span class="alert-close" (click)="success.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-success"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Success</h3>
+            <p>{{successModalMsg}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  &lt;!&ndash;</ng-template>&ndash;&gt;
+</div>-->
+
+<!--<div bsModal #error="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  &lt;!&ndash;<ng-template #template>&ndash;&gt;
+  <div class="modal-dialog modal-sm modal-alert" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="alert-error">
+          <span class="alert-close" (click)="error.hide()" aria-hidden="true">&times;</span>
+          <i class="ico-md ico-error"></i>
+          <div class="alert-msg-wrapper">
+            <h3>Alert</h3>
+            <p>{{errorModalMsg}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  &lt;!&ndash;</ng-template>&ndash;&gt;
+</div>-->
