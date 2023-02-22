@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import {Http , Response} from "@angular/http";
-import {AppConfig} from "../../utils/app-config.module";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {  HttpClient,  HttpRequest,  HttpHandler,  HttpEvent,  HttpInterceptor, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import {AppSpinnerService} from "../common/app-spinner";
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class AuthenticationService {
   //urlToAuthenticate:any = this.hostUrl+'authenticateUser?user_name=';
-  hostUrl: any               = AppConfig.apiEndPoint;
+  hostUrl: any               = environment.apiEndPoint;
   urlToAuthenticate:any      = this.hostUrl+'api/user/login';
   urlToLogout:any      = this.hostUrl+'logout';
   urlToInitiatePswdReset:any = this.hostUrl+'api/user/generateResetPassword?emailId=';

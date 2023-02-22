@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {Http, RequestOptions, Response, ResponseContentType} from "@angular/http";
 import {HttpClient} from "@angular/common/http";
-import {AppConfig} from "../../utils/app-config.module";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { environment } from 'environments/environment';
 @Injectable()
 export class RcsaService {
   apiHost: any                                 = './assets/data/';
-  hostUrl: any                                 = AppConfig.apiEndPoint;
+  hostUrl: any                                 = environment.apiEndPoint;
 
   urlForCommonFileUpload: any = this.hostUrl+'file/upload/';
   urlForUploadFile: any = this.hostUrl+'policy/uploadfile/';

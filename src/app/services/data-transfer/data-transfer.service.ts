@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {AppConfig} from "../../utils/app-config.module";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class DataTransferService {
@@ -13,7 +13,7 @@ export class DataTransferService {
   loggedInUserObject = this.loggedInUserObjectSource.asObservable();
 
   //User roles
-  hostUrl: any                                 = AppConfig.apiEndPoint;
+  hostUrl: any                                 = environment.apiEndPoint;
   constructor(
     private http: HttpClient
   ){
