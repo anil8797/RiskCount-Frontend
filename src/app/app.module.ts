@@ -23,6 +23,8 @@ import {AuthenticationService} from './services/authentication/authentication.se
 import {AuthGuard} from './guards/auth.guard';
 import {AuthSuccessGuard} from './guards/auth-success.guard';
 import {AppSharedService} from "./services/common/app-shared.service";
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 //Storage For Layout Components
 const APP_CONTAINER = [
@@ -67,6 +69,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
       useClass: TokenInterceptor,
       multi: true
     },
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     DataTransferService,
     AppSpinnerService,
     AuthenticationService,

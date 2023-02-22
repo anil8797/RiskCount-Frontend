@@ -8,7 +8,8 @@ export const AppConfig = {
   // apiEndPoint   : 'http://localhost:8082/riskcounts/',
 
   //STAGING--------------------------------------------------------------
-  apiEndPoint   : 'http://127.0.0.1:8080/',
+  apiEndPoint   : 'http://68.183.125.37:8080/riskcounts/',
+  // apiEndPoint   : 'http://localhost:8080/',
   /*apiEndPointEc : 'http://165.227.180.217:8080/RiskCountsRest/capital/'*/
 
   //AWS------------------------------------------------------------------

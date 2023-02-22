@@ -45,6 +45,8 @@ export class RcsaService {
   // URL for coordinator
   urlToFetchCoordinatorAssessment:any = this.hostUrl + 'coordinator/getAssessmentDetails';
   urlToFetchAssessmentUnits:any = this.hostUrl + 'coordinator/getAssessmentUnits';
+  urlToFetchCoordinatorDashboardata:any = this.hostUrl + 'coordinator/dashboard';
+  urlToFetchUnitRiskManagerDashboardata:any = this.hostUrl + 'unitRiskManager/dashboard';
   urlToSaveCoordinatorAssessment:any = this.hostUrl + 'coordinator/save';
   urlToSubmitCoordinatorAssessment:any = this.hostUrl + 'coordinator/submit';
   // URL for unit risk manager
@@ -320,6 +322,12 @@ export class RcsaService {
   }
   fetchAssessmentUnits(): Observable<any> {
     return this.httpClient.get(this.urlToFetchAssessmentUnits).map((response: any) => response);
+  }
+  fetchCoordinatorDashboardData(): Observable<any> {
+    return this.httpClient.get(this.urlToFetchCoordinatorDashboardata).map((response: any) => response);
+  }
+  fetchUnitRiskManagerDashboardData(): Observable<any> {
+    return this.httpClient.get(this.urlToFetchUnitRiskManagerDashboardata).map((response: any) => response);
   }
   saveCoordinatorAssessment(data){
     return this.httpClient.post(this.urlToSaveCoordinatorAssessment, data).map((response:any) => response);

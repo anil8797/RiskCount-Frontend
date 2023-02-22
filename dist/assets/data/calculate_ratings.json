@@ -1,0 +1,258 @@
+{
+	"macroFactor": {
+		"diversification": {
+			"countryDivData": [{
+				"name": "Brazil",
+				"givenName": "AP Brazil Consultoria Empresarial - collection services provider",
+				"factor": "Weak",
+				"weight": 81.5,
+				"weightedAverage": 0.0,
+				"comments": "Collection service entities are wholly owned by Tikrel S.A., which is the Majority shareholder of Astropay LLP (99.99% Holding)",
+				"index": 1
+			}, {
+				"name": "Columbia",
+				"givenName": "Tikrel Colombia SAS - collection services provider",
+				"factor": "Very Strong +",
+				"weight": 9.0,
+				"weightedAverage": 0.0,
+				"index": 2
+			}, {
+				"name": "Mexico",
+				"givenName": "Tikrel Mexico SRL de CV, collection service provider",
+				"factor": "Moderate",
+				"weight": 9.5,
+				"weightedAverage": 0.0,
+				"index": 3
+			}, {
+				"name": "Panama",
+				"givenName": "Astropay Panama SA",
+				"factor": "",
+				"weight": 0.0,
+				"weightedAverage": 0.0,
+				"index": 4
+			}],
+			"countryDivResponse": {
+				"factor": "Weak+",
+				"weight": 0.0,
+				"weightedAverage": 11.3,
+				"defaultGrade": 11,
+				"comments": "Comments for diversification."
+			}
+		},
+		"cntryRisk": {
+			"countryRiskData": [{
+				"name": "Country Economic Strength",
+				"factor": "Weak",
+				"weight": 40.0,
+				"weightedAverage": 0.0,
+				"index": 1,
+				"comments": "Rather than taking the country exposure to UK where Astropay is registered, we take the Country exposure to Latin American Markets. Any deterioration in these countries will directly affect the profitability and operations of Astropay."
+			}, {
+				"name": "Sector Risk",
+				"factor": "Moderate",
+				"weight": 40.0,
+				"weightedAverage": 0.0,
+				"index": 2
+			}, {
+				"name": "Currency Volatility to USD",
+				"factor": "Moderate",
+				"weight": 20.0,
+				"weightedAverage": 0.0,
+				"index": 3
+			}],
+			"countryRiskResponse": {
+				"factor": "Moderate",
+				"weight": 0.0,
+				"weightedAverage": 4.3,
+				"defaultGrade": 8,
+				"comments": "Comments for Country risk."
+			}
+		}
+	},
+  "financialProfile": {
+    "solvency": [{
+        "index": 1,
+        "name": "Asset Risk",
+        "factorName": "Problem Loans/ Gross Loans",
+        "factor": 1.34,
+        "weight": 0.25,
+        "weightedAverage": 5.3,
+        "comments": "Bad Debts are a small portion of the overall Debt (Collections in this case), so we accord a higher rating",
+        "defaultGrade": 0
+      },
+      {
+        "index": 2,
+        "name": "Capital",
+        "factorName": "Tangible Common Equity/ RWA",
+        "factor": 2.45,
+        "weight": 0.25,
+        "weightedAverage": 2.2,
+        "comments": "Collections are a small portion of the overall Debt, so we accord a higher rating"
+      },
+      {
+        "index": 3,
+        "name": "Profitability",
+        "factorName": "Net Income/ Tangible Assets",
+        "factor": 2.50,
+        "weight": 0.15,
+        "weightedAverage": 7.8,
+        "comments": "Nil"
+      },
+      {
+        "index": 4,
+        "name": "Profitability",
+        "factorName": "Fnancial Factors",
+        "factor": 2.50,
+        "weight": 0.15,
+        "weightedAverage": 9.8,
+        "comments": "Nil"
+      }
+    ],
+    "liquidity": [{
+        "index": 1,
+        "name": "Funding Structure",
+        "factorName": "Market Funds/ Tangible Business Assets",
+        "factor": 9.0,
+        "weight": 2.20,
+        "weightedAverage": 6.3,
+        "comments": "We accord a higher rating over the schedules where collections are taken under consideration"
+      },
+      {
+        "index": 2,
+        "name": "Liquidity Resources",
+        "factorName": "Liquid Banking Assets/ Tangible Business Assets",
+        "factor": 12.1,
+        "weight": 2.25,
+        "weightedAverage": 7.3,
+        "defaultGrade": 8
+      },
+      {
+        "index": 3,
+        "name": "Financial Profile",
+        "factorName": "Profile Content",
+        "factor": 3.5,
+        "weight": 0.25,
+        "weightedAverage": 5.3
+      },
+      {
+        "index": 4,
+        "name": "Combined Liquidity Score",
+        "factorName": "Liquidity Store",
+        "factor": 4.6,
+        "weight": 0.25,
+        "weightedAverage": 7.3
+      }],
+      "financialProfileResponse": {
+        "factor": "Good",
+        "weight": 0.0,
+        "weightedAverage": 4.3,
+        "defaultGrade": 8,
+        "comments": "Comments for Financial Profile."
+      }
+  },
+	"qualitativeAdjustments": {
+		"franchiseObjects": [{
+			"factorName": "Franchise Size",
+			"factor": "Weak",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "The franchise size is very small",
+			"defaultGrade": -4,
+			"index": 1
+		}, {
+			"factorName": "Niche Position",
+			"factor": "Weak",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "It is concentrated in a very specific geographical area",
+			"defaultGrade": 0,
+			"index": 2
+		}, {
+			"factorName": "Geographical Diversification",
+			"factor": "Weak",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "Country diversification is weak. The whole of South America is susceptible to similar systemic risks.",
+			"defaultGrade": 0,
+			"index": 3
+		}, {
+			"factorName": "Deteriorating/ Improving Profitability",
+			"factor": "Excellent",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "Profitability of Astropay is very high at 43% and is improving. The reasons for this being lean operations, low personnel of operations costs.",
+			"defaultGrade": 0,
+			"index": 4
+		}],
+    "operationalRiskObjects":[{
+			"factorName": "Litigation",
+			"factor": "Fair",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "We have not found any litigation from the due diligence questionnaire that Astropay has filled.",
+			"defaultGrade": 1,
+			"index": 5
+		}, {
+			"factorName": "Large Loss Events",
+			"factor": "Good",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "We have not seen any major losses. Bad debts are limited to below 1.5%.",
+			"defaultGrade": 0,
+			"index": 6
+		}, {
+			"factorName": "Regulatory Issues",
+			"factor": "Good",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "We have not found any regulatory infractions from the due diligence questionnaire that Astropay has filled.",
+			"defaultGrade": 0,
+			"index": 7
+		}, {
+			"factorName": "Cyber Security incidents",
+			"factor": "Moderate",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "Nothing has been pointed out, but since this is a small entity and processes financial transactions, the risk is high for any cyber security breach.",
+			"defaultGrade": 0,
+			"index": 8
+		}],
+    "reputationObjects": [{
+			"factorName": "Negative Media Coverage",
+			"factor": "Fair",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "We have not found any negative media coverage in the due diligence questionnaire that Astropay has filled.",
+			"defaultGrade": -3,
+			"index": 9
+		},{
+			"factorName": "Senior Leadership Turnover",
+			"factor": "Fair",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "One member of the three resigned at the end of 2016. Tikrel S.A hold 99.99% of the Equity, so essentially there is only one member.",
+			"defaultGrade": 0,
+			"index": 10
+		},{
+			"factorName": "Governance",
+			"factor": "Weak",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "There is no information about the Governance structure, organization, operations etc. The reason that Astropay keeps this opaque is a cause of concern.",
+			"defaultGrade": 0,
+			"index": 11
+		},{
+			"factorName": "Payoneer’s Experience",
+			"factor": "Moderate",
+			"weight": 0.0,
+			"weightedAverage": 0.0,
+			"comments": "The counterparty provides limited information which is on a need to know basis, so we have accorded a moderate rating.",
+			"defaultGrade": 0,
+			"index": 12
+		}]
+	},
+	"ratingResponse": {
+		"rating": "CC",
+		"comments": "CREDITWORTHINESS IS WEEK. COUNTERPARTY CAN DEFAULT ON ANY LOAN OBLIGATIONS"
+	}
+}

@@ -7,15 +7,13 @@
     <main class="main">
       <nav>
         <ul class="main-nav">
-          <li class=""> <a class="active"> <i class="fa fa-user" aria-hidden="true"></i> <span>RCSA
+          <li class=""> <a class="active"> <i class="fa fa-user" aria-hidden="true"></i> <span>RCM
                 Q{{assessmentData?.quarter}} {{assessmentData?.year}}</span> </a> </li>
         </ul>
       </nav>
 
       <div class="container-fluid">
-        <h3 class="head text-uppercase" *ngIf="rcsaStartStatus">RCSA Q{{assessmentData?.quarter}} -
-          {{assessmentData?.year}} ({{assessmentData?.startDate | amUtc | amDateFormat: 'MM/DD/YYYY'}} -
-          {{assessmentData?.endDate | amUtc | amDateFormat: 'MM/DD/YYYY'}})</h3>
+        <h3 class="head text-uppercase" *ngIf="rcsaStartStatus">Assessment Open {{assessmentData?.startDate | amUtc | amDateFormat: 'MM/DD/YYYY'}}, to be completed by {{assessmentData?.endDate | amUtc | amDateFormat: 'MM/DD/YYYY'}}</h3>
         <!-- RISK MANAGER VIEW STARTS-->
         <div class="row">
           <div class="col-md-12">
@@ -31,7 +29,7 @@
                 <label class="label-highlight">Risk : </label>
                 <select2 class="select2-icon" [data]="riskList" [value]="selectedRiskOption" *ngIf="riskList.length > 0 && selectedRiskOption != null" (valueChanged)="changeRisk($event)" [cssImport]="true" [options]="options"></select2>
               </div>-->
-                  <button class="btn btn-danger" type="button" (click)="submitToCoordinator()">submit to rcsa
+                  <button class="btn btn-danger" type="button" (click)="submitToCoordinator()">submit to rcm
                     coordinator</button>
                 </div>
               </div>
@@ -61,22 +59,12 @@
                 <div class="assessor-right">
                   <div class="row">
                     <div class="col-sm-12 px-3 pb-3 heading-description">
-                      <p>Thank you for being an Assessor in the Risk-Control Management exercise for Q1, 2023 (period).
-                        Please consider the Control Categories on the left one by one and answer two questions related
-                        to
-                        effectiveness (after each Category is addressed, you will be prompted to move to the next one).
-                        For
-                        your guidance, the Control Procedures that this Category includes, and the Risks and Policies
-                        that
-                        it
-                        is related to, are shown above. There are no right or wrong answers. We simply request your
-                        considered
-                        feedback. </p>
+                      <p>Thank you for being a Risk-Control Assessor. For each control-category on the left, please answer two questions about control-effectiveness. You can refer to the control procedures listed, as well as the related Risks and Policies. </p>
                     </div>
                   </div>
                   <div class="control-definition">
                     <span class="control-label text-uppercase">
-                      <span class="font-weight-bold">TAGGED RISKS:</span> <span
+                      <span class="font-weight-bold red-highlight-text">TAGGED RISKS:</span> <span
                         *ngFor="let risk of selectedControlCategory?.taggedRisks; let last = last;">{{risk.name}}<span
                           *ngIf="!last">, </span> </span>
                     </span>
@@ -85,7 +73,7 @@
                   </div>
                   <div class="control-definition">
                     <span class="control-label text-uppercase">
-                      <span class="font-weight-bold">ASSOCIATED POLICIES:</span> <span
+                      <span class="font-weight-bold red-highlight-text">ASSOCIATED POLICIES:</span> <span
                         *ngFor="let policy of selectedControlCategory?.policies; let last = last;">{{policy.name}}<span
                           *ngIf="!last">, </span> </span>
                     </span>
@@ -108,9 +96,7 @@
                   <div class="scrollable-section">
                     <div class="control-section">
                       <div class="control-title">
-                        <span>CONTROL CATEGORY EFFECTIVENESS: Based on the Control Procedures listed above and what you
-                          have
-                          seen/experienced in your work, rate the effectiveness of this Category of Control.</span>
+                        <span>CONTROL EFFECTIVENESS: How effective is this Control (category) based on the required procedures listed above?                        </span>
                       </div>
 
                       <!--Item to repeat starts below-->
@@ -129,7 +115,7 @@
                           <label *ngIf="q.questionId == 5" class="text-danger">If you rated between 0-4 for Question 4,
                             required remediation is mandatory</label>
                         </div>
-                        <div [ngClass]="{'col-sm-4': q.questionId != 4, 'col-sm-2': q.questionId == 4}" *ngIf="q.questionId != 5">
+                        <div class="col-sm-4" *ngIf="q.questionId != 5">
                           <select2 class="select2-icon" *ngIf="q.questionId == 1"
                             (valueChanged)="q.choiceIds[0] = $event.value;checkAnswer($event.value);"
                             [(value)]="q.choiceIds[0]" [data]="Q1" [cssImport]="true" [options]="QOptions"></select2>
@@ -143,7 +129,16 @@
                             (valueChanged)="q.choiceIds[0] = $event.value;changeControlCategoryStatus(selectedControlCategory);"
                             [(value)]="q.choiceIds[0]" [data]="Q4" [cssImport]="true" [options]="QOptions"></select2>
                         </div>
-                        <div *ngIf="q.questionId == 4" class="bfu-grid-wrapper px-0 pl-1 col-sm-2">
+                        <div class="col-sm-8" *ngIf="q.questionId == 4" ></div>
+                        <div *ngIf="q.questionId == 4" class="col-sm-4 py-2">
+                          <div class="bfu-grid-wrapper">
+                            <div class="bfu-head">
+                              <div class="bfu-col">
+                                Legend
+                              </div>
+                              <div class="bfu-col font-size-10">
+                              </div>
+                            </div>
                           <div class="bfu-row">
                             <div class="bfu-col">
                               <ul class="bfu-list ">
@@ -152,6 +147,14 @@
                                 <li>Strong (8-10)</li>
                               </ul>
                             </div>
+                            <div class="bfu-col text-center">
+                              <ul class="bfu-list bfu-legend">
+                                <li class="justify-content-center"><span></span></li>
+                                <li class="justify-content-center"><span></span></li>
+                                <li class="justify-content-center"><span></span></li>
+                              </ul>
+                            </div>
+                          </div>
                           </div>
                         </div>
                         <div class="col-md-8" *ngIf="q.questionId == 5">
@@ -182,11 +185,7 @@
                       </div>
                       <div class="row control-item">
                         <div class="col-sm-8 px-0  pl-2">
-                          <label class="control-comment-note">Add any Comments to explain your answers above. Also
-                            suggest
-                            any
-                            Remediation/s to improve the
-                            Effectiveness of this Control
+                          <label class="control-comment-note">Please provide any comment to explain your answers and/or suggest any remediation to improve the effectiveness of the Controls.
                           </label>
                         </div>
                         <div class="col-md-4">
@@ -206,7 +205,7 @@
                           <select2 class="select2-icon" [(value)]="isFileUploadRequired"
                             (valueChanged)="isFileUploadRequired = $event.value" [data]="fileUploadOptions"
                             [cssImport]="true" [options]="fileUploadOptions"></select2>
-                          <label *ngIf="isFileUploadRequired == 1" class="mt-2">
+                          <label class="mt-2">
                             <a style="cursor: pointer;text-decoration: underline;" (click)="file.click()"><i
                                 class="fa fa-paperclip" aria-hidden="true"></i> Click here to include documentation </a>
                           </label>
@@ -234,9 +233,9 @@
                     <!--Button Toolbar to show button-->
                     <div class="btn-group align-left">
                       <button class="btn btn-danger" type="button"
-                        (click)="saveControlProcedures('save', selectedRisk)">save</button>
+                        (click)="saveControlProcedures('save', selectedRisk)">save and next</button>
                       <button class="btn btn-danger" type="button" (click)="submitToCoordinator()"
-                        *ngIf="enableCoordinatorSubmission">submit to rcsa coordinator</button>
+                        *ngIf="enableCoordinatorSubmission">submit to rcm coordinator</button>
                     </div>
                   </div>
                 </div>

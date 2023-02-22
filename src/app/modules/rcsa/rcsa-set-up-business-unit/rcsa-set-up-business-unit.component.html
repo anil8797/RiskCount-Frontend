@@ -27,7 +27,7 @@
         <div class="btn-group align-left">
           <button class="btn btn-link" type="button" (click)="collapseAll()">Collapse All</button>
           <button class="btn btn-link" type="button"  (click)="expandAll()">Expand all</button>
-          <button class="btn btn-danger pull-right" type="button" (click)="saveSetupRcsa()">SAVE SET UP FOR UPCOMING RCSA</button>
+          <button class="btn btn-danger pull-right" type="button" (click)="saveSetupRcsa()">SAVE SET UP FOR UPCOMING RCM</button>
         </div>
         <div class="rcsa-header-bar" *ngIf="openBusinessUnitEdit">
           <div class="rcsa-inline-save">
@@ -339,7 +339,7 @@
           <div class="alert-msg-wrapper">
             <h3>Alert</h3>
             <p>
-              The following Assessment Units do not have Risks assigned for RCSA:
+              The following Assessment Units do not have Risks assigned for RCM:
             </p>
             <ul>
               <li *ngFor="let assessmentUnit of inValidAssessmentUnits">{{assessmentUnit.name}}</li>

@@ -11,9 +11,9 @@
         </ul>-->
         <!--TAb Navigation Ends
         <hr/>-->
-        <div class="warnings">NOTE: Please ensure that the Business Function Units and the Assessors are set up in the system before RCSA is initiated.</div>
+        <div class="warnings">NOTE: Please ensure that the Business Function Units and the Assessors are set up in the system before RCM is initiated.</div>
         <div class="setup-rcsa-units-outer">
-          <h3>You are currently setting up RCSA for the following RCSA Units. Uncheck the boxes to deselect the RCSA Units for the RCSA.</h3>
+          <h3>You are currently setting up RCM for the following RCM Units. Uncheck the boxes to deselect the RCM Units for the RCM.</h3>
           <div class="setup-rcsa-units-wrapper">
             <div class="setup-rcsa-unit-selection" *ngFor="let riskUnit of rcsaUnitlist">
               <div class="checkbox">
@@ -34,7 +34,7 @@
               </div>
             </div>-->
           </div>
-          <div class="errormessage" *ngIf="showRcsaUnitError">Please select a RCSA Unit</div>
+          <div class="errormessage" *ngIf="showRcsaUnitError">Please select a RCM Unit</div>
         </div>
         <!--Rcsa Setup Starts-->
         <div class="setup-form-header">
@@ -56,34 +56,34 @@
           <div class="col-md-12">
             <div class="start-new-rcsa-dateselection">
             <div class="start-new-rcsa-dateselection">
-              <label class="label-highlight-dark text-uppercase">SET RCSA START DATE:</label>
+              <label class="label-highlight-dark text-uppercase">SET RCM START DATE:</label>
               <p-calendar name="rcsaStartDate" class="rcsa-calendar" [utc]='false' [minDate]="rcsaMinDate" [(ngModel)]="rcsaStartDate" showIcon=true icon="fa-calendar" inline="true" dateFormat="mm/dd/yy"></p-calendar>
               <div class="form-group form-dd form-lg">
-                <div class="errormessage absolute" *ngIf="showErrors && (rcsaStartDate==null || rcsaStartDate == '')">RCSA Start Date is mandatory</div>
-                <input type="text" class="form-control" name="rcsaStartDate" [ngModel]="rcsaStartDate | date: 'MM/dd/yyyy'" mask="99/99/9999" (ngModelChange)="rcsaStartDate=$event" placeholder="RCSA Start Date" disabled>
+                <div class="errormessage absolute" *ngIf="showErrors && (rcsaStartDate==null || rcsaStartDate == '')">RCM Start Date is mandatory</div>
+                <input type="text" class="form-control" name="rcsaStartDate" [ngModel]="rcsaStartDate | date: 'MM/dd/yyyy'" mask="99/99/9999" (ngModelChange)="rcsaStartDate=$event" placeholder="RCM Start Date" disabled>
               </div>
               <div class="form-group form-dd">
                 <label class="mn-w-230">Set Reminder Date for Assessors:</label>
                 <p-calendar name="s" readonlyInput="true" [utc]='false'  [ngClass]="{'error':showErrors && (reminderDateAssessor == '' || reminderDateAssessor == null)}" class="rcsa-calendar mx-w-230" [minDate]="rcsaStartDate" [maxDate]="rcsaEndDate" [(ngModel)]="reminderDateAssessor" showIcon=true icon="fa-calendar" dateFormat="mm/dd/yy" placeholder="MM/DD/YYYY"></p-calendar>
-                <div class="errormessage" *ngIf="showErrors && (reminderDateAssessor < rcsaStartDate || reminderDateAssessor > rcsaEndDate)">Invalid Date. Please select a date within the RCSA Start Date and End Date period</div>
+                <div class="errormessage" *ngIf="showErrors && (reminderDateAssessor < rcsaStartDate || reminderDateAssessor > rcsaEndDate)">Invalid Date. Please select a date within the RCM Start Date and End Date period</div>
               </div>
             </div>
             <div class="start-new-rcsa-dateselection">
-              <label class="label-highlight-dark text-uppercase">SET RCSA DATE OF COMPLETION:</label>
+              <label class="label-highlight-dark text-uppercase">SET RCM DATE OF COMPLETION:</label>
               <p-calendar name="rcsaEndDate" [defaultDate]="defaultDate" [utc]='false'  class="rcsa-calendar" [disabled]="rcsaStartDate==null || rcsaStartDate == ''"  [minDate]="rcsaStartDate" [(ngModel)]="rcsaEndDate" showIcon=true icon="fa-calendar" inline="true" dateFormat="mm/dd/yy"></p-calendar>
               <div class="form-group form-dd form-lg">
-                <div class="errormessage absolute" *ngIf="showErrors && (rcsaEndDate==null || rcsaEndDate == '')">RCSA End Date is mandatory</div>
-                <input type="text" name="rcsaEndDate" [ngModel]="rcsaEndDate | date: 'MM/dd/yyyy'" (ngModelChange)="rcsaEndDate=$event" class="form-control" placeholder="RCSA End Date" disabled>
+                <div class="errormessage absolute" *ngIf="showErrors && (rcsaEndDate==null || rcsaEndDate == '')">RCM End Date is mandatory</div>
+                <input type="text" name="rcsaEndDate" [ngModel]="rcsaEndDate | date: 'MM/dd/yyyy'" (ngModelChange)="rcsaEndDate=$event" class="form-control" placeholder="RCM End Date" disabled>
               </div>
               <div class="form-group form-dd">
                 <label class="mn-w-265">Set Reminder Date for AU Coordinator:</label>
                 <p-calendar readonlyInput="true" name="s" [utc]='false' class="rcsa-calendar mx-w-230" [ngClass]="{'error':showErrors && (reminderDateCordinator == '' || reminderDateCordinator == null)}" [minDate]="rcsaStartDate" [maxDate]="rcsaEndDate" [(ngModel)]="reminderDateCordinator" showIcon=true icon="fa-calendar" dateFormat="mm/dd/yy" placeholder="MM/DD/YYYY"></p-calendar>
-                <div class="errormessage" *ngIf="showErrors && (reminderDateCordinator < rcsaStartDate || reminderDateCordinator > rcsaEndDate)">Invalid Date. Please select a date within the RCSA Start Date and End Date period</div>
+                <div class="errormessage" *ngIf="showErrors && (reminderDateCordinator < rcsaStartDate || reminderDateCordinator > rcsaEndDate)">Invalid Date. Please select a date within the RCM Start Date and End Date period</div>
               </div>
             </div>
           </div>
           <div class="clearfix"></div>
-          <h5 class="rcsa-title">Name: RCSA - Q{{selectedQuarter.id}} {{selectedYear.value}} ({{rcsaStartDate | date: 'MM/dd/yyyy'}} - {{rcsaEndDate | date: 'MM/dd/yyyy'}})</h5>
+          <h5 class="rcsa-title">Name: RCM - Q{{selectedQuarter.id}} {{selectedYear.value}} ({{rcsaStartDate | date: 'MM/dd/yyyy'}} - {{rcsaEndDate | date: 'MM/dd/yyyy'}})</h5>
         </div>
         <!--Rcsa Setup-->
         <!--Button Toolbar to show button-->
@@ -92,7 +92,7 @@
 <!--
             <button class="btn btn-primary" type="button" (click)="saveRcsa()">save RCSA</button>
 -->
-            <button class="btn btn-primary" type="button" (click)="startRcsa()" *ngIf="rcsaUnitlist.length>0">Start RCSA</button>
+            <button class="btn btn-primary" type="button" (click)="startRcsa()" *ngIf="rcsaUnitlist.length>0">Start RCM</button>
 <!--
             <button class="btn btn-primary" type="button" (click)="dummy()" *ngIf="rcsaUnitlist.length>0">dummy</button>
 -->

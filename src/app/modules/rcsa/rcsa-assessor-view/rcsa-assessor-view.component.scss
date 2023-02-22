@@ -78,11 +78,39 @@ app-rcsa-assessor-view{
   text-align: center;
 }
 .bfu-grid-wrapper .bfu-row .bfu-col ul.bfu-list li {
-  padding: 0px;
+  // padding: 0px;
   font-size: 11px;
   display: flex;
   align-items: center;
 }
 .bfu-grid-wrapper .bfu-row .bfu-col ul.bfu-list li:last-child{
   background-color: white;
+}
+
+.bfu-legend {
+  li{
+    &:nth-child(1){
+      span{
+        background-color: #e3151a;
+      }
+    }
+    &:nth-child(2){
+      span{
+        background-color: #f4a535;
+      }
+    }
+    &:nth-child(3){
+      span{
+        background-color: #218838;
+      }
+    }
+
+  }
+}
+.bfu-legend li span {
+  display: inline-block;
+  width: 30px;
+  height: 18px;
+  margin-right: 10px;
+  vertical-align: middle;
 }

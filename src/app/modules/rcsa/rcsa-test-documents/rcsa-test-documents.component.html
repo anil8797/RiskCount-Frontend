@@ -50,12 +50,22 @@
               ></pdf-viewer>-->
              <!-- <pdf-viewer [src]="pdfSrc"></pdf-viewer>-->
               <p-dataTable class="custom-prime-grid" [value]="selectedAttachments.attachments">
-                <p-column field="geography" header="Uploaded Test Document" [style]="{'width':'310px'}">
+                <p-column field="geography" header="Was there an issue" >
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span >{{row.wasThereAnyIssue}}</span>
+                  </ng-template>
+                </p-column>
+                <p-column field="geography" header="Comments">
+                  <ng-template let-col let-row="rowData" pTemplate="body">
+                    <span >{{row.comment}}</span>
+                  </ng-template>
+                </p-column>
+                <p-column field="geography" header="Uploaded Document" >
                   <ng-template let-col let-row="rowData" pTemplate="body">
                     <span class="link" (click)="downloadAttachment(row.fileId, row.name)">{{row.name}}</span>
                   </ng-template>
                 </p-column>
-                <p-column field="description" header="Submitted By">
+                <p-column field="description" header="Assessor Name">
                   <ng-template let-col let-row="rowData" pTemplate="body">
                     {{row.firstName}} {{row.lastName}}
                   </ng-template>

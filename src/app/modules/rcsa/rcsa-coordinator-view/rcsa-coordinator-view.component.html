@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <h3 class="head text-uppercase" *ngIf="rcsaStartStatus">{{assessmentData?.businessFunctionalUnitName}} <span> - </span>{{assessmentData?.rcsaName}}</h3>
+  <h3 class="head text-uppercase" *ngIf="rcsaStartStatus">Assessment Open {{assessmentData?.startDate | amUtc | amDateFormat: 'MM/DD/YYYY'}}, to be completed by {{assessmentData?.endDate | amUtc | amDateFormat: 'MM/DD/YYYY'}}</h3>
   <div class="row">
     <div class="col-md-12">
       <div class="card" *ngIf="!rcsaStartStatus">
@@ -28,16 +28,14 @@
           <label>Risks : </label>
           <select2 class="select2-icon" *ngIf="riskList?.length > 0" [value]="selectedRiskOption" (valueChanged)="changeRisk($event)" [data]="riskList" [cssImport]="true" [options]="options"></select2>
         </div>
-        <div class="bfu-title"><span class="bold text-uppercase">STEP 1 ­ REVIEW ALL CONTROL CATEGORIES FOR {{selectedRisk?.name}}</span></div>
+        <div class="bfu-title"><span class="bold text-uppercase">1 ­ REVIEW ALL CONTROL CATEGORIES FOR {{selectedRisk?.name}}</span></div>
         <div class="bfu-title">
-          1. All sections of each policy were assessed by your team, by answering the 5 questions below.
+          In this assessment, Controls were assessed by your team, by answering 2 questions.
           <ul class="bfu-roman-list">
-            <li>i. Has there been a Failure/Risk issue this Quarter </li>
-            <li>ii. Was this documented/discussed with Risk/Leadership</li>
-            <li>iii. Was it a Failed or Missing Control, or one​-off Exception</li>
-            <li>iv. Rate the status & quality of implementation of the Control Category. Pick a score from 0 to 10, with 10 being the best</li>
-            <li>v. If you rated between 0-4 for Question 4, required remediation is mandatory</li>
+            <li>i. Has there been a Failure/Risk issue </li>
+            <li>ii. Rate the Effectiveness of Control (by category) picking a score from 0 to 10, 10 being the best</li>
           </ul>
+          In Addition assessors were requested to attach any test documentation or to provide their Comment or Remediation
         </div>
         <div class="bfu-title"><span class="font-bold">2. The individual scores for the various Control Categories, from assessors on your team, are presented below. Please confirm final CONTROL SCORES for your business unit.</span></div>
         <div class="risk_wrapper" *ngFor="let controlCategory of selectedRisk?.controlCategories">
@@ -157,7 +155,7 @@
         </div>
         <div class="row bfu-chart-section">
           <div class="col-md-8">
-            <h5>AVERAGE ASSESSOR CONTROL SCORE VS. RCSA COORDINATOR SCORE</h5>
+            <h5>AVERAGE ASSESSOR CONTROL SCORE VS. RCM COORDINATOR SCORE</h5>
             <button class="btn btn-lg btn-transparent" (click)="createDistributionDataForChart(selectedRisk)"><i class="fa fa-repeat"></i> Refresh Graph</button>
             <fusioncharts
               width="100%"
@@ -184,7 +182,7 @@
                   Assessor Score
                 </div>
                 <div class="bfu-col">
-                  RCSA Coordinator Score
+                  RCM Coordinator Score
                 </div>
               </div>
               <div class="bfu-row">
@@ -235,9 +233,9 @@
         <div class="rcsa-errormessage" *ngIf="showRcsaErrorMessage">{{rcsaErrorMessage}}</div>
         <!--Button Toolbar to show button-->
         <div class="btn-group align-left">
-          <button class="btn btn-primary" type="button" (click)="validateControlCategoryResponse('save')">save</button>
+          <button class="btn btn-primary" type="button" (click)="validateControlCategoryResponse('goToNextRisk')">save and next</button>
           <!--<button class="btn btn-primary" type="button" *ngIf="!showSubmitToButton && showSaveReviewButton" (click)="validateControlCategoryResponse('goToNextRisk')">save - review next Risk</button>-->
-          <button class="btn btn-primary" type="button" *ngIf="showSubmitToButton" (click)="validateControlCategoryResponse('submit')">SUBMIT RCSA TO RISK MANAGEMENT
+          <button class="btn btn-primary" type="button" *ngIf="showSubmitToButton" (click)="validateControlCategoryResponse('submit')">SUBMIT RCM TO RISK MANAGEMENT
           </button>
         </div>
       </div>

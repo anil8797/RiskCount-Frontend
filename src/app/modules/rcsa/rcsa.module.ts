@@ -41,6 +41,11 @@ import * as FintTheme from '../../components/fusioncharts/themes/fusioncharts.th
 import { FusionChartsModule } from 'angular4-fusioncharts';
 import {MomentModule} from "angular2-moment";
 import {RcsaUnitRmSetUpRemediationComponent} from "./rcsa-unit-rm-setup-remediation/rcsa-unit-rm-setup-remediation.component";
+import { RcsaCoordinatorDashboardComponent } from './rcsa-coordinator-dashboard/rcsa-coordinator-dashboard.component';
+import { RatingCalculatorComponent } from './rating-calculator/rating-calculator.component';
+import { UserMannualComponent } from './user-mannual/user-mannual.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 FusionChartsModule.fcRoot(FusionCharts,PowerCharts,Widgets,Gantt, Charts, FintTheme);
 
 
@@ -65,7 +70,8 @@ FusionChartsModule.fcRoot(FusionCharts,PowerCharts,Widgets,Gantt, Charts, FintTh
     Select2Module,
     NgSelectModule,
     InputMaskModule,
-    MomentModule
+    MomentModule,
+    PdfViewerModule
   ],
   declarations: [
     RcsaComponent,
@@ -84,7 +90,10 @@ FusionChartsModule.fcRoot(FusionCharts,PowerCharts,Widgets,Gantt, Charts, FintTh
     TruncatePipe,
     RcsaDashboardRiskComponent,
     RcsaDashboardRemediationComponent,
-    RcsaUnitRmSetUpRemediationComponent
+    RcsaUnitRmSetUpRemediationComponent,
+    RcsaCoordinatorDashboardComponent,
+    RatingCalculatorComponent,
+    UserMannualComponent
   ],
   providers:[
     RcsaService,

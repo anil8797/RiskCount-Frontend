@@ -470,7 +470,7 @@ export class RcsaAssessorViewComponent implements OnInit {
           this.appSpinnerService.display(false);
         }
       );
-    } else if(data) {
+    } else if(data != undefined && data != null) {
         this.changeControlCategory(this.assessmentData.controlCategories[data]);
       }else{
         let value = this.assessmentData.controlCategories.findIndex(

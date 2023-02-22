@@ -36,6 +36,7 @@
     "ng2-ckeditor": "1.1.9",
     "ng2-currency-mask": "^4.4.1",
     "ng2-file-upload": "^1.2.1",
+    "ng2-pdf-viewer": "^3.0.8",
     "ng2-select2": "^1.0.0-beta.11",
     "ngx-bootstrap": "^2.0.0-beta.6",
     "ngx-ui-switch": "^1.6.0",

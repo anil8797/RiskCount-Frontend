@@ -1,0 +1,133 @@
+<div id="rating-calculations" class="p-5">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 id="heading">
+        RiskCounts Approach to Residual Risk Ratings calculation
+      </h3>
+    </div>
+    <div class="col-sm-12">
+      <ol type="A">
+        <li><b>Inherent Risk:</b> Let us assume that inherent risk rating is (5,4) i.e., Risk Score is 5 X 4 = 20, VERY
+          HIGH
+          on the RiskHeatmap</li>
+        <li><b>Control Rating:</b> Let us assume that the control rating is confirmed by Risk Management at 6 (we
+          should allow one decimal place at least, as seen why below) after reviewing Business Unit Head
+          ratings, and any other risk data i.e., 60% control effectiveness is achieved</li>
+        <li>
+          <b>Residual Risk:</b>
+          <ol>
+            <li><b><span class="red-highlight-text ">Residual Severity:</span> </b>Control rating below 50% does not
+              impact the Severity Rating. i.e., benefit
+              of Controls is given only to any effectiveness exceeding 50%. In such cases, the Residual Severity
+              improves (is lower) by the amount of control improvement over 50%.
+              <br />
+              <br />
+              <span class="red-highlight-text mb-3"><b>So, Residual Severity (X-axis value) – is derived as follows:</b></span>
+              <ol type="a">
+                <li>where 0 < Control Rating < 50%, Residual Severity=Inherent Severity</li>
+                <li>where 50
+                  < Control Rating < 100%, <br />
+                  {{"Residual Severity = {Inherent Severity * (100 - (Control Rating-50))%} "}}
+                  <br />
+                  In the above examples, Residual Severity = 5 * (100 – (60-50))% = 4.5
+                </li>
+              </ol>
+            </li>
+            <li>
+              <span class="red-highlight-text "><b>Residual Likelihood</b></span> derives all the benefit of controls
+              <br />
+              {{"So Residual Likelihood (Y axis) is derived as {4 * (100-60)%} = 1.6"}}
+              <br />
+              So, the <b>Residual Risk rating</b> is now (4.5, 1.6), for a risk-score of 7.2
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <p class="highlight-blue">
+        SCENARIOS starting with a 5,4 Inherent Risk Rating (note one decimal place allowed for Control rating)
+      </p>
+      <table>
+        <thead>
+          <th>
+            Inherent Severity I
+          </th>
+          <th>
+            Inherent Likelihood
+          </th>
+          <th>
+            Control Rating
+          </th>
+          <th>
+            Residual Severity R
+          </th>
+          <th>
+            Residual Likelihood
+          </th>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="11">5</td>
+            <td rowspan="11">4</td>
+            <td>10</td>
+            <td>2.5</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>3</td>
+            <td>0.4</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>3.5</td>
+            <td>0.8</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>4</td>
+            <td>1.2</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>4.5</td>
+            <td>1.6</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>5</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>2.4</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>5</td>
+            <td>2.8</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>5</td>
+            <td>3.2</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>5</td>
+            <td>3.6</td>
+          </tr>
+          <tr>
+            <td>0</td>
+            <td>5</td>
+            <td>4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

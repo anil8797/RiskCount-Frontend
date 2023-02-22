@@ -99,6 +99,14 @@ export class RcsaDashboardComponent implements OnInit {
     }else{
       this.getRcsaUnits();
     }
+    this.getDashboardData();
   }
 
+  unitRiskMangerDashboardStatusDTOs = []
+  getDashboardData(){
+    this.rcsaService.fetchUnitRiskManagerDashboardData().subscribe((response)=>{
+      console.log(response);
+      this.unitRiskMangerDashboardStatusDTOs = response.assessmentDashboardStatusDTOs;
+    });
+  }
 }

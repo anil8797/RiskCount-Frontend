@@ -21,6 +21,50 @@
             </div>
           </div>
         </tab>
+        <tab>
+          <ng-template tabHeading>RCM STATUS REPORT </ng-template>
+          <div class="row">
+            <div class="col-md-12 p-0">
+              <div class="main m-3">
+                <div class="doc-viewer">
+                  <!--<file-viewer src='assets/DASHBOARDVIEW.pdf' width='100%' height='660px' controls='true'></file-viewer>-->
+                  <!--<pdf-viewer [src]="['assets/DASHBOARDVIEW.pdf']"
+                              [render-text]="true"
+                              style="display: block;"
+                  ></pdf-viewer>-->
+                 <!-- <pdf-viewer [src]="pdfSrc"></pdf-viewer>-->
+                  <p-dataTable class="custom-prime-grid" [value]="unitRiskMangerDashboardStatusDTOs">
+                    <p-column field="geography" header="Status" >
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        <span >{{row.status}}</span>
+                      </ng-template>
+                    </p-column>
+                    <p-column field="geography" header="Assessor">
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        <span >{{row.assessorFirstName}} {{row.assessorLastName}}</span>
+                      </ng-template>
+                    </p-column>
+                    <p-column field="geography" header="RCM Start Date" >
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        <span >{{row.rcsaStartDate | date: 'MM/dd/yyyy'}}</span>
+                      </ng-template>
+                    </p-column>
+                    <p-column field="description" header="RCM End Date">
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        {{row.rcsaStartDate | date: 'MM/dd/yyyy'}}
+                      </ng-template>
+                    </p-column>
+                    <p-column field="description" header="Last Reminder Sent Date">
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        {{row.lastReminderSentDate | date: 'MM/dd/yyyy'}}
+                      </ng-template>
+                    </p-column>
+                  </p-dataTable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
       </tabset>
     </div>
   </div>

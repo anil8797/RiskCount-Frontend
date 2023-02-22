@@ -1,0 +1,34 @@
+{
+    "requestId": 0,
+    "groupId": 101,
+    "creditLimit": 4000000.0,
+    "allocatedCreditLimit": 2000000.0,
+    "settlementLimit": 0.0,
+    "allocatedSettlementLimit": 0.0,
+    "creditComments": "Credit Comments",
+    "settlementComments":"",
+    "updatedDate": "Oct 24, 2017 12:25:40 AM",
+    "counterparties": [{
+      "cptyId": 1011,
+      "cp_name": "CP-O",
+      "creditLimit": 600000.0,
+      "allocatedCreditLimit": 300000.0,
+      "settlementLimit": 0.0,
+      "settlementComments":"",
+      "allocatedSettlementLimit": 0.0,
+      "creditComments": "Cpty 1 Comments",
+      "updatedDate": "Oct 24, 2017 12:25:40 AM"
+    },{
+      "cptyId": 1012,
+      "cp_name": "CP-T",
+      "creditLimit": 200000.0,
+      "allocatedCreditLimit": 200000.0,
+      "settlementLimit": 0.0,
+      "settlementComments":"",
+      "allocatedSettlementLimit": 0.0,
+      "creditComments": "Cpty 2 Comments",
+      "updatedDate": "Oct 24, 2017 12:25:40 AM"
+    }],
+    "submittedBy": 1007,
+    "submittedTo": 1006
+}
