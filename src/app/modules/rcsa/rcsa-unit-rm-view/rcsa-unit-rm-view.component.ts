@@ -5,6 +5,7 @@ import {AppSpinnerService} from "../../../services/common/app-spinner";
 import {Observable} from "rxjs/Observable";
 import {Select2OptionData} from "ng2-select2";
 import {DataTransferService} from "../../../services/data-transfer/data-transfer.service";
+import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'app-rcsa-unit-rm-view',
@@ -56,7 +57,8 @@ export class RcsaUnitRmViewComponent implements OnInit {
   constructor(
     private rcsaService : RcsaService,
     private appSpinnerService: AppSpinnerService,
-    private dataTransferService:DataTransferService
+    private dataTransferService:DataTransferService,
+    private confirmationService: ConfirmationService
   ) {
     let riskOptionsArray = [
       {id:'',text:''}
@@ -1623,4 +1625,12 @@ export class RcsaUnitRmViewComponent implements OnInit {
     this.appSpinnerService.display(true);
   }
 
+  confirm(assessementData,action) {
+    this.confirmationService.confirm({
+        message: 'Are you sure that you want to perform this action?',
+        accept: () => {
+          this.saveUnitRmAssessment(assessementData,action)
+        }
+    });
+  }  
 }

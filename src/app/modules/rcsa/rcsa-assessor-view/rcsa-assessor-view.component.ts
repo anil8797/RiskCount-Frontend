@@ -14,6 +14,7 @@ import "rxjs/add/observable/of";
 import { ModalDirective } from "ngx-bootstrap";
 import { saveAs } from "file-saver";
 import "rxjs/Rx";
+import { ConfirmationService } from "primeng/primeng";
 @Component({
   selector: "app-rcsa-assessor-view",
   templateUrl: "./rcsa-assessor-view.component.html",
@@ -61,7 +62,8 @@ export class RcsaAssessorViewComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private rcsaService: RcsaService,
-    private appSpinnerService: AppSpinnerService
+    private appSpinnerService: AppSpinnerService,
+    private confirmationService: ConfirmationService
   ) {
     this.editorConfig = {
       skin: "bootstrapck",
@@ -745,4 +747,12 @@ export class RcsaAssessorViewComponent implements OnInit {
       },
     ];
   }
+  confirm() {
+    this.confirmationService.confirm({
+        message: 'Are you sure that you want to perform this action?',
+        accept: () => {
+          this.submitToCoordinator()
+        }
+    });
+  } 
 }
