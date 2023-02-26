@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AppSpinnerService } from 'app/services/common/app-spinner';
 import { RcsaService } from 'app/services/rcsa/rcsa.service';
+import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'app-rcsa-coordinator-dashboard',
@@ -8,8 +10,13 @@ import { RcsaService } from 'app/services/rcsa/rcsa.service';
 })
 export class RcsaCoordinatorDashboardComponent implements OnInit {
   assessmentDashboardStatusDTOs = []
+  showNotificationAlter = false;
   constructor(
-    private rcsaService: RcsaService) { }
+    private rcsaService: RcsaService,
+    private confirmationService: ConfirmationService,
+    private appSpinnerService : AppSpinnerService,
+
+    ) { }
 
   ngOnInit() {
     this.getDashboardData();
@@ -20,5 +27,25 @@ export class RcsaCoordinatorDashboardComponent implements OnInit {
       console.log(response);
       this.assessmentDashboardStatusDTOs = response.assessmentDashboardStatusDTOs;
     })
+  }
+
+  sendReminder(rcsaId) {
+    let obj = {
+      "rcsaId": Number(rcsaId),
+      "notifyRiskCoordinator": false
+    }
+    this.appSpinnerService.display(true);
+    this.rcsaService.sendReminder(obj).subscribe(
+      (responseData: any) => {
+        this.getDashboardData();
+        this.showNotificationAlter= true;
+      },
+      (error: any) => {
+        this.appSpinnerService.display(false);
+      },
+      () => {
+        this.appSpinnerService.display(false);
+      }
+    )
   }
 }

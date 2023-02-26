@@ -15,6 +15,8 @@ export class RcsaDashboardComponent implements OnInit {
   public userRole:any;
   public selectedRiskUnit:any;
   public riskList:Observable<Array<Select2OptionData>>;
+  public showNotificationAlter = false;
+
   constructor(
     private rcsaService : RcsaService,
     private appSpinnerService: AppSpinnerService,
@@ -108,5 +110,25 @@ export class RcsaDashboardComponent implements OnInit {
       console.log(response);
       this.unitRiskMangerDashboardStatusDTOs = response.assessmentDashboardStatusDTOs;
     });
+  }
+  sendReminder(rcsaId){
+    let obj ={
+      "rcsaId": rcsaId,
+      "notifyRiskCoordinator": true
+    }
+    this.appSpinnerService.display(true);
+    this.rcsaService.sendReminder(obj).subscribe(
+      (responseData:any)=>{
+        console.log(responseData);
+        this.showNotificationAlter = true;
+        this.getDashboardData();
+      },
+      (error:any)=>{
+        this.appSpinnerService.display(false);
+      },
+      ()=>{
+        this.appSpinnerService.display(false);
+      }
+    )
   }
 }

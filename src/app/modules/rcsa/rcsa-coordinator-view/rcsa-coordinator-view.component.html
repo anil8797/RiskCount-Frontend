@@ -136,7 +136,18 @@
                 <div class="final_rating white">
                   <div class="form-group form-dd form-md form-inline">
                     <label >Score:</label>
-                    <input  class="form-control mx-w-200" [ngClass]="{'invalid':(controlCategory.valid == false && (controlCategory.finalScore =='' || controlCategory.finalScore == null))}"  [ngModel]="controlCategory.finalScore | number: '1.0-1'" (ngModelChange)="controlCategory.finalScore = $event" (input)="changeControlCategoryFinalScore($event.target.value, controlCategory.finalScoreChartdata)" onkeydown="javascript: return event.keyCode == 69 ? false : true" placeholder="Final Score" type="text" OnlyNumber="true" DecimalPlaces="1" minValue="0.0" maxValue="10.0">
+                    <input  class="form-control mx-w-200" 
+                    [ngClass]="{'invalid':(controlCategory.valid == false && (controlCategory.finalScore =='' || controlCategory.finalScore == null))}"  
+                    [ngModel]="controlCategory.finalScore | number: '1.0-1'"
+                    (ngModelChange)="setScoreValue(controlCategory,$event)" 
+                    (input)="changeControlCategoryFinalScore($event.target.value, controlCategory.finalScoreChartdata)" 
+                    onkeydown="javascript: return event.keyCode == 69 ? false : true" 
+                    placeholder="Final Score" 
+                    type="text" 
+                    OnlyNumber="true" 
+                    DecimalPlaces="1" 
+                    minValue="0.0" 
+                    maxValue="10.0">
                     <div class="error" *ngIf="controlCategory.valid == false && (controlCategory.finalScore =='' || controlCategory.finalScore == null)">Please provide a score for <span class="text-uppercase">{{controlCategory?.name}}</span></div>
                   </div>
                 </div>
@@ -235,7 +246,7 @@
         <div class="btn-group align-left">
           <button class="btn btn-primary" type="button" (click)="validateControlCategoryResponse('goToNextRisk')">save and next</button>
           <!--<button class="btn btn-primary" type="button" *ngIf="!showSubmitToButton && showSaveReviewButton" (click)="validateControlCategoryResponse('goToNextRisk')">save - review next Risk</button>-->
-          <button class="btn btn-primary" type="button" *ngIf="showSubmitToButton" (click)="validateControlCategoryResponse('submit')">SUBMIT RCM TO RISK MANAGEMENT
+          <button class="btn btn-primary" type="button" *ngIf="showSubmitToButton" (click)="confirm('submit')">SUBMIT RCM TO RISK MANAGEMENT
           </button>
         </div>
       </div>
@@ -282,3 +293,5 @@
   </div>
   <!--</ng-template>-->
 </div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

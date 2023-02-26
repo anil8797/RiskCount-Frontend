@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {BsDropdownModule, ModalModule, TabsModule, TypeaheadModule} from "ngx-bootstrap";
-import {CalendarModule, DataTableModule, SharedModule, MultiSelectModule, InputMaskModule} from "primeng/primeng";
+import {CalendarModule, DataTableModule, SharedModule, MultiSelectModule, InputMaskModule,DialogModule,ConfirmDialogModule, ConfirmationService} from "primeng/primeng";
 import { RcsaRoutingModule } from './rcsa-routing.module';
 import { RcsaComponent } from "./rcsa.component";
 import { RcsaDashboardComponent } from './rcsa-dashboard/rcsa-dashboard.component';
@@ -71,7 +71,9 @@ FusionChartsModule.fcRoot(FusionCharts,PowerCharts,Widgets,Gantt, Charts, FintTh
     NgSelectModule,
     InputMaskModule,
     MomentModule,
-    PdfViewerModule
+    PdfViewerModule,
+    DialogModule,
+    ConfirmDialogModule
   ],
   declarations: [
     RcsaComponent,
@@ -98,7 +100,8 @@ FusionChartsModule.fcRoot(FusionCharts,PowerCharts,Widgets,Gantt, Charts, FintTh
   providers:[
     RcsaService,
     DataTransferService,
-    DatePipe
+    DatePipe,
+    ConfirmationService
   ]
 })
 export class RcsaModule { }

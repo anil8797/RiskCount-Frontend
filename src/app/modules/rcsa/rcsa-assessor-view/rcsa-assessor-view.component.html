@@ -234,7 +234,7 @@
                     <div class="btn-group align-left">
                       <button class="btn btn-danger" type="button"
                         (click)="saveControlProcedures('save', selectedRisk)">save and next</button>
-                      <button class="btn btn-danger" type="button" (click)="submitToCoordinator()"
+                      <button class="btn btn-danger" type="button" (click)="confirm()"
                         *ngIf="enableCoordinatorSubmission">submit to rcm coordinator</button>
                     </div>
                   </div>
@@ -293,3 +293,5 @@
   </div>
   <!--</ng-template>-->
 </div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

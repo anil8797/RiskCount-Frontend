@@ -9,6 +9,7 @@ import {RcsaService} from "../../../services/rcsa/rcsa.service";
 import {ModalModule} from "ngx-bootstrap";
 import {CKEditorModule} from "ng2-ckeditor";
 import {MomentModule} from "angular2-moment";
+import { ConfirmationService, ConfirmDialogModule } from 'primeng/primeng';
 
 @NgModule({
   imports: [
@@ -19,13 +20,15 @@ import {MomentModule} from "angular2-moment";
     Select2Module,
     ModalModule.forRoot(),
     CKEditorModule,
-    MomentModule
+    MomentModule,
+    ConfirmDialogModule
   ],
   declarations: [
     RcsaAssessorViewComponent
   ],
   providers:[
-    RcsaService
+    RcsaService,
+    ConfirmationService
   ]
 })
 export class RcsaAssessorViewModule { }

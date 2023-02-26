@@ -4,6 +4,7 @@ import { RcsaService } from "../../../services/rcsa/rcsa.service";
 import { AppSpinnerService } from "../../../services/common/app-spinner";
 import index from "@angular/cli/lib/cli";
 import { ModalDirective } from "ngx-bootstrap";
+import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'app-rcsa-coordinator-view',
@@ -97,6 +98,7 @@ export class RcsaCoordinatorViewComponent implements OnInit {
   constructor(
     private rcsaService: RcsaService,
     private appSpinnerService: AppSpinnerService,
+    private confirmationService:ConfirmationService
   ) {
     this.editorConfig = {
       skin: 'bootstrapck',
@@ -707,7 +709,7 @@ export class RcsaCoordinatorViewComponent implements OnInit {
   goToNextRisk() {
     const currentRiskId = this.selectedRisk.id;
     let index = this.riskList.findIndex(item => item.id === currentRiskId);
-    if (index != -1) {
+    if (index != -1 && index != this.riskList.length -1) {
       index = index + 1;
       const nextRisk = this.riskList[index];
       if (nextRisk != null) {
@@ -715,12 +717,14 @@ export class RcsaCoordinatorViewComponent implements OnInit {
           if (item.id == nextRisk.id) {
             this.selectedRisk = item;
             this.selectedRiskOption = this.selectedRisk.id;
-            window.scrollTo(0, 0)
+            window.scrollTo(0, 0);
+            return;
+            // 
           }
         });
+        this.appSpinnerService.display(false); 
       }
     };
-    this.appSpinnerService.display(false);
   }
   // Check Coordinator submission Status
   checkRiskManagementSubmissionStatus() {
@@ -893,7 +897,6 @@ export class RcsaCoordinatorViewComponent implements OnInit {
       this.createOptionsData(this.assessmentData.risks);
       this.checkRiskManagementSubmissionStatus();
       if (nextAction == 'goToNextRisk') {
-        this.appSpinnerService.display(false);
         this.goToNextRisk();
       } else if (nextAction == 'submit') {
         this.appSpinnerService.display(false);
@@ -965,5 +968,18 @@ export class RcsaCoordinatorViewComponent implements OnInit {
     this.getAssessmentUnits();
     // this.appSpinnerService.display(true); // phase2
   }
-  
+
+  confirm(action) {
+    this.confirmationService.confirm({
+        message: 'Are you sure that you want to perform this action?',
+        accept: () => {
+          this.validateControlCategoryResponse(action)
+        }
+    });
+  }  
+  setScoreValue(controlCategory,$event){
+    if($event){
+      controlCategory.finalScore = $event;
+    }
+  }
 }

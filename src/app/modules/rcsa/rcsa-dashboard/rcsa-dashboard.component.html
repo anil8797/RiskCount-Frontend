@@ -34,17 +34,22 @@
                   ></pdf-viewer>-->
                  <!-- <pdf-viewer [src]="pdfSrc"></pdf-viewer>-->
                   <p-dataTable class="custom-prime-grid" [value]="unitRiskMangerDashboardStatusDTOs">
+                    <p-column field="geography" header="RCM Name" >
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        <span >{{row.rcsaName}}</span>
+                      </ng-template>
+                    </p-column>
                     <p-column field="geography" header="Status" >
                       <ng-template let-col let-row="rowData" pTemplate="body">
                         <span >{{row.status}}</span>
                       </ng-template>
                     </p-column>
-                    <p-column field="geography" header="Assessor">
+                    <p-column field="geography" header="Coordinator">
                       <ng-template let-col let-row="rowData" pTemplate="body">
                         <span >{{row.assessorFirstName}} {{row.assessorLastName}}</span>
                       </ng-template>
                     </p-column>
-                    <p-column field="geography" header="RCM Start Date" >
+                    <!-- <p-column field="geography" header="RCM Start Date" >
                       <ng-template let-col let-row="rowData" pTemplate="body">
                         <span >{{row.rcsaStartDate | date: 'MM/dd/yyyy'}}</span>
                       </ng-template>
@@ -53,10 +58,15 @@
                       <ng-template let-col let-row="rowData" pTemplate="body">
                         {{row.rcsaStartDate | date: 'MM/dd/yyyy'}}
                       </ng-template>
-                    </p-column>
+                    </p-column> -->
                     <p-column field="description" header="Last Reminder Sent Date">
                       <ng-template let-col let-row="rowData" pTemplate="body">
                         {{row.lastReminderSentDate | date: 'MM/dd/yyyy'}}
+                      </ng-template>
+                    </p-column>
+                    <p-column field="description" header="Action">
+                      <ng-template let-col let-row="rowData" pTemplate="body">
+                        <button class="btn btn-primary" (click)="sendReminder(row.rcsaId)" type="button" *ngIf="row.status != 'COMPLETED'">send Reminders</button>
                       </ng-template>
                     </p-column>
                   </p-dataTable>
@@ -69,3 +79,9 @@
     </div>
   </div>
 </div>
+<p-dialog header="Cooridator Notified" [(visible)]="showNotificationAlter">
+  Reminder has been sent successfully.
+  <p-footer>
+    <button class="btn btn-info" (click)="showNotificationAlter = false" type="button" >close</button>
+</p-footer>
+</p-dialog>
