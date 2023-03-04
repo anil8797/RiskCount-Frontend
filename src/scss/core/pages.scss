@@ -853,6 +853,9 @@ app-rcsa,app-rcsa-assessor-view {
   }
   .assessor-right{
     width:calc(100% - 315px);
+    overflow: scroll;
+    height: 100vh;
+    padding-bottom: 200px;
   }
   .assessor-policy-left{
     &.summary{
@@ -1920,4 +1923,7 @@ app-rcsa,app-rcsa-assessor-view {
 
 .red-highlight-text{
   color: #e3151a
+}
+body{
+  overflow: hidden;
 }

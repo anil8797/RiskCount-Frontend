@@ -42,7 +42,7 @@
                       Control Category:
                     </div>
                     <div class="clearfix"></div>
-                    <ul>
+                    <ul id = "left-control-category-list">
                       <li *ngFor="let item of assessmentData?.controlCategories; let i = index;"
                         [class.active]="item.id == selectedControlCategory?.id"
                         [class.completed]="item.status == 'COMPLETED'" (click)="changeControlCategoryOnClick(item,i)">

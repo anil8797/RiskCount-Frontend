@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppSpinnerService } from 'app/services/common/app-spinner';
 import { RcsaService } from 'app/services/rcsa/rcsa.service';
 import { ConfirmationService } from 'primeng/primeng';
@@ -9,6 +9,8 @@ import { ConfirmationService } from 'primeng/primeng';
   styleUrls: ['./manage-rcm.component.scss']
 })
 export class ManageRcmComponent implements OnInit {
+  visible: boolean = true;
+
   rcmList = [];
   showNotificationAlter = false;
   constructor(private rcsaService : RcsaService,
@@ -28,8 +30,6 @@ export class ManageRcmComponent implements OnInit {
   reset(rcsaId){
     this.appSpinnerService.display(true);
     this.rcsaService.resetRcm(rcsaId).subscribe((response)=>{
-      console.log(response);
-      this.rcmList = response;
       this.appSpinnerService.display(false);
       this.getAllRCMs();
       this.showNotificationAlter = true;
@@ -43,5 +43,8 @@ export class ManageRcmComponent implements OnInit {
         }
     });
   } 
-
+  updateVisibility(): void {
+    this.visible = false;
+    setTimeout(() => this.visible = true, 0);
+  }
 }

@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="p-5">
-    <p-dataTable class="custom-prime-grid" [value]="rcmList">
-      <p-column field="geography" header="RCM Name">
+    <p-dataTable *ngIf="visible" class="custom-prime-grid" [value]="rcmList">
+      <p-column field="rcsaName" header="RCM Name">
         <ng-template let-col let-row="rowData" pTemplate="body">
           <span>{{row.rcsaName}}</span>
         </ng-template>
       </p-column>
-      <p-column field="description" header="Action">
+      <p-column  header="Action">
         <ng-template let-col let-row="rowData" pTemplate="body">
           <button class="btn btn-primary" (click)="confirm(row.rcsaId)" type="button">RESET</button>
         </ng-template>
