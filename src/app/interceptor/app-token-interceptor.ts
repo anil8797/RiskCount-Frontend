@@ -43,7 +43,7 @@ export class TokenInterceptor implements HttpInterceptor {
       newRequest = request.clone({
         setHeaders: {
           'X-Auth-Token' : authToken,
-          'X-TenantID' : userObj.user.guid
+          // 'X-TenantID' : userObj.user.guid
         }
       });
     }

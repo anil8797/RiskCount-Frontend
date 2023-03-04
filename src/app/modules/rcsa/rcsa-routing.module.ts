@@ -16,6 +16,7 @@ import { RcsaUnitRmSetUpRemediationComponent } from "./rcsa-unit-rm-setup-remedi
 import { RcsaCoordinatorDashboardComponent } from "./rcsa-coordinator-dashboard/rcsa-coordinator-dashboard.component";
 import { RatingCalculatorComponent } from "./rating-calculator/rating-calculator.component";
 import { UserMannualComponent } from "./user-mannual/user-mannual.component";
+import { ManageRcmComponent } from "./manage-rcm/manage-rcm.component";
 
 const routes: Routes = [
   {
@@ -167,6 +168,14 @@ const routes: Routes = [
         data : {
           title : "USER MANNUAL",
           viewId : "user_mannual"
+         }
+      },
+      {
+        path: "manage-rcm",
+        component : ManageRcmComponent,
+        data : {
+          title : "Manage RCM",
+          viewId : "manage_rcm"
          }
       }
     ],

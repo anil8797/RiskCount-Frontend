@@ -559,20 +559,20 @@ export class RcsaAssessorViewComponent implements OnInit {
     this.rcsaService.fetchAssessorData(this.rcsaId).subscribe(
       (responseData: any) => {
         console.log("reloaded");
-        if (
-          responseData.progressStatus != null &&
-          responseData.progressStatus == "COMPLETED"
-        ) {
-          this.rcsaStatusMessage =
-            "The RCSA you are trying to access is closed";
-          this.rcsaStartStatus = false;
-        } else {
+        // if (
+        //   responseData.progressStatus != null &&
+        //   responseData.progressStatus == "COMPLETED"
+        // ) {
+        //   this.rcsaStatusMessage =
+        //     "The RCSA you are trying to access is closed";
+        //   this.rcsaStartStatus = false;
+        // } else {
           this.rcsaStartStatus = true;
           this.assessmentData = responseData;
           // this.createOptionsData(this.assessmentData.risks); // commented as per phase 2 req
           this.intializeData(this.assessmentData.controlCategories);
           this.checkCoordinatorSubmissionStatus();
-        }
+        // }
       },
       (error: any) => {
         this.appSpinnerService.display(false);

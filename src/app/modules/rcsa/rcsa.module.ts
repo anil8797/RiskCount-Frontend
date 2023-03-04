@@ -45,6 +45,7 @@ import { RcsaCoordinatorDashboardComponent } from './rcsa-coordinator-dashboard/
 import { RatingCalculatorComponent } from './rating-calculator/rating-calculator.component';
 import { UserMannualComponent } from './user-mannual/user-mannual.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ManageRcmComponent } from './manage-rcm/manage-rcm.component';
 
 FusionChartsModule.fcRoot(FusionCharts,PowerCharts,Widgets,Gantt, Charts, FintTheme);
 
@@ -95,7 +96,8 @@ FusionChartsModule.fcRoot(FusionCharts,PowerCharts,Widgets,Gantt, Charts, FintTh
     RcsaUnitRmSetUpRemediationComponent,
     RcsaCoordinatorDashboardComponent,
     RatingCalculatorComponent,
-    UserMannualComponent
+    UserMannualComponent,
+    ManageRcmComponent
   ],
   providers:[
     RcsaService,

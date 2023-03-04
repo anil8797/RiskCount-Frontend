@@ -105,6 +105,9 @@ export class RcsaService {
   urlToBulkRemediationUpload:any = this.hostUrl + 'remediationUnits/upload/';
   urlForGetRemediationUnits:any =  this.hostUrl + 'remediationUnits/';
   urlToRemediationCordinator:any = this.hostUrl + 'remediationUnits/saveCoordinator';
+  urlToGetAllRCMs:any = this.hostUrl + 'superuser/getRCSAs';
+  urlToResetRCM:any = this.hostUrl + 'superuser/reset-rcsa';
+
   constructor(
     private http: Http,
     private httpClient : HttpClient
@@ -506,5 +509,11 @@ export class RcsaService {
   }
   saveRemediationCordinator(data){
     return this.httpClient.post(this.urlToRemediationCordinator, data).map((response: any) => response);
+  }
+  getAllRCMs(){
+    return this.httpClient.get(this.urlToGetAllRCMs).map((response: any) => response);
+  }
+  resetRcm(rcsaId){
+    return this.httpClient.delete(`${this.urlToResetRCM}/${rcsaId}`).map((response: any) => response);
   }
 }
